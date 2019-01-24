@@ -42,8 +42,9 @@
     "connect-session-sequelize": "^4.1.0",
     "express": "^4.16.3",
     "express-session": "^1.15.1",
+    "file-loader": "^3.0.1",
     "history": "^4.6.3",
-    "morgan": "^1.8.1",
+    "morgan": "^1.9.1",
     "passport": "^0.3.2",
     "passport-google-oauth": "^1.0.0",
     "pg": "^6.1.2",
@@ -94,6 +95,7 @@
     "redux-devtools-extension": "^2.13.5",
     "redux-mock-store": "^1.5.3",
     "supertest": "^3.1.0",
+    "three": "^0.100.0",
     "webpack": "^4.16.4",
     "webpack-cli": "^3.1.0"
   }
