@@ -105,7 +105,7 @@ CI is not about testing per se – it's about _continuously integrating_ your ch
 2.  Un-comment the bottom part of `.travis.yml` (the `before_deploy` and `deploy` sections)
 3.  Add your Heroku app name to `deploy.app`, where it says "YOUR HEROKU APP NAME HERE". For example, if your domain is `cool-salty-conifer.herokuapp.com`, your app name is `cool-salty-conifer`.
 4.  Install the Travis CLI tools by following [the instructions here](https://github.com/travis-ci/travis.rb#installation).
-5.  Go to Travis, grant access to your organization, sync your GitHub account, and activate Travis for your repository.
+5.  Go to travis.org, grant access to your organization, sync your GitHub account, and activate Travis for your repository.
 6.  Run `travis encrypt $(heroku auth:token) --org` to encrypt your Heroku API key. _**Warning:** do not run the `--add` command suggested by Travis, that will rewrite part of our existing config!_
 7.  Copy-paste your encrypted API key into the `.travis.yml` file under `deploy.api_key.secure`, where it says "YOUR ENCRYPTED API KEY HERE".
 8.  `git add -A && git commit -m 'travis: activate deployment' && git push -u origin f/travis-deploy`
