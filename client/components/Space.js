@@ -16,32 +16,33 @@ export default class Space extends React.Component {
   componentDidMount() {
     const width = window.innerWidth
     const height = window.innerHeight
-    console.log(width)
 
     const scene = new THREE.Scene()
-    const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 100000)
+    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100000)
     const renderer = new THREE.WebGLRenderer({antialias: true})
 
     // starfield background
     // create the geometry sphere
-    const starGeometry = new THREE.SphereGeometry(9000, 32, 32)
+    const starGeometry = new THREE.SphereGeometry(90, 32, 32)
     // create the material, using a texture of startfield
     const starMaterial = new THREE.MeshBasicMaterial()
-    starMaterial.map = new THREE.TextureLoader().load('/images/starfield.png')
+    starMaterial.map = new THREE.TextureLoader().load(
+      '/images/galaxy_starfield-2.png'
+    )
     starMaterial.side = THREE.BackSide
     // create the mesh based on geometry and material
     const starfield = new THREE.Mesh(starGeometry, starMaterial)
 
-    // planet 1
-    const geometry = new THREE.SphereGeometry(200, 15, 10)
+    // planet 1 - big one
+    const geometry = new THREE.SphereGeometry(0.51, 15, 10)
     const planetTexture = new THREE.TextureLoader().load('/images/planet.png')
     planetTexture.wrapS = planetTexture.wrapT = THREE.MirroredRepeatWrapping
     planetTexture.repeat.set(2, 2)
     const material = new THREE.MeshBasicMaterial({map: planetTexture})
     const sphere1 = new THREE.Mesh(geometry, material)
 
-    // planet 2
-    const geometry2 = new THREE.SphereGeometry(50, 15, 10)
+    // planet 2 - small one
+    const geometry2 = new THREE.SphereGeometry(0.16, 15, 10)
     const planetTexture2 = new THREE.TextureLoader().load('/images/purple.png')
     planetTexture.wrapS = planetTexture.wrapT = THREE.MirroredRepeatWrapping
     planetTexture.repeat.set(2, 2)
@@ -59,8 +60,11 @@ export default class Space extends React.Component {
       false
     )
 
-    camera.position.set(0, 0, 800)
-    scene.add(sphere1, sphere2)
+    // camera.position.set(0, 0, 200)
+    camera.position.z = 1.5
+
+    //don't forget to add everything to the scene
+    scene.add(sphere1, sphere2, starfield)
     renderer.setClearColor('#000000')
     renderer.setSize(width, height)
 
@@ -70,6 +74,7 @@ export default class Space extends React.Component {
     this.material = material
     this.sphere1 = sphere1
     this.sphere2 = sphere2
+    this.starfield = starfield
 
     this.mount.appendChild(this.renderer.domElement)
     const controls = new OrbitControls(camera, renderer.domElement)
@@ -92,7 +97,10 @@ export default class Space extends React.Component {
   }
 
   animate() {
-    this.sphere2.position.set(400, 200, 200)
+    // sets positions of planets
+    this.sphere2.position.set(1, 1, 1)
+
+    // sets rotations of planets
     this.sphere1.rotation.y = Date.now() * 0.0002
     this.sphere1.rotation.x = Date.now() * 0.0000002
     this.sphere2.rotation.y = Date.now() * 0.0008
@@ -109,7 +117,6 @@ export default class Space extends React.Component {
   render() {
     return (
       <div
-        style={{width: '400px', height: '400px'}}
         ref={mount => {
           this.mount = mount
         }}
@@ -118,4 +125,3 @@ export default class Space extends React.Component {
   }
 }
 
-// ReactDOM.render(<Space />, document.getElementById('root'))
