@@ -1,13 +1,10 @@
 import React from 'react'
-
-import {Navbar} from './components'
-import Routes from './routes'
+import Space from './components/Space'
 
 const App = () => {
   return (
     <div>
-      <Navbar />
-      <Routes />
+      <Space />
     </div>
   )
 }
