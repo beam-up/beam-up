@@ -1,32 +1,22 @@
 import React, {Component} from 'react'
+import movingStarDustBackground from './threejs/floating-star-dust'
+import {Navbar} from './components'
+import Routes from './routes'
 
-// import {Navbar} from './components'
-// import Routes from './routes'
-
-import threeEntryPoint from './components/threeEntryPoint'
-
-export default class App extends Component {
-  componentDidMount() {
-    threeEntryPoint(this.threeRootElement)
-  }
-
-  render() {
-    return (
-      <div
-        className="header-header"
-        ref={element => (this.threeRootElement = element)}
-      />
-    )
-  }
-}
-
-// const App = () => {
+// class App extends Component {
+// render() {
 //   return (
 //     <div>
 //       <Navbar />
 //       <Routes />
 //     </div>
-//   )
+//     )
+//   }
 // }
+class App extends Component {
+  render() {
+    return <div>{movingStarDustBackground()}</div>
+  }
+}
 
-// export default App
+export default App

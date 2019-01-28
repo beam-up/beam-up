@@ -44,6 +44,7 @@
     "express-session": "^1.15.1",
     "file-loader": "^3.0.1",
     "history": "^4.6.3",
+    "jquery": "^3.3.1",
     "morgan": "^1.9.1",
     "passport": "^0.3.2",
     "passport-google-oauth": "^1.0.0",
@@ -58,7 +59,8 @@
     "redux-logger": "^2.8.1",
     "redux-thunk": "^2.3.0",
     "sequelize": "^4.38.0",
-    "socket.io": "^2.1.1"
+    "socket.io": "^2.1.1",
+    "three-orbit-controls": "^82.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.55",
