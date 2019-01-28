@@ -19,3 +19,11 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+body {
+  margin: 0;
+}
+canvas {
+  width: 100vw;
+  height: 100vh;
+}
