@@ -4652,14 +4652,12 @@
     })(),
 
     containsPoint: function(point) {
-      return point.x < this.min.x ||
+      return !(point.x < this.min.x ||
         point.x > this.max.x ||
         point.y < this.min.y ||
         point.y > this.max.y ||
         point.z < this.min.z ||
-        point.z > this.max.z
-        ? false
-        : true
+        point.z > this.max.z)
     },
 
     containsBox: function(box) {
@@ -4691,14 +4689,12 @@
 
     intersectsBox: function(box) {
       // using 6 splitting planes to rule out intersections.
-      return box.max.x < this.min.x ||
+      return !(box.max.x < this.min.x ||
         box.min.x > this.max.x ||
         box.max.y < this.min.y ||
         box.min.y > this.max.y ||
         box.max.z < this.min.z ||
-        box.min.z > this.max.z
-        ? false
-        : true
+        box.min.z > this.max.z)
     },
 
     intersectsSphere: (function() {
@@ -8460,8 +8456,7 @@
             }
           }
         }
-      } else {
-        if (indices !== undefined) {
+      } else if (indices !== undefined) {
           for (var i = 0; i < indices.length; i += 3) {
             addFace(indices[i], indices[i + 1], indices[i + 2])
           }
@@ -8470,7 +8465,6 @@
             addFace(i, i + 1, i + 2)
           }
         }
-      }
 
       this.computeFaceNormals()
 
@@ -11432,7 +11426,7 @@
               this.type +
               ': .shading has been removed. Use the boolean .flatShading instead.'
           )
-          this.flatShading = newValue === FlatShading ? true : false
+          this.flatShading = newValue === FlatShading
           continue
         }
 
@@ -12047,8 +12041,7 @@
               s0 = Math.max(0, -(a01 * s1 + b0))
               sqrDist = -s0 * s0 + s1 * (s1 + 2 * b1) + c
             }
-          } else {
-            if (s1 <= -extDet) {
+          } else if (s1 <= -extDet) {
               // region 4
 
               s0 = Math.max(0, -(-a01 * segExtent + b0))
@@ -12073,7 +12066,6 @@
                   : Math.min(Math.max(-segExtent, -b1), segExtent)
               sqrDist = -s0 * s0 + s1 * (s1 + 2 * b1) + c
             }
-          }
         } else {
           // Ray and segment are parallel.
 
@@ -15486,7 +15478,7 @@
 
         parameters.toneMapping !== NoToneMapping ? '#define TONE_MAPPING' : '',
         parameters.toneMapping !== NoToneMapping
-          ? ShaderChunk['tonemapping_pars_fragment']
+          ? ShaderChunk.tonemapping_pars_fragment
           : '', // this code is required here because it is used by the toneMapping() function defined below
         parameters.toneMapping !== NoToneMapping
           ? getToneMappingFunction('toneMapping', parameters.toneMapping)
@@ -15499,7 +15491,7 @@
         parameters.matcapEncoding ||
         parameters.envMapEncoding ||
         parameters.emissiveMapEncoding
-          ? ShaderChunk['encodings_pars_fragment']
+          ? ShaderChunk.encodings_pars_fragment
           : '', // this code is required here because it is used by the various encoding/decoding function defined below
         parameters.mapEncoding
           ? getTexelDecodingFunction('mapTexelToLinear', parameters.mapEncoding)
@@ -16622,14 +16614,12 @@
         renderState = new WebGLRenderState()
         renderStates[scene.id] = {}
         renderStates[scene.id][camera.id] = renderState
-      } else {
-        if (renderStates[scene.id][camera.id] === undefined) {
+      } else if (renderStates[scene.id][camera.id] === undefined) {
           renderState = new WebGLRenderState()
           renderStates[scene.id][camera.id] = renderState
         } else {
           renderState = renderStates[scene.id][camera.id]
         }
-      }
 
       return renderState
     }
@@ -18878,8 +18868,7 @@
           renderTargetProperties.__webglFramebuffer,
           renderTarget
         )
-      } else {
-        if (isCube) {
+      } else if (isCube) {
           renderTargetProperties.__webglDepthbuffer = []
 
           for (var i = 0; i < 6; i++) {
@@ -18903,7 +18892,6 @@
             renderTarget
           )
         }
-      }
 
       _gl.bindFramebuffer(36160, null)
     }
@@ -23249,8 +23237,7 @@
 
     if (boneInverses === undefined) {
       this.calculateInverses()
-    } else {
-      if (this.bones.length === boneInverses.length) {
+    } else if (this.bones.length === boneInverses.length) {
         this.boneInverses = boneInverses.slice(0)
       } else {
         console.warn('THREE.Skeleton boneInverses is the wrong length.')
@@ -23261,7 +23248,6 @@
           this.boneInverses.push(new Matrix4())
         }
       }
-    }
   }
 
   Object.assign(Skeleton.prototype, {
@@ -26774,17 +26760,13 @@
             if (v_next_x > Number.EPSILON) {
               direction_eq = true
             }
-          } else {
-            if (v_prev_x < -Number.EPSILON) {
+          } else if (v_prev_x < -Number.EPSILON) {
               if (v_next_x < -Number.EPSILON) {
                 direction_eq = true
               }
-            } else {
-              if (Math.sign(v_prev_y) === Math.sign(v_next_y)) {
+            } else if (Math.sign(v_prev_y) === Math.sign(v_next_y)) {
                 direction_eq = true
               }
-            }
-          }
 
           if (direction_eq) {
             // console.log("Warning: lines are a straight sequence");
@@ -39595,12 +39577,10 @@
     },
 
     containsPoint: function(point) {
-      return point.x < this.min.x ||
+      return !(point.x < this.min.x ||
         point.x > this.max.x ||
         point.y < this.min.y ||
-        point.y > this.max.y
-        ? false
-        : true
+        point.y > this.max.y)
     },
 
     containsBox: function(box) {
@@ -39630,12 +39610,10 @@
     intersectsBox: function(box) {
       // using 4 splitting planes to rule out intersections
 
-      return box.max.x < this.min.x ||
+      return !(box.max.x < this.min.x ||
         box.min.x > this.max.x ||
         box.max.y < this.min.y ||
-        box.min.y > this.max.y
-        ? false
-        : true
+        box.min.y > this.max.y)
     },
 
     clampPoint: function(point, target) {

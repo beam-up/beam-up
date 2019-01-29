@@ -23,7 +23,7 @@ set -e
 function cleanup_at_exit {
   # return to your master branch
   git checkout master
-  
+
   # remove the deploy branch
   git branch -D deploy
 }
@@ -40,7 +40,8 @@ webpack -p
 git add -f public/bundle.js public/bundle.js.map
 
 # create a commit, even if nothing changed
-git commit --allow-empty -m 'Deploying'
+git commit --allow-empty -m 'Deploying' --no-verify
+# adds "--no-verify" flag b/c we used a third party library, three.js, which has code style that the linter doesn't like
 
 # push your local "deploy" branch to the "master" branch on heroku
 git push --force heroku deploy:master

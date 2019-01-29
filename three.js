@@ -5065,9 +5065,9 @@
 
 		containsPoint: function ( point ) {
 
-			return point.x < this.min.x || point.x > this.max.x ||
+			return !(point.x < this.min.x || point.x > this.max.x ||
 				point.y < this.min.y || point.y > this.max.y ||
-				point.z < this.min.z || point.z > this.max.z ? false : true;
+				point.z < this.min.z || point.z > this.max.z);
 
 		},
 
@@ -5102,9 +5102,9 @@
 		intersectsBox: function ( box ) {
 
 			// using 6 splitting planes to rule out intersections.
-			return box.max.x < this.min.x || box.min.x > this.max.x ||
+			return !(box.max.x < this.min.x || box.min.x > this.max.x ||
 				box.max.y < this.min.y || box.min.y > this.max.y ||
-				box.max.z < this.min.z || box.min.z > this.max.z ? false : true;
+				box.max.z < this.min.z || box.min.z > this.max.z);
 
 		},
 
@@ -9331,9 +9331,7 @@
 
 				}
 
-			} else {
-
-				if ( indices !== undefined ) {
+			} else if ( indices !== undefined ) {
 
 					for ( var i = 0; i < indices.length; i += 3 ) {
 
@@ -9350,8 +9348,6 @@
 					}
 
 				}
-
-			}
 
 			this.computeFaceNormals();
 
@@ -12680,7 +12676,7 @@
 				if ( key === 'shading' ) {
 
 					console.warn( 'THREE.' + this.type + ': .shading has been removed. Use the boolean .flatShading instead.' );
-					this.flatShading = ( newValue === FlatShading ) ? true : false;
+					this.flatShading = ( newValue === FlatShading );
 					continue;
 
 				}
@@ -13352,9 +13348,7 @@
 
 						}
 
-					} else {
-
-						if ( s1 <= - extDet ) {
+					} else if ( s1 <= - extDet ) {
 
 							// region 4
 
@@ -13379,8 +13373,6 @@
 							sqrDist = - s0 * s0 + s1 * ( s1 + 2 * b1 ) + c;
 
 						}
-
-					}
 
 				} else {
 
@@ -17140,13 +17132,13 @@
 				'uniform vec3 cameraPosition;',
 
 				( parameters.toneMapping !== NoToneMapping ) ? '#define TONE_MAPPING' : '',
-				( parameters.toneMapping !== NoToneMapping ) ? ShaderChunk[ 'tonemapping_pars_fragment' ] : '', // this code is required here because it is used by the toneMapping() function defined below
+				( parameters.toneMapping !== NoToneMapping ) ? ShaderChunk.tonemapping_pars_fragment : '', // this code is required here because it is used by the toneMapping() function defined below
 				( parameters.toneMapping !== NoToneMapping ) ? getToneMappingFunction( 'toneMapping', parameters.toneMapping ) : '',
 
 				parameters.dithering ? '#define DITHERING' : '',
 
 				( parameters.outputEncoding || parameters.mapEncoding || parameters.matcapEncoding || parameters.envMapEncoding || parameters.emissiveMapEncoding ) ?
-					ShaderChunk[ 'encodings_pars_fragment' ] : '', // this code is required here because it is used by the various encoding/decoding function defined below
+					ShaderChunk.encodings_pars_fragment : '', // this code is required here because it is used by the various encoding/decoding function defined below
 				parameters.mapEncoding ? getTexelDecodingFunction( 'mapTexelToLinear', parameters.mapEncoding ) : '',
 				parameters.matcapEncoding ? getTexelDecodingFunction( 'matcapTexelToLinear', parameters.matcapEncoding ) : '',
 				parameters.envMapEncoding ? getTexelDecodingFunction( 'envMapTexelToLinear', parameters.envMapEncoding ) : '',
@@ -18327,9 +18319,7 @@
 				renderStates[ scene.id ] = {};
 				renderStates[ scene.id ][ camera.id ] = renderState;
 
-			} else {
-
-				if ( renderStates[ scene.id ][ camera.id ] === undefined ) {
+			} else if ( renderStates[ scene.id ][ camera.id ] === undefined ) {
 
 					renderState = new WebGLRenderState();
 					renderStates[ scene.id ][ camera.id ] = renderState;
@@ -18339,8 +18329,6 @@
 					renderState = renderStates[ scene.id ][ camera.id ];
 
 				}
-
-			}
 
 			return renderState;
 
@@ -20702,9 +20690,7 @@
 
 				setupDepthTexture( renderTargetProperties.__webglFramebuffer, renderTarget );
 
-			} else {
-
-				if ( isCube ) {
+			} else if ( isCube ) {
 
 					renderTargetProperties.__webglDepthbuffer = [];
 
@@ -20723,8 +20709,6 @@
 					setupRenderBufferStorage( renderTargetProperties.__webglDepthbuffer, renderTarget );
 
 				}
-
-			}
 
 			_gl.bindFramebuffer( 36160, null );
 
@@ -25607,9 +25591,7 @@
 
 			this.calculateInverses();
 
-		} else {
-
-			if ( this.bones.length === boneInverses.length ) {
+		} else if ( this.bones.length === boneInverses.length ) {
 
 				this.boneInverses = boneInverses.slice( 0 );
 
@@ -25626,8 +25608,6 @@
 				}
 
 			}
-
-		}
 
 	}
 
@@ -29145,9 +29125,7 @@
 
 						}
 
-					} else {
-
-						if ( v_prev_x < - Number.EPSILON ) {
+					} else if ( v_prev_x < - Number.EPSILON ) {
 
 							if ( v_next_x < - Number.EPSILON ) {
 
@@ -29155,17 +29133,11 @@
 
 							}
 
-						} else {
-
-							if ( Math.sign( v_prev_y ) === Math.sign( v_next_y ) ) {
+						} else if ( Math.sign( v_prev_y ) === Math.sign( v_next_y ) ) {
 
 								direction_eq = true;
 
 							}
-
-						}
-
-					}
 
 					if ( direction_eq ) {
 
@@ -43698,8 +43670,8 @@
 
 		containsPoint: function ( point ) {
 
-			return point.x < this.min.x || point.x > this.max.x ||
-				point.y < this.min.y || point.y > this.max.y ? false : true;
+			return !(point.x < this.min.x || point.x > this.max.x ||
+				point.y < this.min.y || point.y > this.max.y);
 
 		},
 
@@ -43733,8 +43705,8 @@
 
 			// using 4 splitting planes to rule out intersections
 
-			return box.max.x < this.min.x || box.min.x > this.max.x ||
-				box.max.y < this.min.y || box.min.y > this.max.y ? false : true;
+			return !(box.max.x < this.min.x || box.min.x > this.max.x ||
+				box.max.y < this.min.y || box.min.y > this.max.y);
 
 		},
 
