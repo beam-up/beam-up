@@ -16199,13 +16199,11 @@
 
     function push(object, geometry, material, z, group) {
       var renderItem = getNextRenderItem(object, geometry, material, z, group)
-
       ;(material.transparent === true ? transparent : opaque).push(renderItem)
     }
 
     function unshift(object, geometry, material, z, group) {
       var renderItem = getNextRenderItem(object, geometry, material, z, group)
-
       ;(material.transparent === true ? transparent : opaque).unshift(
         renderItem
       )
