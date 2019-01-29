@@ -1,7 +1,11 @@
 import React from 'react'
 import * as THREE from '../../three'
-// import OrbitControls from '../../OrbitControls'
-// import 'three/examples/js/controls/OrbitControls'
+import starBackground from './planets/starBackground'
+import earth from './planets/earth'
+import proxima from './planets/proxima'
+import epsilon from './planets/epsilon'
+import ross128 from './planets/ross128'
+
 const OrbitControls = require('../../OrbitControls')(THREE)
 
 export default class Space extends React.Component {
@@ -21,32 +25,6 @@ export default class Space extends React.Component {
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100000)
     const renderer = new THREE.WebGLRenderer({antialias: true})
 
-    // starfield background
-    // create the geometry sphere
-    const starGeometry = new THREE.SphereGeometry(90, 32, 32)
-    // create the material, using a texture of startfield
-    const starMaterial = new THREE.MeshBasicMaterial()
-    starMaterial.map = new THREE.TextureLoader().load('/images/starfield.png')
-    starMaterial.side = THREE.BackSide
-    // create the mesh based on geometry and material
-    const starfield = new THREE.Mesh(starGeometry, starMaterial)
-
-    // planet 1 - big one
-    const geometry = new THREE.SphereGeometry(0.51, 15, 10)
-    const planetTexture = new THREE.TextureLoader().load('/images/planet.png')
-    planetTexture.wrapS = planetTexture.wrapT = THREE.MirroredRepeatWrapping
-    planetTexture.repeat.set(2, 2)
-    const material = new THREE.MeshBasicMaterial({map: planetTexture})
-    const sphere1 = new THREE.Mesh(geometry, material)
-
-    // planet 2 - small one
-    const geometry2 = new THREE.SphereGeometry(0.16, 15, 10)
-    const planetTexture2 = new THREE.TextureLoader().load('/images/purple.png')
-    planetTexture.wrapS = planetTexture.wrapT = THREE.MirroredRepeatWrapping
-    planetTexture.repeat.set(2, 2)
-    const material2 = new THREE.MeshBasicMaterial({map: planetTexture2})
-    const sphere2 = new THREE.Mesh(geometry2, material2)
-
     // resizes browser window
     window.addEventListener(
       'resize',
@@ -58,21 +36,25 @@ export default class Space extends React.Component {
       false
     )
 
-    // camera.position.set(0, 0, 200)
-    camera.position.z = 1.5
+    // camera.position.set(0, 0, 10)
+    camera.position.z = 10
+
+    // camera.rotation.z = 90 * Math.PI / 180
 
     //don't forget to add everything to the scene
-    scene.add(sphere1, sphere2, starfield)
+    scene.add(earth, proxima, epsilon, ross128, starBackground)
     renderer.setClearColor('#000000')
     renderer.setSize(width, height)
 
     this.scene = scene
     this.camera = camera
     this.renderer = renderer
-    this.material = material
-    this.sphere1 = sphere1
-    this.sphere2 = sphere2
-    this.starfield = starfield
+    // this.material = material
+    this.starBackground = starBackground
+    this.earth = earth
+    this.proxima = proxima
+    this.epsilon = epsilon
+    this.ross128 = ross128
 
     this.mount.appendChild(this.renderer.domElement)
     const controls = new OrbitControls(camera, renderer.domElement)
@@ -96,13 +78,16 @@ export default class Space extends React.Component {
 
   animate() {
     // sets positions of planets
-    this.sphere2.position.set(1, 1, 1)
+    this.proxima.position.set(-50, 0, 0)
+    this.epsilon.position.set(80, 0, -100)
+    this.ross128.position.set(100, 0, -80)
 
     // sets rotations of planets
-    this.sphere1.rotation.y = Date.now() * 0.0002
-    this.sphere1.rotation.x = Date.now() * 0.0000002
-    this.sphere2.rotation.y = Date.now() * 0.0008
-    this.sphere2.rotation.x = Date.now() * 0.00000002
+    this.earth.rotation.y = Date.now() * 0.0001
+    // this.earth.rotation.x = Date.now() * 0.0000002
+    this.proxima.rotation.y = Date.now() * 0.0003
+    // this.proxima.rotation.x = Date.now() * 0.00000002
+    this.epsilon.rotation.y = Date.now() * 0.0001
 
     this.renderScene()
     this.frameId = window.requestAnimationFrame(this.animate)
