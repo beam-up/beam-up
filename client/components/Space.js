@@ -1,10 +1,7 @@
 import React from 'react'
 import * as THREE from '../../three'
 import starBackground from './planets/starBackground'
-import earth from './planets/earth'
-import proxima from './planets/proxima'
-import epsilon from './planets/epsilon'
-import ross128 from './planets/ross128'
+import {earth, proxima, epsilon, ross128} from './planets'
 
 const OrbitControls = require('../../OrbitControls')(THREE)
 
@@ -85,7 +82,7 @@ export default class Space extends React.Component {
 
   animate() {
     // === sets positions of planets ===
-    this.proxima.position.set(-50, 0, 0)
+    this.proxima.position.set(-50, 0, -50)
     this.epsilon.position.set(80, 0, -100)
     this.ross128.position.set(100, 0, -80)
 
