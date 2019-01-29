@@ -1,10 +1,14 @@
 import React from 'react'
 import * as THREE from '../../three'
 import starBackground from './planets/starBackground'
-import earth from './planets/earth'
-import proxima from './planets/proxima'
-import epsilon from './planets/epsilon'
-import ross128 from './planets/ross128'
+import {earth, proxima, epsilon, ross128, yzCeti, yzCetiB, yzCetiC} from './planets'
+
+// === !!! IMPORTANT !!! ===
+// EVERY TIME YOU ADD A PLANET / ANYTHING TO THIS FILE, DON'T FORGET:
+// - add everything to the scene
+// - bind objects imported from /planets
+// - sets positions of planets
+// You can literally CMD+F the above 3 comments to jump directly to where you need to do these.
 
 const OrbitControls = require('../../OrbitControls')(THREE)
 
@@ -21,11 +25,12 @@ export default class Space extends React.Component {
     const width = window.innerWidth
     const height = window.innerHeight
 
+    // === threeJS requirements ===
     const scene = new THREE.Scene()
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100000)
     const renderer = new THREE.WebGLRenderer({antialias: true})
 
-    // resizes browser window
+    // === resizes browser window ===
     window.addEventListener(
       'resize',
       function() {
@@ -36,28 +41,40 @@ export default class Space extends React.Component {
       false
     )
 
+    // === camera settings ===
     // camera.position.set(0, 0, 10)
     camera.position.z = 10
-
     // camera.rotation.z = 90 * Math.PI / 180
 
-    //don't forget to add everything to the scene
-    scene.add(earth, proxima, epsilon, ross128, starBackground)
+    // === !!! IMPORTANT !!! ===
+    // === add everything to the scene ===
+    scene.add(starBackground, earth, proxima, epsilon, ross128, yzCeti, yzCetiB, yzCetiC)
     renderer.setClearColor('#000000')
     renderer.setSize(width, height)
 
+    // === binds threejs variables to react component ===
     this.scene = scene
     this.camera = camera
     this.renderer = renderer
-    // this.material = material
+
+    // === !!! IMPORTANT !!! ===
+    // === bind objects imported from /planets ===
     this.starBackground = starBackground
     this.earth = earth
     this.proxima = proxima
     this.epsilon = epsilon
     this.ross128 = ross128
+    this.yzCeti = yzCeti
+    this.yzCetiB = yzCetiB
+    this.yzCetiC = yzCetiC
 
+
+    // === appends scene to the DOM ===
     this.mount.appendChild(this.renderer.domElement)
+
+    // === orbit controls allows user to navigate 3D space with mouse ===
     const controls = new OrbitControls(camera, renderer.domElement)
+
     this.start()
   }
 
@@ -77,12 +94,17 @@ export default class Space extends React.Component {
   }
 
   animate() {
-    // sets positions of planets
-    this.proxima.position.set(-50, 0, 0)
+    // === !!! IMPORTANT !!! ===
+    // === sets positions of planets ===
+    // default position is (x, y, z) => (0, 0, 0)
+    this.proxima.position.set(-50, 0, -50)
     this.epsilon.position.set(80, 0, -100)
     this.ross128.position.set(100, 0, -80)
+    this.yzCeti.position.set(-110, 0, 55)
+    this.yzCetiC.position.set(-125, 0, 25)
+    this.yzCetiB.position.set(-145, 0, 55)
 
-    // sets rotations of planets
+    // === sets rotations of planets ===
     this.earth.rotation.y = Date.now() * 0.0001
     // this.earth.rotation.x = Date.now() * 0.0000002
     this.proxima.rotation.y = Date.now() * 0.0003
