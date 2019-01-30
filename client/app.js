@@ -1,10 +1,12 @@
 import React from 'react'
-import Space from './components/Space'
+// import {Space} from './components'
+import Routes from './routes'
 
 const App = () => {
   return (
     <div>
-      <Space />
+      {/* <Space /> */}
+      <Routes />
     </div>
   )
 }

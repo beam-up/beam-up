@@ -1,29 +1,65 @@
+/* ========================================= */
+/* ============= GLOBAL STYLES ============= */
+/* ========================================= */
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+  margin: 0;
+}
+
 body {
+  margin: 0;
   font-family: sans-serif;
+  color: white;
+  background: #b993d6; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to top,
+    #8ca6db,
+    #b993d6
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to top,
+    #8ca6db,
+    #b993d6
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: 'Raleway', 'Helvetica', 'Arial', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+}
+
+p {
+  font-family: 'Source Sans Pro', 'Geneva', 'Arial', sans-serif;
 }
 
 a {
   text-decoration: none;
 }
 
-label {
-  display: block;
-}
-
-nav a {
-  display: inline-block;
-  margin: 1em;
-}
-
-form div {
-  margin: 1em;
-  display: inline-block;
-}
-
-body {
-  margin: 0;
-}
 canvas {
   width: 100vw;
   height: 100vh;
+}
+
+/* ========================================= */
+/* =============== HOME PAGE =============== */
+/* ========================================= */
+
+#homeContainer {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

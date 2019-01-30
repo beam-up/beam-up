@@ -1,7 +1,16 @@
 import React from 'react'
 import * as THREE from '../../three'
 import starBackground from './planets/starBackground'
-import {earth, proxima, epsilon, ross128, yzCeti, yzCetiB, yzCetiC} from './planets'
+import {
+  earth,
+  proxima,
+  epsilon,
+  ross128,
+  yzCeti,
+  yzCetiB,
+  yzCetiC
+} from './planets'
+const OrbitControls = require('../../OrbitControls')(THREE)
 
 // === !!! IMPORTANT !!! ===
 // EVERY TIME YOU ADD A PLANET / ANYTHING TO THIS FILE, DON'T FORGET:
@@ -9,8 +18,6 @@ import {earth, proxima, epsilon, ross128, yzCeti, yzCetiB, yzCetiC} from './plan
 // - bind objects imported from /planets
 // - sets positions of planets
 // You can literally CMD+F the above 3 comments to jump directly to where you need to do these.
-
-const OrbitControls = require('../../OrbitControls')(THREE)
 
 export default class Space extends React.Component {
   constructor(props) {
@@ -48,7 +55,16 @@ export default class Space extends React.Component {
 
     // === !!! IMPORTANT !!! ===
     // === add everything to the scene ===
-    scene.add(starBackground, earth, proxima, epsilon, ross128, yzCeti, yzCetiB, yzCetiC)
+    scene.add(
+      starBackground,
+      earth,
+      proxima,
+      epsilon,
+      ross128,
+      yzCeti,
+      yzCetiB,
+      yzCetiC
+    )
     renderer.setClearColor('#000000')
     renderer.setSize(width, height)
 
@@ -67,7 +83,6 @@ export default class Space extends React.Component {
     this.yzCeti = yzCeti
     this.yzCetiB = yzCetiB
     this.yzCetiC = yzCetiC
-
 
     // === appends scene to the DOM ===
     this.mount.appendChild(this.renderer.domElement)
