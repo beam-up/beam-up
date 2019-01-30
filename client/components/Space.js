@@ -14,7 +14,7 @@ import {
   yzCetiD,
   kapteynC
 } from './planets'
-import {stars, starsCount} from './Stars'
+import {stars, starsCount, newHeight, newWidth} from './Stars'
 const OrbitControls = require('../../OrbitControls')(THREE)
 
 // === !!! IMPORTANT !!! ===
@@ -70,7 +70,7 @@ export default class Space extends React.Component {
       yzCetiB,
       yzCetiC,
       yzCetiD,
-      kapteynC,
+      kapteynC
     )
     for (let i = 0; i < stars.length; i++) {
       scene.add(stars[i].geo)
@@ -98,6 +98,8 @@ export default class Space extends React.Component {
     this.kapteynC = kapteynC
     this.stars = stars
     this.starsCount = starsCount
+    this.newHeight = newHeight
+    this.newWidth = newWidth
 
     // === appends scene to the DOM ===
     this.mount.appendChild(this.renderer.domElement)
