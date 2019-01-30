@@ -14,6 +14,7 @@ import {
   yzCetiD,
   kapteynC
 } from './planets'
+import {stars, starsCount, newHeight, newWidth} from './Stars'
 const OrbitControls = require('../../OrbitControls')(THREE)
 
 // === !!! IMPORTANT !!! ===
@@ -71,6 +72,10 @@ export default class Space extends React.Component {
       yzCetiD,
       kapteynC
     )
+    for (let i = 0; i < stars.length; i++) {
+      scene.add(stars[i].geo)
+    }
+
     renderer.setClearColor('#000000')
     renderer.setSize(width, height)
 
@@ -91,6 +96,10 @@ export default class Space extends React.Component {
     this.yzCetiC = yzCetiC
     this.yzCetiD = yzCetiD
     this.kapteynC = kapteynC
+    this.stars = stars
+    this.starsCount = starsCount
+    this.newHeight = newHeight
+    this.newWidth = newWidth
 
     // === appends scene to the DOM ===
     this.mount.appendChild(this.renderer.domElement)
@@ -135,6 +144,24 @@ export default class Space extends React.Component {
     this.proxima.rotation.y = Date.now() * 0.0003
     // this.proxima.rotation.x = Date.now() * 0.00000002
     this.epsilon.rotation.y = Date.now() * 0.0001
+
+    for (let i = 0; i < this.starsCount; i++) {
+      this.stars[i].geo.position.x += this.stars[i].geo.direction.x / 2
+      this.stars[i].geo.position.y += this.stars[i].geo.direction.y / 2
+      // if edge is reached, bounce back
+      if (
+        this.stars[i].geo.position.x < -this.newWidth ||
+        this.stars[i].geo.position.x > this.newWidth
+      ) {
+        this.stars[i].geo.direction.x = -this.stars[i].geo.direction.x
+      }
+      if (
+        this.stars[i].geo.position.y < -this.newHeight ||
+        this.stars[i].geo.position.y > this.newHeight
+      ) {
+        this.stars[i].geo.direction.y = -this.stars[i].geo.direction.y
+      }
+    }
 
     this.renderScene()
     this.frameId = window.requestAnimationFrame(this.animate)
