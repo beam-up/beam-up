@@ -1,22 +1,16 @@
 import React, {Component} from 'react'
-import movingStarDustBackground from './threejs/floating-star-dust'
 import {Navbar} from './components'
 import Routes from './routes'
+import Space from './components/Space'
 
-// class App extends Component {
-// render() {
-//   return (
-//     <div>
-//       <Navbar />
-//       <Routes />
-//     </div>
-//     )
-//   }
-// }
-class App extends Component {
-  render() {
-    return <div>{movingStarDustBackground()}</div>
-  }
+
+
+const App = () => {
+  return (
+    <div>
+      <Space />
+    </div>
+  )
 }
 
 export default App
