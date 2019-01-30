@@ -10,7 +10,9 @@ import {
   ross128,
   yzCeti,
   yzCetiB,
-  yzCetiC
+  yzCetiC,
+  yzCetiD,
+  kapteynC
 } from './planets'
 const OrbitControls = require('../../OrbitControls')(THREE)
 
@@ -65,7 +67,9 @@ export default class Space extends React.Component {
       ross128,
       yzCeti,
       yzCetiB,
-      yzCetiC
+      yzCetiC,
+      yzCetiD,
+      kapteynC
     )
     renderer.setClearColor('#000000')
     renderer.setSize(width, height)
@@ -85,6 +89,8 @@ export default class Space extends React.Component {
     this.yzCeti = yzCeti
     this.yzCetiB = yzCetiB
     this.yzCetiC = yzCetiC
+    this.yzCetiD = yzCetiD
+    this.kapteynC = kapteynC
 
     // === appends scene to the DOM ===
     this.mount.appendChild(this.renderer.domElement)
@@ -120,6 +126,8 @@ export default class Space extends React.Component {
     this.yzCeti.position.set(-110, 0, 55)
     this.yzCetiC.position.set(-125, 0, 25)
     this.yzCetiB.position.set(-145, 0, 55)
+    this.yzCetiD.position.set(-135, 0, 105)
+    this.kapteynC.position.set(110, 0, 95)
 
     // === sets rotations of planets ===
     this.earth.rotation.y = Date.now() * 0.0001
@@ -139,14 +147,14 @@ export default class Space extends React.Component {
   render() {
     return (
       <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
-      <Link to="/home">
-      <h1 id='titleLink'>BEAM UP</h1>
-      </Link>
-      <div
-        ref={mount => {
-          this.mount = mount
-        }}
-      />
+        <Link to="/home">
+          <h1 id="titleLink">BEAM UP</h1>
+        </Link>
+        <div
+          ref={mount => {
+            this.mount = mount
+          }}
+        />
       </Animated>
     )
   }

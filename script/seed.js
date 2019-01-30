@@ -116,7 +116,7 @@ const planetData = [
     discoveryYear: 2017
   },
   {
-    type: 'Neptunre-like',
+    type: 'Neptune-like',
     name: 'Kapteyn c',
     description:
       "is a Neptune-like exoplanet that orbits a K-type star, a Red dwarf star Kapteyn's Star. Its mass is at least 7 Earths, it takes 121.5 days to complete one orbit of its star, and is 0.311 AU from its star. It is beyond the host star's habitable zone. Its discovery was announced in 2014 and it has been described by its discoverers as a cold Super-Earth. Astronomers believe it's too cold to support liquid water.",
