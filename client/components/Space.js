@@ -1,7 +1,20 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
+import {Animated} from 'react-animated-css'
 import * as THREE from '../../three'
 import starBackground from './planets/starBackground'
-import {earth, proxima, epsilon, ross128, yzCeti, yzCetiB, yzCetiC, yzCetiD, kapteynC} from './planets'
+import {
+  earth,
+  proxima,
+  epsilon,
+  ross128,
+  yzCeti,
+  yzCetiB,
+  yzCetiC,
+  yzCetiD,
+  kapteynC
+} from './planets'
+const OrbitControls = require('../../OrbitControls')(THREE)
 
 // === !!! IMPORTANT !!! ===
 // EVERY TIME YOU ADD A PLANET / ANYTHING TO THIS FILE, DON'T FORGET:
@@ -9,8 +22,6 @@ import {earth, proxima, epsilon, ross128, yzCeti, yzCetiB, yzCetiC, yzCetiD, kap
 // - bind objects imported from /planets
 // - sets positions of planets
 // You can literally CMD+F the above 3 comments to jump directly to where you need to do these.
-
-const OrbitControls = require('../../OrbitControls')(THREE)
 
 export default class Space extends React.Component {
   constructor(props) {
@@ -48,7 +59,18 @@ export default class Space extends React.Component {
 
     // === !!! IMPORTANT !!! ===
     // === add everything to the scene ===
-    scene.add(starBackground, earth, proxima, epsilon, ross128, yzCeti, yzCetiB, yzCetiC, yzCetiD, kapteynC)
+    scene.add(
+      starBackground,
+      earth,
+      proxima,
+      epsilon,
+      ross128,
+      yzCeti,
+      yzCetiB,
+      yzCetiC,
+      yzCetiD,
+      kapteynC
+    )
     renderer.setClearColor('#000000')
     renderer.setSize(width, height)
 
@@ -69,7 +91,6 @@ export default class Space extends React.Component {
     this.yzCetiC = yzCetiC
     this.yzCetiD = yzCetiD
     this.kapteynC = kapteynC
-
 
     // === appends scene to the DOM ===
     this.mount.appendChild(this.renderer.domElement)
@@ -125,11 +146,16 @@ export default class Space extends React.Component {
 
   render() {
     return (
-      <div
-        ref={mount => {
-          this.mount = mount
-        }}
-      />
+      <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
+        <Link to="/home">
+          <h1 id="titleLink">BEAM UP</h1>
+        </Link>
+        <div
+          ref={mount => {
+            this.mount = mount
+          }}
+        />
+      </Animated>
     )
   }
 }
