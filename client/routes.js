@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Background} from './components'
+import {Home, Space, ReturnHome} from './components'
 import {me} from './store'
 
 /**
@@ -14,7 +14,16 @@ class Routes extends Component {
   }
 
   render() {
-    return <Route path="/background" component={Background} />
+    const {isLoggedIn} = this.props
+
+    return (
+      <Switch>
+        <Route path="/home" component={Home} />
+        <Route path="/space" component={Space} />
+        <Route path="/returnhome" component={ReturnHome} />
+        <Route path="/" component={Home} />
+      </Switch>
+    )
   }
 }
 

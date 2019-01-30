@@ -1,5 +1,6 @@
 const User = require('./user')
 const Wish = require('./wish')
+const Planet = require('./planet')
 
 /**
  * If we had any associations to make, this would be a great place to put them!
@@ -16,5 +17,6 @@ const Wish = require('./wish')
  */
 module.exports = {
   User,
-  Wish
+  Wish,
+  Planet
 }
