@@ -14,7 +14,7 @@ import {
   yzCetiD,
   kapteynC
 } from './planets'
-import {stars, starsCount, newHeight, newWidth} from './Stars'
+import {stars, starCubeH, starCubeW} from './Stars'
 const OrbitControls = require('../../OrbitControls')(THREE)
 
 // === !!! IMPORTANT !!! ===
@@ -73,7 +73,7 @@ export default class Space extends React.Component {
       kapteynC
     )
     for (let i = 0; i < stars.length; i++) {
-      scene.add(stars[i].geo)
+      scene.add(stars[i])
     }
 
     renderer.setClearColor('#000000')
@@ -97,15 +97,16 @@ export default class Space extends React.Component {
     this.yzCetiD = yzCetiD
     this.kapteynC = kapteynC
     this.stars = stars
-    this.starsCount = starsCount
-    this.newHeight = newHeight
-    this.newWidth = newWidth
+    this.starCubeH = starCubeH
+    this.starCubeW = starCubeW
 
     // === appends scene to the DOM ===
     this.mount.appendChild(this.renderer.domElement)
 
     // === orbit controls allows user to navigate 3D space with mouse ===
     const controls = new OrbitControls(camera, renderer.domElement)
+    controls.maxDistance = 100;
+   controls.minDistance = 2;
 
     this.start()
   }
@@ -145,22 +146,12 @@ export default class Space extends React.Component {
     // this.proxima.rotation.x = Date.now() * 0.00000002
     this.epsilon.rotation.y = Date.now() * 0.0001
 
-    for (let i = 0; i < this.starsCount; i++) {
-      this.stars[i].geo.position.x += this.stars[i].geo.direction.x / 2
-      this.stars[i].geo.position.y += this.stars[i].geo.direction.y / 2
-      // if edge is reached, bounce back
-      if (
-        this.stars[i].geo.position.x < -this.newWidth ||
-        this.stars[i].geo.position.x > this.newWidth
-      ) {
-        this.stars[i].geo.direction.x = -this.stars[i].geo.direction.x
-      }
-      if (
-        this.stars[i].geo.position.y < -this.newHeight ||
-        this.stars[i].geo.position.y > this.newHeight
-      ) {
-        this.stars[i].geo.direction.y = -this.stars[i].geo.direction.y
-      }
+    // === sets random movement of stars ===
+    let timer = 0.00001 * Date.now();
+    for (let i = 0; i < this.stars.length; i++) {
+      const star = stars[i];
+      star.position.x = starCubeW * Math.cos(timer + i);
+      star.position.z = starCubeH * Math.sin(timer + i * 1.1);
     }
 
     this.renderScene()

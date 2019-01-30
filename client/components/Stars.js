@@ -1,70 +1,32 @@
 import * as THREE from '../../three'
-//Define hexagon shape for stars
-const geom = new THREE.Geometry()
 
-{
-  geom.vertices.push(
-    new THREE.Vector3(-0.5, 0.86, 0),
-    new THREE.Vector3(0.5, 0.86, 0),
-    new THREE.Vector3(0.93, 0.0, 0),
-    new THREE.Vector3(0.5, -0.86, 0),
-    new THREE.Vector3(-0.5, -0.86, 0),
-    new THREE.Vector3(-0.93, 0.0, 0)
-  )
-}
-
-geom.faces.push(new THREE.Face3(0, 1, 2))
-geom.faces.push(new THREE.Face3(0, 2, 3))
-geom.faces.push(new THREE.Face3(0, 3, 4))
-geom.faces.push(new THREE.Face3(0, 4, 5))
-
-geom.scale(0.3, 0.3, 0.3)
-
-const colour = 0x939393
-
-const material1 = new THREE.MeshPhongMaterial({
-  color: colour,
-  specular: 0xffffff,
-  shininess: 100,
-  side: THREE.DoubleSide,
-  shading: THREE.FlatShading
-})
-
-const starsCount = 2000
-let newWidth = 800
-let newHeight = 800
-let depth = -150
+// === dimensions for star cube that surrounds space sphere ===
+let starCubeW = 400
+let starCubeH = 400
+let starCubeD = 400
+let starCubeNegH= -400
 let stars = []
 
-//Generate random stars
-for (let i = 0; i < starsCount; i++) {
-  const g_ = new THREE.Mesh(geom, material1)
+//create geometry for stars
+const geom = new THREE.IcosahedronGeometry(.5)
+// wrap each star in pastel dream pic for texture
+const material = new THREE.MeshBasicMaterial()
+material.map = new THREE.TextureLoader().load('/images/star.png')
 
-  const x = 0.5 - Math.random()
-  const y = 0.5 - Math.random()
-  const z = 0.5 - Math.random()
 
-  const star = {
-    vel_x: x,
-    vel_y: y,
-    vel_z: z,
-    geo: g_
+// === creates 2000 floating stars ===
+for (let i = 0; i < 2000; i++) {
+  const mesh = new THREE.Mesh(geom, material)
+  mesh.position.x = Math.random() * (starCubeW - 1) + 1
+  mesh.position.z = Math.random() * (starCubeD - 1) - 1
+  // if first half of stars, populate them in top half of sphere
+  if (i < 1000) {
+    mesh.position.y = Math.random() * (starCubeH - 1) + 1
+    // if second half of stars, populate them in bottom half of sphere
+  } else {
+    mesh.position.y = Math.random() * (starCubeNegH - 1) + 1
   }
-
-  star.geo.position.x = newWidth / 2 - Math.random() * newWidth
-  star.geo.position.y = newHeight / 2 - Math.random() * newHeight
-  star.geo.position.z = depth / 2 - Math.random() * depth
-
-  star.geo.rotation.x = 2 * (Math.random() - 1.0)
-  star.geo.rotation.y = 2 * (Math.random() - 1.0)
-  star.geo.rotation.z = 2 * (Math.random() - 1.0)
-
-  star.geo.direction = {
-    x: Math.random(),
-    y: Math.random()
-  }
-
-  stars.push(star)
+  stars.push( mesh );
 }
 
-export {stars, starsCount, newHeight, newWidth}
+export {stars, starCubeH, starCubeW}
