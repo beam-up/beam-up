@@ -14,6 +14,7 @@ import {
   yzCetiD,
   kapteynC
 } from './planets'
+import {stars, starsCount, newHeight, newWidth} from './Stars'
 const OrbitControls = require('../../OrbitControls')(THREE)
 
 // === !!! IMPORTANT !!! ===
@@ -73,7 +74,7 @@ export default class Space extends React.Component {
     // === renderer  settings ===
     // renderer displays your beautifully crafted scenes using WebGL
     renderer.setSize(width, height)
-    renderer.setClearColor('#4776e6')
+    renderer.setClearColor('#000000')
     // renderer.domElement.addEventListener('click', raycast, false)
 
     // === adds background & planets to the scene ===
@@ -127,6 +128,8 @@ export default class Space extends React.Component {
 
     // === !!! IMPORTANT !!! ===
     // === add everything to the scene ===
+
+    // groups planets
     planetGroup.add(
       earth,
       proxima,
@@ -139,8 +142,14 @@ export default class Space extends React.Component {
       kapteynC
     )
 
+    // add background and planets to scene
     this.scene.add(starBackground, planetGroup)
     this.planetGroup = planetGroup
+
+    // add stars to scene
+    for (let i = 0; i < stars.length; i++) {
+      this.scene.add(stars[i].geo)
+    }
 
     // === !!! IMPORTANT !!! ===
     // === bind objects imported from /planets ===
@@ -154,6 +163,15 @@ export default class Space extends React.Component {
     this.yzCetiC = yzCetiC
     this.yzCetiD = yzCetiD
     this.kapteynC = kapteynC
+    this.stars = stars
+    this.starsCount = starsCount
+    this.newHeight = newHeight
+    this.newWidth = newWidth
+  }
+
+  componentWillUnmount() {
+    this.stop()
+    this.mount.removeChild(this.renderer.domElement)
   }
 
   start() {
@@ -185,6 +203,24 @@ export default class Space extends React.Component {
     this.proxima.rotation.y = Date.now() * 0.0003
     // this.proxima.rotation.x = Date.now() * 0.00000002
     this.epsilon.rotation.y = Date.now() * 0.0001
+
+    for (let i = 0; i < this.starsCount; i++) {
+      this.stars[i].geo.position.x += this.stars[i].geo.direction.x / 2
+      this.stars[i].geo.position.y += this.stars[i].geo.direction.y / 2
+      // if edge is reached, bounce back
+      if (
+        this.stars[i].geo.position.x < -this.newWidth ||
+        this.stars[i].geo.position.x > this.newWidth
+      ) {
+        this.stars[i].geo.direction.x = -this.stars[i].geo.direction.x
+      }
+      if (
+        this.stars[i].geo.position.y < -this.newHeight ||
+        this.stars[i].geo.position.y > this.newHeight
+      ) {
+        this.stars[i].geo.direction.y = -this.stars[i].geo.direction.y
+      }
+    }
 
     this.renderScene()
     this.frameId = window.requestAnimationFrame(this.animate)
