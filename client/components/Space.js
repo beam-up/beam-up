@@ -41,6 +41,11 @@ export default class Space extends React.Component {
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100000)
     const renderer = new THREE.WebGLRenderer({antialias: true})
 
+    // === raycaster ===
+    //Raycasting is used for mouse picking (working out what objects in the 3d space the mouse is over)
+    const raycaster = new THREE.Raycaster()
+    const mouse = new THREE.Vector2()
+
     // === resizes browser window ===
     window.addEventListener(
       'resize',
