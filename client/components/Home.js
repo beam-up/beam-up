@@ -16,7 +16,8 @@ const Home = () => {
         <p>
           u r all smart, strong, talented, n beautiful. #beamteam4lyfe. jus
           tryna fill in some space cos i don't feel like writing a real intro /
-          description
+          description. i think some floating particles around the home page
+          would be nice even if static
         </p>
         <p>hey remember when our app was about collecting garbage</p>
       </div>

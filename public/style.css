@@ -20,6 +20,7 @@ body {
   margin: 0;
   font-family: sans-serif;
   color: white;
+
   background: #b993d6; /* fallback for old browsers */
   background: -webkit-linear-gradient(
     to top,
@@ -31,6 +32,10 @@ body {
     #8ca6db,
     #b993d6
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  /* tried starfield background but u can barely notice it
+  background: url('../images/starfield.png') no-repeat fixed;
+  background-size: cover; */
 }
 
 h1,
