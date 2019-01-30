@@ -6,5 +6,6 @@ planetTexture.wrapS = planetTexture.wrapT = THREE.MirroredRepeatWrapping
 planetTexture.repeat.set(2, 2)
 const material = new THREE.MeshBasicMaterial({map: planetTexture})
 const ross128 = new THREE.Mesh(geometry, material)
+ross128.name = 'ross128'
 
 export default ross128

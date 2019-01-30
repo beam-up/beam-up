@@ -109,7 +109,7 @@ export default class Space extends React.Component {
     this.raycaster.setFromCamera(this.mouse, this.camera)
 
     var intersects = this.raycaster.intersectObjects(
-      this.universeGroup.children
+      this.planetGroup.children
     )
     if (intersects.length > 0) {
       // change this to single planets view
@@ -125,12 +125,11 @@ export default class Space extends React.Component {
   }
 
   createUniverse() {
-    const universeGroup = new THREE.Object3D()
+    const planetGroup = new THREE.Object3D()
 
     // === !!! IMPORTANT !!! ===
     // === add everything to the scene ===
-    universeGroup.add(
-      starBackground,
+    planetGroup.add(
       earth,
       proxima,
       epsilon,
@@ -142,8 +141,8 @@ export default class Space extends React.Component {
       kapteynC
     )
 
-    this.scene.add(universeGroup)
-    this.universeGroup = universeGroup
+    this.scene.add(starBackground, planetGroup)
+    this.planetGroup = planetGroup
 
     // === !!! IMPORTANT !!! ===
     // === bind objects imported from /planets ===
@@ -200,23 +199,11 @@ export default class Space extends React.Component {
 
     // calculate objects intersecting the picking ray
     let intersects = this.raycaster.intersectObjects(
-      this.universeGroup.children
+      this.planetGroup.children
     )
 
     if (intersects.length > 0) {
-      if (this.INTERSECTED != intersects[0].object) {
-        if (this.INTERSECTED)
-          this.INTERSECTED.material.emissive.setHex(this.INTERSECTED.currentHex)
-        this.INTERSECTED = intersects[0].object
-        this.INTERSECTED.currentHex = this.INTERSECTED.material.emissive.getHex()
-        this.INTERSECTED.material.emissive.setHex(
-          Math.random() * 0xff00000 - 0xff00000
-        )
-      }
-    } else {
-      if (this.INTERSECTED)
-        this.INTERSECTED.material.emissive.setHex(this.INTERSECTED.currentHex)
-      this.INTERSECTED = null
+      console.log('ur hovering over', intersects[0].object.name)
     }
 
     // render scene
