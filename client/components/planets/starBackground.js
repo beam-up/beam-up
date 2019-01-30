@@ -9,5 +9,6 @@ starMaterial.map = new THREE.TextureLoader().load('/images/starfield.png')
 starMaterial.side = THREE.BackSide
 // create the mesh based on geometry and material
 const starBackground = new THREE.Mesh(starGeometry, starMaterial)
+starBackground.name = 'starBackground'
 
 export default starBackground
