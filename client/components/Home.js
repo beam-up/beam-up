@@ -4,7 +4,7 @@ import {Animated} from 'react-animated-css'
 
 const Home = () => {
   return (
-    <div id="homeContainer">
+    <div className="homeContainer">
       <Animated animationIn="slideInUp" animationOut="fadeOut" isVisible={true}>
         <h1>BEAM UP</h1>
       </Animated>
@@ -19,7 +19,7 @@ const Home = () => {
           <p>use your mouse to orbit around our dreamy universe</p>
           <br />
           <p>someone else can totally edit this text if ya like</p>
-          <p>also floating background particles would b rly nice!!</p>
+          <p>also floating background particles would b rly nice here!!</p>
         </div>
       </Animated>
 

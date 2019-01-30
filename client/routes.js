@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Home, Space} from './components'
+import {Home, Space, ReturnHome} from './components'
 import {me} from './store'
 
 /**
@@ -18,8 +18,9 @@ class Routes extends Component {
 
     return (
       <Switch>
-        <Route path="/space" component={Space} />
         <Route path="/home" component={Home} />
+        <Route path="/space" component={Space} />
+        <Route path="/returnhome" component={ReturnHome} />
         <Route path="/" component={Home} />
       </Switch>
     )
