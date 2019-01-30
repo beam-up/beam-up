@@ -31,9 +31,14 @@ export default class Space extends React.Component {
     this.start = this.start.bind(this)
     this.stop = this.stop.bind(this)
     this.animate = this.animate.bind(this)
+    this.onWindowResize = this.onWindowResize.bind(this)
+    this.createUniverse = this.createUniverse.bind(this)
+    this.onMouseMove = this.onMouseMove.bind(this)
+    this.onDocumentMouseDown = this.onDocumentMouseDown.bind(this)
   }
 
   componentDidMount() {
+    // === window width & height  ===
     const width = window.innerWidth
     const height = window.innerHeight
 
@@ -42,26 +47,90 @@ export default class Space extends React.Component {
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100000)
     const renderer = new THREE.WebGLRenderer({antialias: true})
 
-    // === resizes browser window ===
-    window.addEventListener(
-      'resize',
-      function() {
-        renderer.setSize(window.innerWidth, window.innerHeight)
-        camera.aspect = window.innerWidth / window.innerHeight
-        camera.updateProjectionMatrix()
-      },
-      false
-    )
+    this.scene = scene
+    this.camera = camera
+    this.renderer = renderer
+
+    // === orbit controls allows user to navigate 3D space with mouse ===
+    const controls = new OrbitControls(camera, renderer.domElement)
+
+    // === raycaster ===
+    // raycasting is used for mouse picking (working out what objects in the 3d space the mouse is over)
+    const raycaster = new THREE.Raycaster()
+    let mouse = new THREE.Vector2(),
+      INTERSECTED
+
+    this.raycaster = raycaster
+    this.mouse = mouse
+
+    // === event listeners ===
+    document.addEventListener('mousemove', this.onMouseMove, false)
+    document.addEventListener('mousedown', this.onDocumentMouseDown, false)
+    window.addEventListener('resize', this.onWindowResize, false)
 
     // === camera settings ===
-    // camera.position.set(0, 0, 10)
     camera.position.z = 10
-    // camera.rotation.z = 90 * Math.PI / 180
+
+    // === renderer  settings ===
+    // renderer displays your beautifully crafted scenes using WebGL
+    renderer.setSize(width, height)
+    renderer.setClearColor('#000000')
+    // renderer.domElement.addEventListener('click', raycast, false)
+
+    // === adds background & planets to the scene ===
+    this.createUniverse()
+
+    // === appends scene to the DOM ===
+    this.mount.appendChild(this.renderer.domElement)
+
+    // === start scene ===
+    this.start()
+  }
+
+  componentWillUnmount() {
+    this.stop()
+    this.mount.removeChild(this.renderer.domElement)
+  }
+
+  onMouseMove() {
+    this.mouse.x = event.clientX / window.innerWidth * 2 - 1
+    this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
+    let mouseX = event.clientX - window.innerWidth / 2
+    let mouseY = event.clientY - window.innerHeight / 2
+    this.camera.position.x += (mouseX - this.camera.position.x) * 0.01
+    this.camera.position.y += (mouseY - this.camera.position.y) * 0.01
+    this.camera.lookAt(this.scene.position)
+  }
+
+  onDocumentMouseDown() {
+    event.preventDefault()
+    this.mouse.x = event.clientX / window.innerWidth * 2 - 1
+    this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
+
+    this.raycaster.setFromCamera(this.mouse, this.camera)
+
+    var intersects = this.raycaster.intersectObjects(this.planetGroup.children)
+    if (intersects.length > 0) {
+      // change this to single planets view
+      window.open('/home')
+    }
+  }
+
+  // === resizes scene if browser window size changes ===
+  onWindowResize() {
+    this.camera.aspect = window.innerWidth / window.innerHeight
+    this.camera.updateProjectionMatrix()
+    this.renderer.setSize(window.innerWidth, window.innerHeight)
+  }
+
+  createUniverse() {
+    const planetGroup = new THREE.Object3D()
 
     // === !!! IMPORTANT !!! ===
     // === add everything to the scene ===
-    scene.add(
-      starBackground,
+
+    // groups planets
+    planetGroup.add(
       earth,
       proxima,
       epsilon,
@@ -72,17 +141,15 @@ export default class Space extends React.Component {
       yzCetiD,
       kapteynC
     )
+
+    // add background and planets to scene
+    this.scene.add(starBackground, planetGroup)
+    this.planetGroup = planetGroup
+
+    // add stars to scene
     for (let i = 0; i < stars.length; i++) {
       scene.add(stars[i])
     }
-
-    renderer.setClearColor('#000000')
-    renderer.setSize(width, height)
-
-    // === binds threejs variables to react component ===
-    this.scene = scene
-    this.camera = camera
-    this.renderer = renderer
 
     // === !!! IMPORTANT !!! ===
     // === bind objects imported from /planets ===
@@ -97,18 +164,13 @@ export default class Space extends React.Component {
     this.yzCetiD = yzCetiD
     this.kapteynC = kapteynC
     this.stars = stars
+
     this.starCubeH = starCubeH
     this.starCubeW = starCubeW
-
-    // === appends scene to the DOM ===
-    this.mount.appendChild(this.renderer.domElement)
-
+    
     // === orbit controls allows user to navigate 3D space with mouse ===
-    const controls = new OrbitControls(camera, renderer.domElement)
     controls.maxDistance = 100;
-   controls.minDistance = 2;
-
-    this.start()
+    controls.minDistance = 2;
   }
 
   componentWillUnmount() {
@@ -159,6 +221,18 @@ export default class Space extends React.Component {
   }
 
   renderScene() {
+    // === ray caster !!! ===
+    // update the picking ray with the camera and mouse position
+    this.raycaster.setFromCamera(this.mouse, this.camera)
+
+    // calculate objects intersecting the picking ray
+    let intersects = this.raycaster.intersectObjects(this.planetGroup.children)
+
+    if (intersects.length > 0) {
+      console.log('ur hovering over', intersects[0].object.name)
+    }
+
+    // render scene
     this.renderer.render(this.scene, this.camera)
   }
 

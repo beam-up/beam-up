@@ -6,5 +6,6 @@ planetTexture.wrapS = planetTexture.wrapT = THREE.MirroredRepeatWrapping
 planetTexture.repeat.set(2, 2)
 const material = new THREE.MeshBasicMaterial({map: planetTexture})
 const kapteynC = new THREE.Mesh(geometry, material)
+kapteynC.name = 'kapteynC'
 
 export default kapteynC
