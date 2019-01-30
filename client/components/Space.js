@@ -1,4 +1,6 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
+import {Animated} from 'react-animated-css'
 import * as THREE from '../../three'
 import starBackground from './planets/starBackground'
 import {
@@ -136,11 +138,16 @@ export default class Space extends React.Component {
 
   render() {
     return (
+      <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
+      <Link to="/home">
+      <h1 id='titleLink'>BEAM UP</h1>
+      </Link>
       <div
         ref={mount => {
           this.mount = mount
         }}
       />
+      </Animated>
     )
   }
 }
