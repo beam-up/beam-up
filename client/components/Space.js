@@ -53,6 +53,8 @@ export default class Space extends React.Component {
 
     // === orbit controls allows user to navigate 3D space with mouse ===
     const controls = new OrbitControls(camera, renderer.domElement)
+    controls.maxDistance = 100;
+    controls.minDistance = 2;
 
     // === raycaster ===
     // raycasting is used for mouse picking (working out what objects in the 3d space the mouse is over)
@@ -148,7 +150,7 @@ export default class Space extends React.Component {
 
     // add stars to scene
     for (let i = 0; i < stars.length; i++) {
-      scene.add(stars[i])
+      this.scene.add(stars[i])
     }
 
     // === !!! IMPORTANT !!! ===
@@ -168,9 +170,6 @@ export default class Space extends React.Component {
     this.starCubeH = starCubeH
     this.starCubeW = starCubeW
     
-    // === orbit controls allows user to navigate 3D space with mouse ===
-    controls.maxDistance = 100;
-    controls.minDistance = 2;
   }
 
   componentWillUnmount() {
