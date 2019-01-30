@@ -1,7 +1,7 @@
 import React from 'react'
 import * as THREE from '../../three'
 import starBackground from './planets/starBackground'
-import {earth, proxima, epsilon, ross128, yzCeti, yzCetiB, yzCetiC} from './planets'
+import {earth, proxima, epsilon, ross128, yzCeti, yzCetiB, yzCetiC, yzCetiD, kapteynC} from './planets'
 
 // === !!! IMPORTANT !!! ===
 // EVERY TIME YOU ADD A PLANET / ANYTHING TO THIS FILE, DON'T FORGET:
@@ -48,7 +48,7 @@ export default class Space extends React.Component {
 
     // === !!! IMPORTANT !!! ===
     // === add everything to the scene ===
-    scene.add(starBackground, earth, proxima, epsilon, ross128, yzCeti, yzCetiB, yzCetiC)
+    scene.add(starBackground, earth, proxima, epsilon, ross128, yzCeti, yzCetiB, yzCetiC, yzCetiD, kapteynC)
     renderer.setClearColor('#000000')
     renderer.setSize(width, height)
 
@@ -67,6 +67,8 @@ export default class Space extends React.Component {
     this.yzCeti = yzCeti
     this.yzCetiB = yzCetiB
     this.yzCetiC = yzCetiC
+    this.yzCetiD = yzCetiD
+    this.kapteynC = kapteynC
 
 
     // === appends scene to the DOM ===
@@ -103,6 +105,8 @@ export default class Space extends React.Component {
     this.yzCeti.position.set(-110, 0, 55)
     this.yzCetiC.position.set(-125, 0, 25)
     this.yzCetiB.position.set(-145, 0, 55)
+    this.yzCetiD.position.set(-135, 0, 105)
+    this.kapteynC.position.set(110, 0, 95)
 
     // === sets rotations of planets ===
     this.earth.rotation.y = Date.now() * 0.0001
