@@ -54,7 +54,7 @@ export default class Space extends React.Component {
     const controls = new OrbitControls(camera, renderer.domElement)
 
     // === raycaster ===
-    //Raycasting is used for mouse picking (working out what objects in the 3d space the mouse is over)
+    // raycasting is used for mouse picking (working out what objects in the 3d space the mouse is over)
     const raycaster = new THREE.Raycaster()
     let mouse = new THREE.Vector2(),
       INTERSECTED
@@ -108,12 +108,10 @@ export default class Space extends React.Component {
 
     this.raycaster.setFromCamera(this.mouse, this.camera)
 
-    var intersects = this.raycaster.intersectObjects(
-      this.planetGroup.children
-    )
+    var intersects = this.raycaster.intersectObjects(this.planetGroup.children)
     if (intersects.length > 0) {
       // change this to single planets view
-      window.open('http://google.com')
+      window.open('/home')
     }
   }
 
@@ -198,9 +196,7 @@ export default class Space extends React.Component {
     this.raycaster.setFromCamera(this.mouse, this.camera)
 
     // calculate objects intersecting the picking ray
-    let intersects = this.raycaster.intersectObjects(
-      this.planetGroup.children
-    )
+    let intersects = this.raycaster.intersectObjects(this.planetGroup.children)
 
     if (intersects.length > 0) {
       console.log('ur hovering over', intersects[0].object.name)
