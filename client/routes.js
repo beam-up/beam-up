@@ -1,8 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
-import PropTypes from 'prop-types'
-import {Home, Space, ReturnHome, WishForm} from './components'
+import {Home, Space, ReturnHome, SinglePlanet, WishForm} from './components'
 import {me} from './store'
 
 /**
@@ -20,6 +19,8 @@ class Routes extends Component {
       <Switch>
         <Route path="/home" component={Home} />
         <Route path="/space" component={Space} />
+        {/* eventually, singlePlanet route should be /planet/:id to get planet by id. this is just a placeholder. */}
+        <Route path="/planet" component={SinglePlanet} />
         <Route path="/returnhome" component={ReturnHome} />
         <Route path="/wish" component={WishForm} />
         <Route path="/" component={Home} />

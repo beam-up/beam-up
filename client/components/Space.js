@@ -3,20 +3,23 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {Animated} from 'react-animated-css'
 import * as THREE from '../../three'
-import starBackground from './planets/starBackground'
 import {
+  starBackground,
   earth,
   proxima,
   epsilon,
   ross128,
-  yzCeti,
   yzCetiB,
   yzCetiC,
   yzCetiD,
-  kapteynC
+  kapteynC,
+  tauCetiH,
+  tauCetiG,
+  tauCetiE,
+  tauCetiF
 } from './planets'
-import {stars, starsCount, newHeight, newWidth} from './Stars'
 import {getAllPlanets} from '../store'
+import {stars, starCubeH, starCubeW} from './Stars'
 const OrbitControls = require('../../OrbitControls')(THREE)
 
 // === !!! IMPORTANT !!! ===
@@ -57,6 +60,8 @@ class Space extends React.Component {
 
     // === orbit controls allows user to navigate 3D space with mouse ===
     const controls = new OrbitControls(camera, renderer.domElement)
+    controls.maxDistance = 10000
+    controls.minDistance = 2
 
     // === raycaster ===
     // raycasting is used for mouse picking (working out what objects in the 3d space the mouse is over)
@@ -115,8 +120,7 @@ class Space extends React.Component {
 
     var intersects = this.raycaster.intersectObjects(this.planetGroup.children)
     if (intersects.length > 0) {
-      // change this to single planets view
-      window.open('/home')
+      window.open('/planet')
     }
   }
 
@@ -139,11 +143,14 @@ class Space extends React.Component {
       proxima,
       epsilon,
       ross128,
-      yzCeti,
       yzCetiB,
       yzCetiC,
       yzCetiD,
-      kapteynC
+      kapteynC,
+      tauCetiE,
+      tauCetiG,
+      tauCetiH,
+      tauCetiF
     )
 
     // add background and planets to scene
@@ -152,7 +159,7 @@ class Space extends React.Component {
 
     // add stars to scene
     for (let i = 0; i < stars.length; i++) {
-      this.scene.add(stars[i].geo)
+      this.scene.add(stars[i])
     }
 
     // === !!! IMPORTANT !!! ===
@@ -162,15 +169,19 @@ class Space extends React.Component {
     this.proxima = proxima
     this.epsilon = epsilon
     this.ross128 = ross128
-    this.yzCeti = yzCeti
     this.yzCetiB = yzCetiB
     this.yzCetiC = yzCetiC
     this.yzCetiD = yzCetiD
     this.kapteynC = kapteynC
     this.stars = stars
-    this.starsCount = starsCount
-    this.newHeight = newHeight
-    this.newWidth = newWidth
+    this.tauCetiG = tauCetiG
+    this.tauCetiE = tauCetiE
+    this.tauCetiH = tauCetiH
+    this.tauCetiF = tauCetiF
+
+
+    this.starCubeH = starCubeH
+    this.starCubeW = starCubeW
   }
 
   componentWillUnmount() {
@@ -195,11 +206,14 @@ class Space extends React.Component {
     this.proxima.position.set(-50, 0, -50)
     this.epsilon.position.set(80, 0, -100)
     this.ross128.position.set(100, 0, -80)
-    this.yzCeti.position.set(-110, 0, 55)
     this.yzCetiC.position.set(-125, 0, 25)
     this.yzCetiB.position.set(-145, 0, 55)
     this.yzCetiD.position.set(-135, 0, 105)
     this.kapteynC.position.set(110, 0, 95)
+    this.tauCetiH.position.set(-100, 0, -105)
+    this.tauCetiG.position.set(-75, 0, -90)
+    this.tauCetiE.position.set(-70, 0, -80)
+    this.tauCetiF.position.set(-90, 0, -130)
 
     // === sets rotations of planets ===
     this.earth.rotation.y = Date.now() * 0.0001
@@ -208,22 +222,12 @@ class Space extends React.Component {
     // this.proxima.rotation.x = Date.now() * 0.00000002
     this.epsilon.rotation.y = Date.now() * 0.0001
 
-    for (let i = 0; i < this.starsCount; i++) {
-      this.stars[i].geo.position.x += this.stars[i].geo.direction.x / 3
-      this.stars[i].geo.position.y += this.stars[i].geo.direction.y / 3
-      // if edge is reached, bounce back
-      if (
-        this.stars[i].geo.position.x < -this.newWidth ||
-        this.stars[i].geo.position.x > this.newWidth
-      ) {
-        this.stars[i].geo.direction.x = -this.stars[i].geo.direction.x
-      }
-      if (
-        this.stars[i].geo.position.y < -this.newHeight ||
-        this.stars[i].geo.position.y > this.newHeight
-      ) {
-        this.stars[i].geo.direction.y = -this.stars[i].geo.direction.y
-      }
+    // === sets random movement of stars ===
+    let timer = 0.00001 * Date.now()
+    for (let i = 0; i < this.stars.length; i++) {
+      const star = stars[i]
+      star.position.x = starCubeW * Math.cos(timer + i)
+      star.position.z = starCubeH * Math.sin(timer + i * 1.1)
     }
 
     this.renderScene()
