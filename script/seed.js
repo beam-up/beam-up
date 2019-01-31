@@ -10,6 +10,8 @@ const planetData = [
     name: 'Proxima Centauri b',
     description:
       '(also called Proxima b or Alpha Centauri Cb) is a Super Earth type exoplanet orbiting in the habitable zone of the red dwarf M-type star Proxima Centauri, which is the closest star to the Sun and part of a triple star system. Its mass is at least 1.27 Earths, it takes 11.2 days to complete one orbit of its star, and is 0.0485 AU from its star. Its discovery was announced in 2016. And it is located about 4.2 light-years (1.3 parsecs, 40 trillion km, or 25 trillion miles) from Earth in the constellation of Centaurus, making it the closest known exoplanet to the Solar System.',
+    habitability:
+      'Its habitability has not been established, though it is unlikely to be habitable since the planet is subject to stellar wind pressures of more than 2,000 times those experienced by Earth from the solar wind.',
     mass: 'at least 1.27 Earths',
     planetRadius: 'Unknown',
     orbitalRadius: '0.0485 AU',
@@ -21,6 +23,7 @@ const planetData = [
     name: 'Epsilon Eridani b',
     description:
       'is a gas giant exoplanet that orbits an unknown-type star approximately 10 light-years away. Its mass is 1.55 Jupiters, it takes 6.9 years to complete one orbit of its star, and is 3.39 AU from its star. Its discovery was announced in 2000.',
+    habitability: '',
     mass: '1.55 Jupiters',
     planetRadius: 'Unknown',
     orbitalRadius: '3.39 AU',
@@ -32,6 +35,7 @@ const planetData = [
     name: 'Ross 128 b',
     description:
       'is a confirmed Earth-sized exoplanet, likely rocky, orbiting within the inner habitable zone of the red dwarf Ross 128, at a distance of about 11 light-years from Earth. It is the nearest exoplanet around a quiet red dwarf, and is considered one of the best candidates for habitability. The planet is only 35% more massive than Earth, receives only 38% more sunlight, and is expected to be a temperature suitable for liquid water to exist on the surface, if it has an atmosphere. Its mass is at least 1.4 Earths, it takes 9.9 days to complete one orbit of its star, and is 0.0496 AU from its star. Its discovery was announced in 2017.',
+    habitability: '',
     mass: 'at least 1.4 Earths',
     planetRadius: 'Unknown',
     orbitalRadius: '0.0496 AU',
@@ -43,6 +47,7 @@ const planetData = [
     name: 'tau Ceti g',
     description:
       'is a super Earth exoplanet detected by observing the wobbles in the movement of its parent star tau Ceti, a Sun-like, and unknown-type star. A potentially rocky world, larger than Earth with a mass at least 1.75 Earths, it takes 20 days to complete one orbit of its star, and is 0.133 AU from its star. Its discovery was announced in 2017.',
+    habitability: '',
     mass: 'at least 1.75 Earths',
     planetRadius: 'Unknown',
     orbitalRadius: '0.133 AU',
@@ -54,6 +59,7 @@ const planetData = [
     name: 'tau Ceti h',
     description:
       "another one of the four planets orbiting tau Ceti, located just 11.8 light-years away, in the constellation Cetus. It's a super Earth exoplanet with a mass at least 1.83 Earths, it takes 49.4 days to complete one orbit of its star, and is 0.243 AU from its star. Its discovery was announced in 2017.",
+    habitability: '',
     mass: 'at least 1.83 Earths',
     planetRadius: 'Unknown',
     orbitalRadius: '0.243 AU',
@@ -65,6 +71,8 @@ const planetData = [
     name: 'tau Ceti e',
     description:
       "also a Super Earth type and candidate planet orbiting in the inner edge of the habitable zone of its Sun-like star, tau Ceit. It was detected by statistical analyses of the data of the star's variations in radial velocity that were obtained using HIRES, AAPS, and HARPS. It orbits at a distance of 0.538 AU (between the orbits of Venus and Mercury in the Solar System) with an orbital period of 168 days and has a minimum mass of 3.93 Earth masses. If Tau Ceti e possesses an Earth-like atmosphere, the surface temperature would be around 68 °C (154 °F). Its discovery was announced in 2017.",
+    habitability:
+      'Tau Ceti e is likely to be a candidate habitable world, although a massive debris disc around the star probably reduces its habitability due to intensive bombardment by asteroids and comets.',
     mass: 'at least 3.93 Earths',
     planetRadius: 'Unknown',
     orbitalRadius: '0.538 AU',
@@ -76,6 +84,8 @@ const planetData = [
     name: 'tau Ceti f',
     description:
       "a candidate Super Earth type planet orbiting Tau Ceti in the outer edge of its habitable zone. Few properties of the planet are known other than its orbit and mass. It orbits Tau Ceti at a distance of 1.334 AU (near Mars's orbit in the Solar System) with an orbital period of 642 days and has a minimum mass of 3.93 Earth masses, which means it may be either a super-Earth or terrestrial planet. Reduced Habitability for tau Ceti e and f is due to a massive debris disc around their host that generates intensive bombardment by asteriods and comets. Its discovery was announced in 2017.",
+    habitability:
+      "Its orbit places it in Tau Ceti's extended habitable zone. However, a 2015 study implies that it has been in the temperate zone for less than one billion years, so there may not be a detectable biosignature. A massive debris disc around the star probably reduces its habitability due to intensive bombardment by asteroids and comets.",
     mass: 'at least 3.93 Earths',
     planetRadius: 'Unknown',
     orbitalRadius: '1.334 AU',
@@ -87,6 +97,8 @@ const planetData = [
     name: 'YZ Ceti b',
     description:
       "one of three planets that orbits the M-type star YZ Ceti in the constellation of Cetus. Its mass is at least 0.75 Earths, it takes 2 days to complete one orbit of its star, and is 0.01557 AU from its star. Its orbit was determined to be too close to YZ Ceti to be within the star's habitable zone, with equilibrium temperatures ranging from 347–491 K (74–218 °C; 165–424 °F). Its discovery was announced in 2017.",
+    habitability:
+      "The orbits of the three confirmed planets were determined to be too close to YZ Ceti to be within the star's habitable zone, with equilibrium temperatures ranging from 347–491 K.",
     mass: 'at least .75 Earths',
     planetRadius: 'Unknown',
     orbitalRadius: '0.01557 AU',
@@ -98,6 +110,8 @@ const planetData = [
     name: 'YZ Ceti c',
     description:
       "the second planet orbiting YZ Ceti, also too close to it to be within the star's habitable zone, with equilibrium temperatures ranging from 299–423 K (26–150 °C; 79–302 °F). Its mass is at least 0.98 Earths, it takes 3.1 days to complete one orbit of its star, and is 0.0209 AU from its star. Its discovery was announced in 2017.",
+    habitability:
+      "The orbits of the three confirmed planets were determined to be too close to YZ Ceti to be within the star's habitable zone, with equilibrium temperatures ranging from 299–423 K (26–150 °C; 79–302 °F).",
     mass: 'at least 0.98 Earths',
     planetRadius: 'Unknown',
     orbitalRadius: '0.0209 AU',
@@ -109,6 +123,8 @@ const planetData = [
     name: 'YZ Ceti d',
     description:
       "a super Earth exoplanet and the third one orbiting YZ Ceti. Close in proximity to YZ Ceti to be within the star's habitable zone, with equilibrium temperatures ranging from 260–368 K (−13–95 °C; 8–203 °F). Its mass is at least 1.14 Earths, it takes 4.7 days to complete one orbit of its star, and is 0.02764 AU from its star. Its discovery was announced in 2017.",
+    habitability:
+      "The orbits of the three confirmed planets were determined to be too close to YZ Ceti to be within the star's habitable zone, with equilibrium temperatures ranging from 260–368 K.",
     mass: 'at least 1.14 Earths',
     planetRadius: 'Unknown',
     orbitalRadius: '0.02764 AU',
@@ -119,7 +135,9 @@ const planetData = [
     type: 'Neptune-like',
     name: 'Kapteyn c',
     description:
-      "is a Neptune-like exoplanet that orbits a K-type star, a Red dwarf star Kapteyn's Star. Its mass is at least 7 Earths, it takes 121.5 days to complete one orbit of its star, and is 0.311 AU from its star. It is beyond the host star's habitable zone. Its discovery was announced in 2014 and it has been described by its discoverers as a cold Super-Earth. Astronomers believe it's too cold to support liquid water.",
+      "is a Neptune-like exoplanet that orbits a K-type star, a Red dwarf star Kapteyn's Star. Its mass is at least 7 Earths, it takes 121.5 days to complete one orbit of its star, and is 0.311 AU from its star.",
+    habitability:
+      "It is beyond the host star's habitable zone. Its discovery was announced in 2014 and it has been described by its discoverers as a cold Super-Earth. Astronomers believe it's too cold to support liquid water.",
     mass: 'at least 7 Earths',
     planetRadius: 'Unknown',
     orbitalRadius: '0.311 AU',
