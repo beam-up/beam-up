@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import {me} from './store'
+import {Home, Space, SinglePlanet, ReturnHome, WishForm} from './components'
 class Routes extends Component {
   // componentDidMount() {
   //   this.props.loadInitialData()
@@ -46,6 +47,7 @@ class Routes extends Component {
 // The `withRouter` wrapper makes sure that updates are not blocked
 // when the url changes
 export default Routes
+// add withRouter if complication occurs
 
 /**
  * PROP TYPES
