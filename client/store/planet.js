@@ -38,28 +38,28 @@ const allPlanetsHaveBeenVisited = () => ({
  * THUNK CREATORS
  */
 
- export const getAllPlanets = () => async dispatch => {
-   const { data } = await axios.get('/api/planets')
-   dispatch(gotPlanetsFromServer(data))
- }
+export const getAllPlanets = () => async dispatch => {
+  const {data} = await axios.get('/api/planets')
+  dispatch(gotPlanetsFromServer(data))
+}
 
- export const getSinglePlanet = planetId => async dispatch => {
-   const { data } = await axios.get(`api/planets/${planetId}`)
-   dispatch(gotSinglePlanetFromServer(data))
- }
+export const getSinglePlanet = planetId => async dispatch => {
+  const {data} = await axios.get(`api/planets/${planetId}`)
+  dispatch(gotSinglePlanetFromServer(data))
+}
 
- export const areAllPlanetsVisited = () => (dispatch, getState) => {
-   const {visitedPlanets} = getState().planetReducer
-   if (visitedPlanets.length === allPlanets.length) {
-     dispatch(allPlanetsHaveBeenVisited())
-   }
- }
+export const areAllPlanetsVisited = () => (dispatch, getState) => {
+  const {visitedPlanets} = getState().planetReducer
+  if (visitedPlanets.length === allPlanets.length) {
+    dispatch(allPlanetsHaveBeenVisited())
+  }
+}
 
-  /**
+/**
  * REDUCER
  */
 export default function planetReducer(state = planetState, action) {
-  switch(action.type){
+  switch (action.type) {
     case GOT_PLANETS_FROM_SERVER: {
       return {...state, allPlanets: action.planets}
     }

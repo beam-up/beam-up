@@ -16,9 +16,8 @@ import {
   kapteynC
 } from './planets'
 import {stars, starsCount, newHeight, newWidth} from './Stars'
-import { getAllPlanets } from '../store'
+import {getAllPlanets} from '../store'
 const OrbitControls = require('../../OrbitControls')(THREE)
-
 
 // === !!! IMPORTANT !!! ===
 // EVERY TIME YOU ADD A PLANET / ANYTHING TO THIS FILE, DON'T FORGET:
@@ -241,7 +240,7 @@ class Space extends React.Component {
 
     if (intersects.length > 0) {
       const planetName = intersects[0].object.name
-      const { allPlanets } = this.props
+      const {allPlanets} = this.props
       console.log(allPlanets.some(planet => planet.name === planetName))
       if (allPlanets.some(planet => planet.name === planetName)) {
         console.log(allPlanets.filter(planet => planet.name === planetName))
@@ -270,7 +269,7 @@ class Space extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  allPlanets:state.planet.allPlanets
+  allPlanets: state.planet.allPlanets
 })
 
 const mapDispatchToProps = dispatch => ({

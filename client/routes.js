@@ -21,10 +21,7 @@ class Routes extends Component {
         <Route path="/home" component={Home} />
         <Route path="/space" component={Space} />
         <Route path="/returnhome" component={ReturnHome} />
-        <Route
-        path='/wish'
-        component={WishForm}
-        />
+        <Route path="/wish" component={WishForm} />
         <Route path="/" component={Home} />
       </Switch>
     )
