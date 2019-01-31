@@ -131,17 +131,20 @@ const planetData = [
 const wishData = [
   {
     name: 'cool human',
-    imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQXHninkXxivcUv7Yj8ZjJswv_w8yRYzKnm-M6twdRVpWzriuG',
+    imageUrl:
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQXHninkXxivcUv7Yj8ZjJswv_w8yRYzKnm-M6twdRVpWzriuG',
     message: 'I wish there will be more trees on earth!'
   },
   {
     name: 'mundane martian',
-    imageUrl: 'https://img.purch.com/rc/300x200/aHR0cDovL3d3dy5zcGFjZS5jb20vaW1hZ2VzL2kvMDAwLzAwNy82Nzkvb3JpZ2luYWwvY3VyaW9zaXR5LW1hcnMtcm92ZXIuanBn',
+    imageUrl:
+      'https://img.purch.com/rc/300x200/aHR0cDovL3d3dy5zcGFjZS5jb20vaW1hZ2VzL2kvMDAwLzAwNy82Nzkvb3JpZ2luYWwvY3VyaW9zaXR5LW1hcnMtcm92ZXIuanBn',
     message: 'I want to drive Curiosity Rover all around my place'
   },
   {
     name: 'space citizen',
-    imageUrl: 'https://image.shutterstock.com/image-vector/meeting-handshake-alien-astronaut-spacecosmic-260nw-1172282275.jpg',
+    imageUrl:
+      'https://image.shutterstock.com/image-vector/meeting-handshake-alien-astronaut-spacecosmic-260nw-1172282275.jpg',
     message: 'Pray for space solidarity'
   }
 ]
@@ -150,13 +153,9 @@ async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
 
-  await Promise.all([
-    Planet.bulkCreate(planetData, {returning: true})
-  ])
+  await Promise.all([Planet.bulkCreate(planetData, {returning: true})])
 
-  await Promise.all([
-    Wish.bulkCreate(wishData, {returning: true})
-  ])
+  await Promise.all([Wish.bulkCreate(wishData, {returning: true})])
 
   // console.log(`seeded ${users.length} users`)
   console.log(`seeded ${planetData.length} planets`)

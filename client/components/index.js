@@ -10,3 +10,4 @@
 export {default as Space} from './Space'
 export {default as Home} from './Home'
 export {default as ReturnHome} from './ReturnHome'
+export {default as WishForm} from './WishForm'

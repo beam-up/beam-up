@@ -6,5 +6,5 @@ planetTexture.wrapS = planetTexture.wrapT = THREE.MirroredRepeatWrapping
 planetTexture.repeat.set(2, 2)
 const material = new THREE.MeshBasicMaterial({map: planetTexture})
 const yzCetiD = new THREE.Mesh(geometry, material)
-
+yzCetiD.name = 'YZ Ceti d'
 export default yzCetiD

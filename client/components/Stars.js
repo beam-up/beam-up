@@ -51,7 +51,6 @@ for (let i = 0; i < starsCount; i++) {
     geo: g_
   }
 
-
   star.geo.position.x = newWidth / 2 - Math.random() * newWidth
   star.geo.position.y = newHeight / 2 - Math.random() * newHeight
   star.geo.position.z = depth / 2 - Math.random() * depth
