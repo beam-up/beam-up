@@ -60,7 +60,7 @@ class Space extends React.Component {
 
     // === orbit controls allows user to navigate 3D space with mouse ===
     const controls = new OrbitControls(camera, renderer.domElement)
-    controls.maxDistance = 10000
+    controls.maxDistance = 100
     controls.minDistance = 2
 
     // === raycaster ===

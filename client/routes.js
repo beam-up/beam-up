@@ -1,12 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
-import {Home, Space, ReturnHome, SinglePlanet, WishForm} from './components'
 import {me} from './store'
-
-/**
- * COMPONENT
- */
 class Routes extends Component {
   // componentDidMount() {
   //   this.props.loadInitialData()
