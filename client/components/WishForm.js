@@ -1,9 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Animated} from 'react-animated-css'
-import { createWish } from '../store'
-
-
+import {createWish} from '../store'
 
 class WishForm extends Component {
   constructor() {
@@ -36,29 +34,27 @@ class WishForm extends Component {
 
   render() {
     return (
-      <div>
+      <div id="wishForm">
         <form onSubmit={this.handleSubmit}>
-          <label htmlFor='your name'>
-            your name
-          </label>
+          <label htmlFor="your name">your name</label>
           <input
             value={this.state.name}
-            name='name'
-            type='text'
-            onChange={this.handleChange}
-          />
-          <br/>
-          <label htmlFor='your wish'>
-            your wish
-          </label>
-          <input
-            value={this.state.wish}
-            name='wish'
-            type='text'
+            name="name"
+            type="text"
             onChange={this.handleChange}
           />
           <br />
-          <button type='submit'>Make your Wish among the Stars</button>
+          <label htmlFor="your wish">your wish</label>
+          <input
+            value={this.state.wish}
+            name="wish"
+            type="text"
+            onChange={this.handleChange}
+          />
+          <br />
+          <button id="wishButton" type="submit">
+            Make your Wish among the Stars
+          </button>
         </form>
       </div>
     )
