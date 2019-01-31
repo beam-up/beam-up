@@ -49,7 +49,7 @@ export const getSinglePlanet = planetId => async dispatch => {
 }
 
 export const areAllPlanetsVisited = () => (dispatch, getState) => {
-  const {visitedPlanets} = getState().planetReducer
+  const {visitedPlanets, allPlanets} = getState().planet
   if (visitedPlanets.length === allPlanets.length) {
     dispatch(allPlanetsHaveBeenVisited())
   }
@@ -64,7 +64,7 @@ export default function planetReducer(state = planetState, action) {
       return {...state, allPlanets: action.planets}
     }
     case GOT_SINGLE_PLANET_FROM_SERVER: {
-      return {...state, vistedPlanets: [...visitedPlanets, action.planet]}
+      return {...state, vistedPlanets: [...state.visitedPlanets, action.planet]}
     }
     case ALL_PLANET_HAVE_BEEN_VISITED: {
       return {...state, allPlanetsHaveBeenVisited: true}

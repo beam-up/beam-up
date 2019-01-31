@@ -118,9 +118,24 @@ class Space extends React.Component {
 
     this.raycaster.setFromCamera(this.mouse, this.camera)
 
+    // intersects is an array of all 3D objects intersecting with mouse's raycaster
     var intersects = this.raycaster.intersectObjects(this.planetGroup.children)
+
     if (intersects.length > 0) {
-      window.open('/planet')
+      const planetName = intersects[0].object.name
+
+      const {allPlanets} = this.props
+
+      let currentPlanet
+      let currentPlanetId
+
+      // console.log(allPlanets.some(planet => planet.name === planetName))
+      if (allPlanets.some(planet => planet.name === planetName)) {
+        currentPlanet = allPlanets.filter(planet => planet.name === planetName)
+        currentPlanetId = currentPlanet[0].id
+      }
+
+      window.open(`/planets/${currentPlanetId}`, '_self')
     }
   }
 
@@ -178,7 +193,6 @@ class Space extends React.Component {
     this.tauCetiE = tauCetiE
     this.tauCetiH = tauCetiH
     this.tauCetiF = tauCetiF
-
 
     this.starCubeH = starCubeH
     this.starCubeW = starCubeW
@@ -245,7 +259,7 @@ class Space extends React.Component {
     if (intersects.length > 0) {
       const planetName = intersects[0].object.name
       const {allPlanets} = this.props
-      console.log(allPlanets.some(planet => planet.name === planetName))
+      // console.log(allPlanets.some(planet => planet.name === planetName))
       if (allPlanets.some(planet => planet.name === planetName)) {
         console.log(allPlanets.filter(planet => planet.name === planetName))
       }
