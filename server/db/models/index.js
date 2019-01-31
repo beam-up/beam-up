@@ -1,4 +1,5 @@
 const User = require('./user')
+const Wish = require('./wish')
 const Planet = require('./planet')
 
 /**
@@ -16,5 +17,6 @@ const Planet = require('./planet')
  */
 module.exports = {
   User,
+  Wish,
   Planet
 }

@@ -1,4 +1,5 @@
 import React from 'react'
+import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {Animated} from 'react-animated-css'
 import * as THREE from '../../three'
@@ -8,13 +9,16 @@ import {
   proxima,
   epsilon,
   ross128,
-  yzCeti,
   yzCetiB,
   yzCetiC,
   yzCetiD,
   kapteynC,
-  tauCeti
+  tauCetiH,
+  tauCetiG,
+  tauCetiE,
+  tauCetiF
 } from './planets'
+import {getAllPlanets} from '../store'
 import {stars, starCubeH, starCubeW} from './Stars'
 const OrbitControls = require('../../OrbitControls')(THREE)
 
@@ -25,7 +29,7 @@ const OrbitControls = require('../../OrbitControls')(THREE)
 // - sets positions of planets
 // You can literally CMD+F the above 3 comments to jump directly to where you need to do these.
 
-export default class Space extends React.Component {
+class Space extends React.Component {
   constructor(props) {
     super(props)
 
@@ -39,6 +43,8 @@ export default class Space extends React.Component {
   }
 
   componentDidMount() {
+    // === making AJAX call fetching all planet data ===
+    this.props.loadAllPlanets()
     // === window width & height  ===
     const width = window.innerWidth
     const height = window.innerHeight
@@ -137,12 +143,14 @@ export default class Space extends React.Component {
       proxima,
       epsilon,
       ross128,
-      yzCeti,
       yzCetiB,
       yzCetiC,
       yzCetiD,
       kapteynC,
-      tauCeti
+      tauCetiE,
+      tauCetiG,
+      tauCetiH,
+      tauCetiF
     )
 
     // add background and planets to scene
@@ -161,13 +169,16 @@ export default class Space extends React.Component {
     this.proxima = proxima
     this.epsilon = epsilon
     this.ross128 = ross128
-    this.yzCeti = yzCeti
     this.yzCetiB = yzCetiB
     this.yzCetiC = yzCetiC
     this.yzCetiD = yzCetiD
     this.kapteynC = kapteynC
     this.stars = stars
-    this.tauCeti = tauCeti
+    this.tauCetiG = tauCetiG
+    this.tauCetiE = tauCetiE
+    this.tauCetiH = tauCetiH
+    this.tauCetiF = tauCetiF
+
 
     this.starCubeH = starCubeH
     this.starCubeW = starCubeW
@@ -195,12 +206,14 @@ export default class Space extends React.Component {
     this.proxima.position.set(-50, 0, -50)
     this.epsilon.position.set(80, 0, -100)
     this.ross128.position.set(100, 0, -80)
-    this.yzCeti.position.set(-110, 0, 55)
     this.yzCetiC.position.set(-125, 0, 25)
     this.yzCetiB.position.set(-145, 0, 55)
     this.yzCetiD.position.set(-135, 0, 105)
     this.kapteynC.position.set(110, 0, 95)
-    this.tauCeti.position.set(-80, 0, -100)
+    this.tauCetiH.position.set(-100, 0, -105)
+    this.tauCetiG.position.set(-75, 0, -90)
+    this.tauCetiE.position.set(-70, 0, -80)
+    this.tauCetiF.position.set(-90, 0, -130)
 
     // === sets rotations of planets ===
     this.earth.rotation.y = Date.now() * 0.0001
@@ -230,7 +243,13 @@ export default class Space extends React.Component {
     let intersects = this.raycaster.intersectObjects(this.planetGroup.children)
 
     if (intersects.length > 0) {
-      console.log('ur hovering over', intersects[0].object.name)
+      const planetName = intersects[0].object.name
+      const {allPlanets} = this.props
+      console.log(allPlanets.some(planet => planet.name === planetName))
+      if (allPlanets.some(planet => planet.name === planetName)) {
+        console.log(allPlanets.filter(planet => planet.name === planetName))
+      }
+      console.log('ur hovering over', planetName)
     }
 
     // render scene
@@ -252,3 +271,13 @@ export default class Space extends React.Component {
     )
   }
 }
+
+const mapStateToProps = state => ({
+  allPlanets: state.planet.allPlanets
+})
+
+const mapDispatchToProps = dispatch => ({
+  loadAllPlanets: () => dispatch(getAllPlanets())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Space)
