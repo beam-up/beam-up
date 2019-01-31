@@ -2,8 +2,8 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import {Animated} from 'react-animated-css'
 import * as THREE from '../../three'
-import starBackground from './planets/starBackground'
 import {
+  starBackground,
   earth,
   proxima,
   epsilon,
@@ -12,7 +12,8 @@ import {
   yzCetiB,
   yzCetiC,
   yzCetiD,
-  kapteynC
+  kapteynC,
+  tauCeti
 } from './planets'
 import {stars, starCubeH, starCubeW} from './Stars'
 const OrbitControls = require('../../OrbitControls')(THREE)
@@ -53,8 +54,8 @@ export default class Space extends React.Component {
 
     // === orbit controls allows user to navigate 3D space with mouse ===
     const controls = new OrbitControls(camera, renderer.domElement)
-    controls.maxDistance = 100;
-    controls.minDistance = 2;
+    controls.maxDistance = 100
+    controls.minDistance = 2
 
     // === raycaster ===
     // raycasting is used for mouse picking (working out what objects in the 3d space the mouse is over)
@@ -113,8 +114,7 @@ export default class Space extends React.Component {
 
     var intersects = this.raycaster.intersectObjects(this.planetGroup.children)
     if (intersects.length > 0) {
-      // change this to single planets view
-      window.open('/home')
+      window.open('/planet')
     }
   }
 
@@ -141,7 +141,8 @@ export default class Space extends React.Component {
       yzCetiB,
       yzCetiC,
       yzCetiD,
-      kapteynC
+      kapteynC,
+      tauCeti
     )
 
     // add background and planets to scene
@@ -166,10 +167,10 @@ export default class Space extends React.Component {
     this.yzCetiD = yzCetiD
     this.kapteynC = kapteynC
     this.stars = stars
+    this.tauCeti = tauCeti
 
     this.starCubeH = starCubeH
     this.starCubeW = starCubeW
-    
   }
 
   componentWillUnmount() {
@@ -199,6 +200,7 @@ export default class Space extends React.Component {
     this.yzCetiB.position.set(-145, 0, 55)
     this.yzCetiD.position.set(-135, 0, 105)
     this.kapteynC.position.set(110, 0, 95)
+    this.tauCeti.position.set(-80, 0, -100)
 
     // === sets rotations of planets ===
     this.earth.rotation.y = Date.now() * 0.0001
@@ -208,11 +210,11 @@ export default class Space extends React.Component {
     this.epsilon.rotation.y = Date.now() * 0.0001
 
     // === sets random movement of stars ===
-    let timer = 0.00001 * Date.now();
+    let timer = 0.00001 * Date.now()
     for (let i = 0; i < this.stars.length; i++) {
-      const star = stars[i];
-      star.position.x = starCubeW * Math.cos(timer + i);
-      star.position.z = starCubeH * Math.sin(timer + i * 1.1);
+      const star = stars[i]
+      star.position.x = starCubeW * Math.cos(timer + i)
+      star.position.z = starCubeH * Math.sin(timer + i * 1.1)
     }
 
     this.renderScene()

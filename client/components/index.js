@@ -8,5 +8,6 @@
 // export {Login, Signup} from './auth-form'
 
 export {default as Space} from './Space'
+export {default as SinglePlanet} from './SinglePlanet'
 export {default as Home} from './Home'
 export {default as ReturnHome} from './ReturnHome'
