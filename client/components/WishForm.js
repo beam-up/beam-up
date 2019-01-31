@@ -1,42 +1,74 @@
 import React, {Component} from 'react'
-import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
 import {Animated} from 'react-animated-css'
+import { createWish } from '../store'
+
+
 
 class WishForm extends Component {
   constructor() {
     super()
     this.state = {
-      selectedFile: null,
-      num: 0
+      name: '',
+      wish: ''
     }
-    this.fileSelectedHandler = this.fileSelectedHandler.bind(this)
-    this.fileUploadHandler = this.fileUploadHandler.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
-
-  fileSelectedHandler = async evt => {
-    const file = evt.target.files[0]
-    await this.setState({
-      num: this.state.num + 1,
-      selectedFile: file
+  handleChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value
     })
-    console.log('state', this.state)
   }
 
-  fileUploadHandler = () => {
-    const fd = new FormData()
-    console.log('state info when upload', this.state.selectedFile)
-    fd.append('image', this.state.selectedFile, this.state.selectedFile.name)
-    console.log('file data', fd)
+  handleSubmit(event) {
+    event.preventDefault()
+    this.props.createAWish({
+      name: this.state.name,
+      message: this.state.wish
+    })
+
+    this.setState({
+      name: '',
+      wish: ''
+    })
   }
 
   render() {
     return (
       <div>
-        <input type="file" onChange={this.fileSelectedHandler} />
-        <button onClick={this.fileUploadHandler}>Upload</button>
+        <form onSubmit={this.handleSubmit}>
+          <label htmlFor='your name'>
+            your name
+          </label>
+          <input
+            value={this.state.name}
+            name='name'
+            type='text'
+            onChange={this.handleChange}
+          />
+          <br/>
+          <label htmlFor='your wish'>
+            your wish
+          </label>
+          <input
+            value={this.state.wish}
+            name='wish'
+            type='text'
+            onChange={this.handleChange}
+          />
+          <br />
+          <button type='submit'>Make your Wish among the Stars</button>
+        </form>
       </div>
     )
   }
 }
 
-export default WishForm
+const mapDispatchToProps = dispatch => {
+  return {
+    createAWish: newWish => dispatch(createWish(newWish))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(WishForm)
