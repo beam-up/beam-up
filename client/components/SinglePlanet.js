@@ -18,13 +18,16 @@ import {connect} from 'react-redux'
 
 class SinglePlanet extends React.Component {
   componentDidMount() {
-    const planetId = Number(this.props.match.params.planetId)
-    this.props.getSinglePlanet(planetId)
+    // const planetId = Number(this.props.match.params.planetId)
+    this.props.getSinglePlanet(this.props.planetId)
   }
 
   render() {
-    // const planet = this.props.visitedPlanets.pop()
+    const {planetId} = this.props
+    console.log('got em', planetId)
     console.log(this.props.state)
+    // const planet = this.props.visitedPlanets.pop()
+    // console.log(this.props.state)
 
     return (
       <div>

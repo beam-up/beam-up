@@ -20,6 +20,7 @@ import {
 } from './planets'
 import {getAllPlanets} from '../store'
 import {stars, starCubeH, starCubeW} from './Stars'
+import SinglePlanet from './SinglePlanet'
 const OrbitControls = require('../../OrbitControls')(THREE)
 
 // === !!! IMPORTANT !!! ===
@@ -32,6 +33,11 @@ const OrbitControls = require('../../OrbitControls')(THREE)
 class Space extends React.Component {
   constructor(props) {
     super(props)
+
+    this.state = {
+      planetClicked: false,
+      planetId: 0
+    }
 
     this.start = this.start.bind(this)
     this.stop = this.stop.bind(this)
@@ -135,7 +141,11 @@ class Space extends React.Component {
         currentPlanetId = currentPlanet[0].id
       }
 
-      window.open(`/planets/${currentPlanetId}`, '_self')
+      this.setState({
+        planetClicked: true,
+        planetId: currentPlanetId
+      })
+      // window.open(`/planets/${currentPlanetId}`, '_self')
     }
   }
 
@@ -271,6 +281,11 @@ class Space extends React.Component {
   }
 
   render() {
+    const {planetClicked, planetId} = this.state
+
+    if (planetClicked) {
+      return <SinglePlanet planetId={planetId} />
+    }
     return (
       <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
         <Link to="/home">
