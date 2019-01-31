@@ -12,7 +12,8 @@ import {
   yzCetiB,
   yzCetiC,
   yzCetiD,
-  kapteynC
+  kapteynC,
+  tauCeti
 } from './planets'
 import {stars, starCubeH, starCubeW} from './Stars'
 const OrbitControls = require('../../OrbitControls')(THREE)
@@ -140,7 +141,8 @@ export default class Space extends React.Component {
       yzCetiB,
       yzCetiC,
       yzCetiD,
-      kapteynC
+      kapteynC,
+      tauCeti
     )
 
     // add background and planets to scene
@@ -165,6 +167,7 @@ export default class Space extends React.Component {
     this.yzCetiD = yzCetiD
     this.kapteynC = kapteynC
     this.stars = stars
+    this.tauCeti = tauCeti
 
     this.starCubeH = starCubeH
     this.starCubeW = starCubeW
@@ -197,6 +200,7 @@ export default class Space extends React.Component {
     this.yzCetiB.position.set(-145, 0, 55)
     this.yzCetiD.position.set(-135, 0, 105)
     this.kapteynC.position.set(110, 0, 95)
+    this.tauCeti.position.set(-80, 0, -100)
 
     // === sets rotations of planets ===
     this.earth.rotation.y = Date.now() * 0.0001
