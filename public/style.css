@@ -54,7 +54,9 @@ h1 {
 }
 
 p {
-  font-family: 'Geneva', 'Source Sans Pro', 'Arial', sans-serif;
+  font-family: 'Source Sans Pro', 'Arial', sans-serif;
+  letter-spacing: 0.1rem;
+  font-size: 1.1rem;
   /* font-family: 'Major Mono Display', 'Geneva', 'Arial', sans-serif; */
 }
 
@@ -73,7 +75,7 @@ button {
   border-radius: 5px;
   color: white;
   font-family: 'Raleway', 'Helvetica', 'Arial', sans-serif;
-  /* font-size: 1rem; */
+  font-size: 0.9rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.2rem;
