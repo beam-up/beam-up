@@ -47,7 +47,8 @@ const planetData = [
     name: 'tau Ceti g',
     description:
       'is a super Earth exoplanet detected by observing the wobbles in the movement of its parent star tau Ceti, a Sun-like, and unknown-type star. A potentially rocky world, larger than Earth with a mass at least 1.75 Earths, it takes 20 days to complete one orbit of its star, and is 0.133 AU from its star. Its discovery was announced in 2017.',
-    habitability: '',
+    habitability:
+      'Its orbit places it far beyond the habitable zone of tau Ceti.',
     mass: 'at least 1.75 Earths',
     planetRadius: 'Unknown',
     orbitalRadius: '0.133 AU',
@@ -59,7 +60,8 @@ const planetData = [
     name: 'tau Ceti h',
     description:
       "another one of the four planets orbiting tau Ceti, located just 11.8 light-years away, in the constellation Cetus. It's a super Earth exoplanet with a mass at least 1.83 Earths, it takes 49.4 days to complete one orbit of its star, and is 0.243 AU from its star. Its discovery was announced in 2017.",
-    habitability: '',
+    habitability:
+      "Its orbit was determined to be too close to tau Ceti to be within the star's habitable zone.",
     mass: 'at least 1.83 Earths',
     planetRadius: 'Unknown',
     orbitalRadius: '0.243 AU',
@@ -72,7 +74,7 @@ const planetData = [
     description:
       "also a Super Earth type and candidate planet orbiting in the inner edge of the habitable zone of its Sun-like star, tau Ceit. It was detected by statistical analyses of the data of the star's variations in radial velocity that were obtained using HIRES, AAPS, and HARPS. It orbits at a distance of 0.538 AU (between the orbits of Venus and Mercury in the Solar System) with an orbital period of 168 days and has a minimum mass of 3.93 Earth masses. If Tau Ceti e possesses an Earth-like atmosphere, the surface temperature would be around 68 °C (154 °F). Its discovery was announced in 2017.",
     habitability:
-      'Tau Ceti e is likely to be a candidate habitable world, although a massive debris disc around the star probably reduces its habitability due to intensive bombardment by asteroids and comets.',
+      'Tau Ceti e is likely to be a candidate habitable world, although a massive debris disc around the star probably reduces its habitability due to intensive bombardment by asteroids and comets. Sulfur is abundant on the surface, interior, and atmosphere.',
     mass: 'at least 3.93 Earths',
     planetRadius: 'Unknown',
     orbitalRadius: '0.538 AU',
@@ -96,9 +98,9 @@ const planetData = [
     type: 'Terrestrial',
     name: 'YZ Ceti b',
     description:
-      "one of three planets that orbits the M-type star YZ Ceti in the constellation of Cetus. Its mass is at least 0.75 Earths, it takes 2 days to complete one orbit of its star, and is 0.01557 AU from its star. Its orbit was determined to be too close to YZ Ceti to be within the star's habitable zone, with equilibrium temperatures ranging from 347–491 K (74–218 °C; 165–424 °F). Its discovery was announced in 2017.",
+      'one of three planets that orbits the M-type star YZ Ceti in the constellation of Cetus. Its mass is at least 0.75 Earths, it takes 2 days to complete one orbit of its star, and is 0.01557 AU from its star. Its equilibrium temperatures range from 347–491 K (74–218 °C; 165–424 °F). Its discovery was announced in 2017.',
     habitability:
-      "The orbits of the three confirmed planets were determined to be too close to YZ Ceti to be within the star's habitable zone, with equilibrium temperatures ranging from 347–491 K.",
+      "Its orbit was determined to be too close to YZ Ceti to be within the star's habitable zone. YZ Ceti is known (colloquially) as a flare star, meaning it shows occasional rapid and brief increases in brightness, sometimes reaching magnitude 12.03, caused by eruptions from the surface.",
     mass: 'at least .75 Earths',
     planetRadius: 'Unknown',
     orbitalRadius: '0.01557 AU',
@@ -111,7 +113,7 @@ const planetData = [
     description:
       "the second planet orbiting YZ Ceti, also too close to it to be within the star's habitable zone, with equilibrium temperatures ranging from 299–423 K (26–150 °C; 79–302 °F). Its mass is at least 0.98 Earths, it takes 3.1 days to complete one orbit of its star, and is 0.0209 AU from its star. Its discovery was announced in 2017.",
     habitability:
-      "The orbits of the three confirmed planets were determined to be too close to YZ Ceti to be within the star's habitable zone, with equilibrium temperatures ranging from 299–423 K (26–150 °C; 79–302 °F).",
+      "Its orbit was determined to be too close to YZ Ceti to be within the star's habitable zone, with equilibrium temperatures ranging from 299–423 K (26–150 °C; 79–302 °F). YZ Ceti is known (colloquially) as a flare star, meaning it shows occasional rapid and brief increases in brightness, sometimes reaching magnitude 12.03, caused by eruptions from the surface.",
     mass: 'at least 0.98 Earths',
     planetRadius: 'Unknown',
     orbitalRadius: '0.0209 AU',
@@ -124,7 +126,7 @@ const planetData = [
     description:
       "a super Earth exoplanet and the third one orbiting YZ Ceti. Close in proximity to YZ Ceti to be within the star's habitable zone, with equilibrium temperatures ranging from 260–368 K (−13–95 °C; 8–203 °F). Its mass is at least 1.14 Earths, it takes 4.7 days to complete one orbit of its star, and is 0.02764 AU from its star. Its discovery was announced in 2017.",
     habitability:
-      "The orbits of the three confirmed planets were determined to be too close to YZ Ceti to be within the star's habitable zone, with equilibrium temperatures ranging from 260–368 K.",
+      "Its orbit was determined to be too close to YZ Ceti to be within the star's habitable zone, with equilibrium temperatures ranging from 260–368 K. YZ Ceti is known (colloquially) as a flare star, meaning it shows occasional rapid and brief increases in brightness, sometimes reaching magnitude 12.03, caused by eruptions from the surface.",
     mass: 'at least 1.14 Earths',
     planetRadius: 'Unknown',
     orbitalRadius: '0.02764 AU',
