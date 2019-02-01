@@ -56,8 +56,8 @@ export default class Space extends React.Component {
 
     // === orbit controls allows user to navigate 3D space with mouse ===
     const controls = new OrbitControls(camera, renderer.domElement)
-    controls.maxDistance = 100;
-    controls.minDistance = 2;
+    controls.maxDistance = 100
+    controls.minDistance = 2
 
     // === raycaster ===
     // raycasting is used for mouse picking (working out what objects in the 3d space the mouse is over)
@@ -78,7 +78,7 @@ export default class Space extends React.Component {
     //   camera.position.z = 10
     //   this.setFirst = false;
     // }
-    camera.position.z = 10;
+    camera.position.z = 10
 
     // === renderer  settings ===
     // renderer displays your beautifully crafted scenes using WebGL
@@ -177,7 +177,6 @@ export default class Space extends React.Component {
 
     this.starCubeH = starCubeH
     this.starCubeW = starCubeW
-    
   }
 
   componentWillUnmount() {
@@ -216,11 +215,11 @@ export default class Space extends React.Component {
     this.epsilon.rotation.y = Date.now() * 0.0001
 
     // === sets random movement of stars ===
-    let timer = 0.00001 * Date.now();
+    let timer = 0.00001 * Date.now()
     for (let i = 0; i < this.stars.length; i++) {
-      const star = stars[i];
-      star.position.x = starCubeW * Math.cos(timer + i);
-      star.position.z = starCubeH * Math.sin(timer + i * 1.1);
+      const star = stars[i]
+      star.position.x = starCubeW * Math.cos(timer + i)
+      star.position.z = starCubeH * Math.sin(timer + i * 1.1)
     }
     this.renderScene()
     this.frameId = window.requestAnimationFrame(this.animate)
@@ -242,20 +241,24 @@ export default class Space extends React.Component {
       }
       // Where we want to go
       const target = intersects[0].object.position
-      //where we're going from 
+      //where we're going from
       const position = this.camera.position
       // console.log('from', position)
       const tween = new TWEEN.Tween(position).to(target, 2000)
 
       tween.onComplete(() => {
         const radius = 100
-        this.camera.lookAt({x: target.x - radius, y: target.y - radius , z: target.z - radius})
+        this.camera.lookAt({
+          x: target.x - radius,
+          y: target.y - radius,
+          z: target.z - radius
+        })
         // this.camera.target.position.copy(target)
         // this.camera.lookAt(target);
       })
 
       tween.start()
-    // <-- to here
+      // <-- to here
     }
 
     // render scene
