@@ -15,6 +15,8 @@ import {
   kapteynC
 } from './planets'
 import {stars, starCubeH, starCubeW} from './Stars'
+import TWEEN from '@tweenjs/tween.js'
+
 const OrbitControls = require('../../OrbitControls')(THREE)
 
 // === !!! IMPORTANT !!! ===
@@ -35,6 +37,7 @@ export default class Space extends React.Component {
     this.createUniverse = this.createUniverse.bind(this)
     this.onMouseMove = this.onMouseMove.bind(this)
     this.onDocumentMouseDown = this.onDocumentMouseDown.bind(this)
+    this.setFirst = true
   }
 
   componentDidMount() {
@@ -71,7 +74,11 @@ export default class Space extends React.Component {
     window.addEventListener('resize', this.onWindowResize, false)
 
     // === camera settings ===
-    camera.position.z = 10
+    // if (this.setFirst) {
+    //   camera.position.z = 10
+    //   this.setFirst = false;
+    // }
+    camera.position.z = 10;
 
     // === renderer  settings ===
     // renderer displays your beautifully crafted scenes using WebGL
@@ -99,9 +106,10 @@ export default class Space extends React.Component {
     this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
     let mouseX = event.clientX - window.innerWidth / 2
     let mouseY = event.clientY - window.innerHeight / 2
-    this.camera.position.x += (mouseX - this.camera.position.x) * 0.01
-    this.camera.position.y += (mouseY - this.camera.position.y) * 0.01
-    this.camera.lookAt(this.scene.position)
+    // this.camera.position.x += (mouseX - this.camera.position.x) * 0.01
+    // this.camera.position.y += (mouseY - this.camera.position.y) * 0.01
+    // this.camera.lookAt(this.scene.position)
+    // console.log(this.scene.position)
   }
 
   onDocumentMouseDown() {
@@ -214,21 +222,40 @@ export default class Space extends React.Component {
       star.position.x = starCubeW * Math.cos(timer + i);
       star.position.z = starCubeH * Math.sin(timer + i * 1.1);
     }
-
     this.renderScene()
     this.frameId = window.requestAnimationFrame(this.animate)
+    TWEEN.update()
   }
 
   renderScene() {
     // === ray caster !!! ===
     // update the picking ray with the camera and mouse position
     this.raycaster.setFromCamera(this.mouse, this.camera)
-
     // calculate objects intersecting the picking ray
     let intersects = this.raycaster.intersectObjects(this.planetGroup.children)
 
+    window.count = 0
     if (intersects.length > 0) {
-      console.log('ur hovering over', intersects[0].object.name)
+      if (window.count < 10) {
+        console.log('ur hovering over', intersects[0].object.name)
+        window.count++
+      }
+      // Where we want to go
+      const target = intersects[0].object.position
+      //where we're going from 
+      const position = this.camera.position
+      // console.log('from', position)
+      const tween = new TWEEN.Tween(position).to(target, 2000)
+
+      tween.onComplete(() => {
+        const radius = 100
+        this.camera.lookAt({x: target.x - radius, y: target.y - radius , z: target.z - radius})
+        // this.camera.target.position.copy(target)
+        // this.camera.lookAt(target);
+      })
+
+      tween.start()
+    // <-- to here
     }
 
     // render scene
