@@ -2,7 +2,6 @@ const router = require('express').Router()
 const {Wish} = require('../db/models')
 module.exports = router
 
-
 router.get('/', async (req, res, next) => {
   try {
     const wishes = await Wish.findAll()

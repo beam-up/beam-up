@@ -20,12 +20,9 @@ import {
 } from './planets'
 import {getAllPlanets} from '../store'
 import {stars, starCubeH, starCubeW} from './Stars'
-<<<<<<< HEAD
 import TWEEN from '@tweenjs/tween.js'
 
-=======
 import SinglePlanet from './SinglePlanet'
->>>>>>> master
 const OrbitControls = require('../../OrbitControls')(THREE)
 
 // === !!! IMPORTANT !!! ===
@@ -278,7 +275,6 @@ class Space extends React.Component {
 
     window.count = 0
     if (intersects.length > 0) {
-<<<<<<< HEAD
       if (window.count < 10) {
         console.log('ur hovering over', intersects[0].object.name)
         window.count++
@@ -303,7 +299,6 @@ class Space extends React.Component {
 
       tween.start()
       // <-- to here
-=======
       const planetName = intersects[0].object.name
       const {allPlanets} = this.props
       // console.log(allPlanets.some(planet => planet.name === planetName))
@@ -311,7 +306,6 @@ class Space extends React.Component {
         console.log(allPlanets.filter(planet => planet.name === planetName))
       }
       console.log('ur hovering over', planetName)
->>>>>>> master
     }
 
     // render scene
