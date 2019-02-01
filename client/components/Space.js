@@ -40,7 +40,8 @@ class Space extends React.Component {
       planetId: 0,
       planet: {},
       planetHoverName: '???',
-      cursorValue: 'auto'
+      cursorValue: 'auto',
+      singlePlanetDisplayValue: 'none'
     }
 
     this.start = this.start.bind(this)
@@ -257,10 +258,17 @@ class Space extends React.Component {
         const planet = allPlanets.find(planet => planet.name === planetName)
         console.log('planet id', planet.id)
         this.props.loadSinglePlanet(planet.id)
-        this.setState({ planet })
+        this.setState({
+          planet,
+          singlePlanetDisplayValue: 'block'
+         })
       }
       this.setState({planetHoverName: planetName})
       // console.log('ur hovering over', planetName)
+    } else {
+      this.setState({
+        singlePlanetDisplayValue: 'none'
+      })
     }
 
     // render scene
@@ -268,7 +276,7 @@ class Space extends React.Component {
   }
 
   render() {
-    const {planetClicked, planetId, cursorValue} = this.state
+    const {planetClicked, planetId, cursorValue, singlePlanetDisplayValue} = this.state
 
 
     return (
@@ -283,6 +291,7 @@ class Space extends React.Component {
         />
         <SinglePlanet
           planet={this.state.planet}
+          style={{display: singlePlanetDisplayValue}}
         />
         <div
           style={{cursor: cursorValue}}
