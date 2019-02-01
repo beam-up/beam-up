@@ -38,6 +38,7 @@ class Space extends React.Component {
     this.state = {
       planetClicked: false,
       planetId: 0,
+      planetHoverName: '???',
       cursorValue: 'auto'
     }
 
@@ -282,12 +283,13 @@ class Space extends React.Component {
 
     if (intersects.length > 0) {
       const planetName = intersects[0].object.name
-      const {allPlanets} = this.props
+      // const {allPlanets} = this.props
       // console.log(allPlanets.some(planet => planet.name === planetName))
-      if (allPlanets.some(planet => planet.name === planetName)) {
-        console.log(allPlanets.filter(planet => planet.name === planetName))
-      }
-      console.log('ur hovering over', planetName)
+      // if (allPlanets.some(planet => planet.name === planetName)) {
+      // console.log(allPlanets.filter(planet => planet.name === planetName))
+      // }
+      this.setState({planetHoverName: planetName})
+      // console.log('ur hovering over', planetName)
     }
 
     // render scene
@@ -306,6 +308,7 @@ class Space extends React.Component {
           <h1 id="titleLink">BEAM UP</h1>
         </Link>
         <MissionControl
+          planetName={this.state.planetHoverName}
           visitedPlanets={this.props.visitedPlanets.length}
           allPlanets={this.props.allPlanets.length}
         />
