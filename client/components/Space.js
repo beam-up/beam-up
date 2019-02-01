@@ -103,10 +103,11 @@ class Space extends React.Component {
     this.start()
   }
 
-  // componentWillUnmount() {
-  //   this.stop()
-  //   this.mount.removeChild(this.renderer.domElement)
-  // }
+  componentWillUnmount() {
+    this.stop()
+    // i'm getting a weird error: "Can't perform a React state update on an unmounted component." and i think it has to do with the below
+    this.mount.removeChild(this.renderer.domElement)
+  }
 
   onMouseMove() {
     this.mouse.x = event.clientX / window.innerWidth * 2 - 1

@@ -18,8 +18,12 @@ import {connect} from 'react-redux'
 
 class SinglePlanet extends React.Component {
   async componentDidMount() {
+    const planetId = this.props.planetId
+    // doing this to try to change the url bar
+    // this.props.match.params.planetId = Number(planetId)
+    // this.props.history.push(`/planets/${Number(planetId)}`)
     // const planetId = Number(this.props.match.params.planetId)
-    await this.props.getSinglePlanet(this.props.planetId)
+    await this.props.getSinglePlanet(Number(planetId))
   }
 
   render() {
