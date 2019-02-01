@@ -103,10 +103,10 @@ class Space extends React.Component {
     this.start()
   }
 
-  componentWillUnmount() {
-    this.stop()
-    this.mount.removeChild(this.renderer.domElement)
-  }
+  // componentWillUnmount() {
+  //   this.stop()
+  //   this.mount.removeChild(this.renderer.domElement)
+  // }
 
   onMouseMove() {
     this.mouse.x = event.clientX / window.innerWidth * 2 - 1

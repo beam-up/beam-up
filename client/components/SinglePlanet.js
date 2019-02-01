@@ -1,6 +1,6 @@
 import React from 'react'
 import {getSinglePlanet, areAllPlanetsVisited} from '../store'
-import {withRouter} from 'react-router-dom'
+import {Link, withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
 
 //should come from redux store... selectedPlanet
@@ -34,16 +34,19 @@ class SinglePlanet extends React.Component {
     // console.log(this.props.state)
 
     return (
-      <div>
+      <div id="singlePlanet">
         <h1>hi</h1>
-        <h1>{planet.name}</h1>
+        {/* <h1>{planet.name}</h1>
         <h2>Habitability: {planet.habitability}</h2>
         <p>{planet.description}</p>
         <p>Type: {planet.type}</p>
         <p>Mass: {planet.mass}</p>
         <p>Orbital Radius: {planet.orbitalPeriod}</p>
         <p>Orbital Period: {planet.orbitalPeriod}</p>
-        <p>Year Discovered: {planet.discoveryYear}</p>
+        <p>Year Discovered: {planet.discoveryYear}</p> */}
+        <Link to="/planets">
+          <button type="button">RETURN TO SPACE</button>
+        </Link>
       </div>
     )
   }
