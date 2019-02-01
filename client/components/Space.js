@@ -38,6 +38,7 @@ class Space extends React.Component {
     this.state = {
       planetClicked: false,
       planetId: 0,
+      planet: {},
       planetHoverName: '???',
       cursorValue: 'auto'
     }
@@ -144,22 +145,21 @@ class Space extends React.Component {
 
     if (intersects.length > 0) {
       const planetName = intersects[0].object.name
-
+      console.log('click to get name', planetName)
       const {allPlanets} = this.props
-
       let currentPlanet
       let currentPlanetId
-
-      // console.log(allPlanets.some(planet => planet.name === planetName))
-      if (allPlanets.some(planet => planet.name === planetName)) {
-        currentPlanet = allPlanets.filter(planet => planet.name === planetName)
-        currentPlanetId = currentPlanet[0].id
-      }
-
+      currentPlanet = allPlanets.find(planet => planet.name === planetName)
+      console.log('current planet', currentPlanet)
+      // if (allPlanets.some(planet => planet.name === planetName)) {
+      //   currentPlanetId = currentPlanet[0].id
+      // }
       this.setState({
         planetClicked: true,
-        planetId: currentPlanetId
+        planetId: currentPlanetId,
+        planet: currentPlanet
       })
+      console.log('current planet in state', this.state.planet)
       // window.open(`/planets/${currentPlanetId}`, '_self')
     }
   }
@@ -283,11 +283,12 @@ class Space extends React.Component {
 
     if (intersects.length > 0) {
       const planetName = intersects[0].object.name
-      // const {allPlanets} = this.props
+      const {allPlanets} = this.props
       // console.log(allPlanets.some(planet => planet.name === planetName))
-      // if (allPlanets.some(planet => planet.name === planetName)) {
-      // console.log(allPlanets.filter(planet => planet.name === planetName))
-      // }
+      if (allPlanets.some(planet => planet.name === planetName)) {
+        const planet = allPlanets.find(planet => planet.name === planetName)
+        this.setState({ planet })
+      }
       this.setState({planetHoverName: planetName})
       // console.log('ur hovering over', planetName)
     }
@@ -299,9 +300,7 @@ class Space extends React.Component {
   render() {
     const {planetClicked, planetId, cursorValue} = this.state
 
-    if (planetClicked) {
-      return <SinglePlanet planetId={planetId} />
-    }
+
     return (
       <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
         <Link to="/home">
@@ -311,6 +310,9 @@ class Space extends React.Component {
           planetName={this.state.planetHoverName}
           visitedPlanets={this.props.visitedPlanets.length}
           allPlanets={this.props.allPlanets.length}
+        />
+        <SinglePlanet
+          planet={this.state.planet}
         />
         <div
           style={{cursor: cursorValue}}

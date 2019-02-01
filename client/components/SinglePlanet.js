@@ -16,58 +16,88 @@ import {connect} from 'react-redux'
 //   discoveryYear: 2016
 // }
 
-class SinglePlanet extends React.Component {
-  async componentDidMount() {
-    const planetId = this.props.planetId
-    // doing this to try to change the url bar
-    // this.props.match.params.planetId = Number(planetId)
-    // this.props.history.push(`/planets/${Number(planetId)}`)
-    // const planetId = Number(this.props.match.params.planetId)
-    await this.props.getSinglePlanet(Number(planetId))
-  }
+// class SinglePlanet extends React.Component {
+//   async componentDidMount() {
+//     const planetId = this.props.planetId
+//     // doing this to try to change the url bar
+//     // this.props.match.params.planetId = Number(planetId)
+//     // this.props.history.push(`/planets/${Number(planetId)}`)
+//     // const planetId = Number(this.props.match.params.planetId)
+//     await this.props.getSinglePlanet(Number(planetId))
+//   }
 
-  render() {
-    const {planetId} = this.props
-    console.log('got em', planetId)
-    // const
-    console.log('=====PROPS!!!!!=====', this.props)
-    const planet = this.props.visitedPlanets[
-      this.props.visitedPlanets.length - 1
-    ]
-    console.log('THIS IS THE PLANET ========', planet)
-    // console.log(this.props.state)
+//   render() {
+//     const {planetId} = this.props
+//     console.log('got em', planetId)
+//     // const
+//     console.log('=====PROPS!!!!!=====', this.props)
+//     const planet = this.props.visitedPlanets[
+//       this.props.visitedPlanets.length - 1
+//     ]
+//     console.log('THIS IS THE PLANET ========', planet)
+//     // console.log(this.props.state)
 
+//     return (
+//       <div id="singlePlanet">
+//         <h1>hi</h1>
+//         {/* <h1>{planet.name}</h1>
+//         <h2>Habitability: {planet.habitability}</h2>
+//         <p>{planet.description}</p>
+//         <p>Type: {planet.type}</p>
+//         <p>Mass: {planet.mass}</p>
+//         <p>Orbital Radius: {planet.orbitalPeriod}</p>
+//         <p>Orbital Period: {planet.orbitalPeriod}</p>
+//         <p>Year Discovered: {planet.discoveryYear}</p> */}
+//         <Link to="/planets">
+//           <button type="button">RETURN TO SPACE</button>
+//         </Link>
+//       </div>
+//     )
+//   }
+// }
+
+// const mapStateToProps = state => ({
+//   visitedPlanets: state.planet.visitedPlanets
+//   // allPlanets: state.planet.allPlanets
+// })
+
+// const mapDispatchToProps = dispatch => ({
+//   getSinglePlanet: planetId => dispatch(getSinglePlanet(planetId)),
+//   areAllPlanetsVisited: () => dispatch(areAllPlanetsVisited())
+// })
+
+// const connectedSinglePlanet = connect(mapStateToProps, mapDispatchToProps)(
+//   SinglePlanet
+// )
+
+// export default withRouter(connectedSinglePlanet)
+
+
+const SinglePlanet = props => {
+  const {planet} = props
+  console.log('array or object: if true, array; not true, object', Array.isArray(planet))
+  // console.log('SinglePlanet PROPS', planet)
+
+  if (!planet) {
+    return (
+      <div>
+        <h1 id='singlePlanet'>Hi</h1>
+      </div>
+    )
+  } else {
     return (
       <div id="singlePlanet">
-        <h1>hi</h1>
-        {/* <h1>{planet.name}</h1>
-        <h2>Habitability: {planet.habitability}</h2>
-        <p>{planet.description}</p>
-        <p>Type: {planet.type}</p>
-        <p>Mass: {planet.mass}</p>
-        <p>Orbital Radius: {planet.orbitalPeriod}</p>
-        <p>Orbital Period: {planet.orbitalPeriod}</p>
-        <p>Year Discovered: {planet.discoveryYear}</p> */}
-        <Link to="/planets">
-          <button type="button">RETURN TO SPACE</button>
-        </Link>
+        <h1>{planet.name}</h1>
+          <h2>Habitability: {planet.habitability}</h2>
+         <p>{planet.description}</p>
+           <p>Type: {planet.type}</p>
+           <p>Mass: {planet.mass}</p>
+           <p>Orbital Radius: {planet.orbitalPeriod}</p>
+           <p>Orbital Period: {planet.orbitalPeriod}</p>
+           <p>Year Discovered: {planet.discoveryYear}</p>
       </div>
     )
   }
 }
 
-const mapStateToProps = state => ({
-  visitedPlanets: state.planet.visitedPlanets
-  // allPlanets: state.planet.allPlanets
-})
-
-const mapDispatchToProps = dispatch => ({
-  getSinglePlanet: planetId => dispatch(getSinglePlanet(planetId)),
-  areAllPlanetsVisited: () => dispatch(areAllPlanetsVisited())
-})
-
-const connectedSinglePlanet = connect(mapStateToProps, mapDispatchToProps)(
-  SinglePlanet
-)
-
-export default withRouter(connectedSinglePlanet)
+export default SinglePlanet

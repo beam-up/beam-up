@@ -202,3 +202,9 @@ button:hover {
   font-family: 'Major Mono Display', 'Arial', sans-serif;
   font-size: 0.9rem;
 }
+#singlePlanet {
+  position: absolute;
+  margin-top: 25 vh;
+  margin-left: 25 vw;
+  background-color: black;
+}

@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 
 const MissionControl = props => {
-  console.log('MISSION CONTROL PROPS', props)
+  // console.log('MISSION CONTROL PROPS', props)
   const {planetName, allPlanets, visitedPlanets} = props
 
   return (
