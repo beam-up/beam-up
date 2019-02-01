@@ -18,7 +18,7 @@ import {
   tauCetiE,
   tauCetiF
 } from './planets'
-import {getAllPlanets} from '../store'
+import {getAllPlanets, getSinglePlanet} from '../store'
 import {stars, starCubeH, starCubeW} from './Stars'
 import SinglePlanet from './SinglePlanet'
 import MissionControl from './MissionControl'
@@ -49,7 +49,6 @@ class Space extends React.Component {
     this.onWindowResize = this.onWindowResize.bind(this)
     this.createUniverse = this.createUniverse.bind(this)
     this.onMouseMove = this.onMouseMove.bind(this)
-    this.onDocumentMouseDown = this.onDocumentMouseDown.bind(this)
   }
 
   componentDidMount() {
@@ -84,7 +83,7 @@ class Space extends React.Component {
 
     // === event listeners ===
     document.addEventListener('mousemove', this.onMouseMove, false)
-    document.addEventListener('mousedown', this.onDocumentMouseDown, false)
+    // document.addEventListener('mousedown', this.onDocumentMouseDown, false)
     window.addEventListener('resize', this.onWindowResize, false)
 
     // === camera settings ===
@@ -130,37 +129,6 @@ class Space extends React.Component {
     } else {
       //cursor turns back to normal if NOT hovering over planet
       this.setState({cursorValue: 'auto'})
-    }
-  }
-
-  onDocumentMouseDown() {
-    event.preventDefault()
-    this.mouse.x = event.clientX / window.innerWidth * 2 - 1
-    this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
-
-    this.raycaster.setFromCamera(this.mouse, this.camera)
-
-    // intersects is an array of all 3D objects intersecting with mouse's raycaster
-    var intersects = this.raycaster.intersectObjects(this.planetGroup.children)
-
-    if (intersects.length > 0) {
-      const planetName = intersects[0].object.name
-      console.log('click to get name', planetName)
-      const {allPlanets} = this.props
-      let currentPlanet
-      let currentPlanetId
-      currentPlanet = allPlanets.find(planet => planet.name === planetName)
-      console.log('current planet', currentPlanet)
-      // if (allPlanets.some(planet => planet.name === planetName)) {
-      //   currentPlanetId = currentPlanet[0].id
-      // }
-      this.setState({
-        planetClicked: true,
-        planetId: currentPlanetId,
-        planet: currentPlanet
-      })
-      console.log('current planet in state', this.state.planet)
-      // window.open(`/planets/${currentPlanetId}`, '_self')
     }
   }
 
@@ -287,6 +255,8 @@ class Space extends React.Component {
       // console.log(allPlanets.some(planet => planet.name === planetName))
       if (allPlanets.some(planet => planet.name === planetName)) {
         const planet = allPlanets.find(planet => planet.name === planetName)
+        console.log('planet id', planet.id)
+        this.props.loadSinglePlanet(planet.id)
         this.setState({ planet })
       }
       this.setState({planetHoverName: planetName})
@@ -331,7 +301,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  loadAllPlanets: () => dispatch(getAllPlanets())
+  loadAllPlanets: () => dispatch(getAllPlanets()),
+  loadSinglePlanet: (planetId) => dispatch(getSinglePlanet(planetId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Space)

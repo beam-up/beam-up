@@ -75,7 +75,7 @@ import {connect} from 'react-redux'
 
 const SinglePlanet = props => {
   const {planet} = props
-  console.log('array or object: if true, array; not true, object', Array.isArray(planet))
+  // console.log('array or object: if true, array; not true, object', Array.isArray(planet))
   // console.log('SinglePlanet PROPS', planet)
 
   if (!planet) {
