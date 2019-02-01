@@ -279,7 +279,7 @@ class Space extends React.Component {
         this.camera.lookAt(target)
         this.controls.enabled = false
       })
- 
+
       tween.onComplete(() => {
         this.tweenInProgress = false
         this.camera.lookAt(target)
@@ -295,7 +295,7 @@ class Space extends React.Component {
       // <-- to here
       const planetName = intersects[0].object.name
       const {allPlanets} = this.props
-     
+
       if (allPlanets.some(planet => planet.name === planetName)) {
         const planet = allPlanets.find(planet => planet.name === planetName)
         console.log('planet id', planet.id)
@@ -303,7 +303,7 @@ class Space extends React.Component {
         this.setState({
           planet,
           singlePlanetDisplayValue: 'block'
-         })
+        })
       }
       this.setState({planetHoverName: planetName})
       // console.log('ur hovering over', planetName)
@@ -318,8 +318,12 @@ class Space extends React.Component {
   }
 
   render() {
-    const {planetClicked, planetId, cursorValue, singlePlanetDisplayValue} = this.state
-
+    const {
+      planetClicked,
+      planetId,
+      cursorValue,
+      singlePlanetDisplayValue
+    } = this.state
 
     return (
       <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
@@ -353,7 +357,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   loadAllPlanets: () => dispatch(getAllPlanets()),
-  loadSinglePlanet: (planetId) => dispatch(getSinglePlanet(planetId))
+  loadSinglePlanet: planetId => dispatch(getSinglePlanet(planetId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Space)
