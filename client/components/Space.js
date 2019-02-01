@@ -49,6 +49,8 @@ class Space extends React.Component {
     this.onMouseMove = this.onMouseMove.bind(this)
     this.onDocumentMouseDown = this.onDocumentMouseDown.bind(this)
     this.setFirst = true
+    this.tweenInProgress = false
+    this.controls = false
   }
 
   componentDidMount() {
@@ -70,7 +72,8 @@ class Space extends React.Component {
     // === orbit controls allows user to navigate 3D space with mouse ===
     const controls = new OrbitControls(camera, renderer.domElement)
     controls.maxDistance = 100
-    controls.minDistance = 2
+    controls.minDistance = 10
+    this.controls = controls
 
     // === raycaster ===
     // raycasting is used for mouse picking (working out what objects in the 3d space the mouse is over)
@@ -91,7 +94,7 @@ class Space extends React.Component {
     //   camera.position.z = 10
     //   this.setFirst = false;
     // }
-    camera.position.z = 10
+    //camera.position.z = 10
 
     // === renderer  settings ===
     // renderer displays your beautifully crafted scenes using WebGL
@@ -117,8 +120,10 @@ class Space extends React.Component {
   onMouseMove() {
     this.mouse.x = event.clientX / window.innerWidth * 2 - 1
     this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
+    /*
     let mouseX = event.clientX - window.innerWidth / 2
     let mouseY = event.clientY - window.innerHeight / 2
+    */
     // this.camera.position.x += (mouseX - this.camera.position.x) * 0.01
     // this.camera.position.y += (mouseY - this.camera.position.y) * 0.01
     // this.camera.lookAt(this.scene.position)
@@ -281,23 +286,34 @@ class Space extends React.Component {
       }
       // Where we want to go
       const target = intersects[0].object.position
+      window.THREE = THREE
+      let viewTarget = target.clone()
+      window.target = viewTarget
+      window.camera = this.camera
+
+      viewTarget.z = viewTarget.z - 10
+
+      console.log("camera", this.camera)
       //where we're going from
       const position = this.camera.position
       // console.log('from', position)
-      const tween = new TWEEN.Tween(position).to(target, 2000)
+      const tween = new TWEEN.Tween(position).to(viewTarget, 1000)
 
+      tween.onUpdate(() => {
+        this.camera.lookAt(target)
+        this.controls.update()
+      })
       tween.onComplete(() => {
-        const radius = 100
-        this.camera.lookAt({
-          x: target.x - radius,
-          y: target.y - radius,
-          z: target.z - radius
-        })
         // this.camera.target.position.copy(target)
-        // this.camera.lookAt(target);
+        this.tweenInProgress = false
+        this.camera.lookAt(target);
       })
 
-      tween.start()
+      if(!this.tweenInProgress) {
+        this.camera.lookAt(target);
+        tween.start()
+        this.tweenInProgress = true
+      }
       // <-- to here
       const planetName = intersects[0].object.name
       const {allPlanets} = this.props
