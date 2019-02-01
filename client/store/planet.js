@@ -44,7 +44,7 @@ export const getAllPlanets = () => async dispatch => {
 }
 
 export const getSinglePlanet = planetId => async dispatch => {
-  const {data} = await axios.get(`api/planets/${planetId}`)
+  const {data} = await axios.get(`/api/planets/${planetId}`)
   dispatch(gotSinglePlanetFromServer(data))
 }
 
