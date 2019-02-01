@@ -1,22 +1,31 @@
 import React from 'react'
+import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {Animated} from 'react-animated-css'
 import * as THREE from '../../three'
-import starBackground from './planets/starBackground'
 import {
+  starBackground,
   earth,
   proxima,
   epsilon,
   ross128,
-  yzCeti,
   yzCetiB,
   yzCetiC,
   yzCetiD,
-  kapteynC
+  kapteynC,
+  tauCetiH,
+  tauCetiG,
+  tauCetiE,
+  tauCetiF
 } from './planets'
+import {getAllPlanets} from '../store'
 import {stars, starCubeH, starCubeW} from './Stars'
+<<<<<<< HEAD
 import TWEEN from '@tweenjs/tween.js'
 
+=======
+import SinglePlanet from './SinglePlanet'
+>>>>>>> master
 const OrbitControls = require('../../OrbitControls')(THREE)
 
 // === !!! IMPORTANT !!! ===
@@ -26,9 +35,14 @@ const OrbitControls = require('../../OrbitControls')(THREE)
 // - sets positions of planets
 // You can literally CMD+F the above 3 comments to jump directly to where you need to do these.
 
-export default class Space extends React.Component {
+class Space extends React.Component {
   constructor(props) {
     super(props)
+
+    this.state = {
+      planetClicked: false,
+      planetId: 0
+    }
 
     this.start = this.start.bind(this)
     this.stop = this.stop.bind(this)
@@ -41,6 +55,8 @@ export default class Space extends React.Component {
   }
 
   componentDidMount() {
+    // === making AJAX call fetching all planet data ===
+    this.props.loadAllPlanets()
     // === window width & height  ===
     const width = window.innerWidth
     const height = window.innerHeight
@@ -119,10 +135,28 @@ export default class Space extends React.Component {
 
     this.raycaster.setFromCamera(this.mouse, this.camera)
 
+    // intersects is an array of all 3D objects intersecting with mouse's raycaster
     var intersects = this.raycaster.intersectObjects(this.planetGroup.children)
+
     if (intersects.length > 0) {
-      // change this to single planets view
-      window.open('/home')
+      const planetName = intersects[0].object.name
+
+      const {allPlanets} = this.props
+
+      let currentPlanet
+      let currentPlanetId
+
+      // console.log(allPlanets.some(planet => planet.name === planetName))
+      if (allPlanets.some(planet => planet.name === planetName)) {
+        currentPlanet = allPlanets.filter(planet => planet.name === planetName)
+        currentPlanetId = currentPlanet[0].id
+      }
+
+      this.setState({
+        planetClicked: true,
+        planetId: currentPlanetId
+      })
+      // window.open(`/planets/${currentPlanetId}`, '_self')
     }
   }
 
@@ -145,11 +179,14 @@ export default class Space extends React.Component {
       proxima,
       epsilon,
       ross128,
-      yzCeti,
       yzCetiB,
       yzCetiC,
       yzCetiD,
-      kapteynC
+      kapteynC,
+      tauCetiE,
+      tauCetiG,
+      tauCetiH,
+      tauCetiF
     )
 
     // add background and planets to scene
@@ -168,12 +205,15 @@ export default class Space extends React.Component {
     this.proxima = proxima
     this.epsilon = epsilon
     this.ross128 = ross128
-    this.yzCeti = yzCeti
     this.yzCetiB = yzCetiB
     this.yzCetiC = yzCetiC
     this.yzCetiD = yzCetiD
     this.kapteynC = kapteynC
     this.stars = stars
+    this.tauCetiG = tauCetiG
+    this.tauCetiE = tauCetiE
+    this.tauCetiH = tauCetiH
+    this.tauCetiF = tauCetiF
 
     this.starCubeH = starCubeH
     this.starCubeW = starCubeW
@@ -201,11 +241,14 @@ export default class Space extends React.Component {
     this.proxima.position.set(-50, 0, -50)
     this.epsilon.position.set(80, 0, -100)
     this.ross128.position.set(100, 0, -80)
-    this.yzCeti.position.set(-110, 0, 55)
     this.yzCetiC.position.set(-125, 0, 25)
     this.yzCetiB.position.set(-145, 0, 55)
     this.yzCetiD.position.set(-135, 0, 105)
     this.kapteynC.position.set(110, 0, 95)
+    this.tauCetiH.position.set(-100, 0, -105)
+    this.tauCetiG.position.set(-75, 0, -90)
+    this.tauCetiE.position.set(-70, 0, -80)
+    this.tauCetiF.position.set(-90, 0, -130)
 
     // === sets rotations of planets ===
     this.earth.rotation.y = Date.now() * 0.0001
@@ -235,6 +278,7 @@ export default class Space extends React.Component {
 
     window.count = 0
     if (intersects.length > 0) {
+<<<<<<< HEAD
       if (window.count < 10) {
         console.log('ur hovering over', intersects[0].object.name)
         window.count++
@@ -259,6 +303,15 @@ export default class Space extends React.Component {
 
       tween.start()
       // <-- to here
+=======
+      const planetName = intersects[0].object.name
+      const {allPlanets} = this.props
+      // console.log(allPlanets.some(planet => planet.name === planetName))
+      if (allPlanets.some(planet => planet.name === planetName)) {
+        console.log(allPlanets.filter(planet => planet.name === planetName))
+      }
+      console.log('ur hovering over', planetName)
+>>>>>>> master
     }
 
     // render scene
@@ -266,6 +319,11 @@ export default class Space extends React.Component {
   }
 
   render() {
+    const {planetClicked, planetId} = this.state
+
+    if (planetClicked) {
+      return <SinglePlanet planetId={planetId} />
+    }
     return (
       <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
         <Link to="/home">
@@ -280,3 +338,13 @@ export default class Space extends React.Component {
     )
   }
 }
+
+const mapStateToProps = state => ({
+  allPlanets: state.planet.allPlanets
+})
+
+const mapDispatchToProps = dispatch => ({
+  loadAllPlanets: () => dispatch(getAllPlanets())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Space)

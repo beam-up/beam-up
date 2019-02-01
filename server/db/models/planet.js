@@ -11,6 +11,9 @@ const Planet = db.define('planet', {
   description: {
     type: Sequelize.TEXT
   },
+  habitability: {
+    type: Sequelize.TEXT
+  },
   mass: {
     type: Sequelize.STRING
   },

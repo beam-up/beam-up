@@ -13,7 +13,6 @@ const geom = new THREE.IcosahedronGeometry(.5)
 const material = new THREE.MeshBasicMaterial()
 material.map = new THREE.TextureLoader().load('/images/star.png')
 
-
 // === creates 2000 floating stars ===
 for (let i = 0; i < 2000; i++) {
   const mesh = new THREE.Mesh(geom, material)
