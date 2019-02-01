@@ -44,12 +44,13 @@ export const getAllPlanets = () => async dispatch => {
 }
 
 export const getSinglePlanet = planetId => async dispatch => {
-  const {data} = await axios.get(`api/planets/${planetId}`)
+  const {data} = await axios.get(`/api/planets/${planetId}`)
   dispatch(gotSinglePlanetFromServer(data))
 }
 
 export const areAllPlanetsVisited = () => (dispatch, getState) => {
   const {visitedPlanets, allPlanets} = getState().planet
+  //remove any dupes from visitedPlanets -- user can visit a planet twice
   if (visitedPlanets.length === allPlanets.length) {
     dispatch(allPlanetsHaveBeenVisited())
   }
@@ -64,7 +65,14 @@ export default function planetReducer(state = planetState, action) {
       return {...state, allPlanets: action.planets}
     }
     case GOT_SINGLE_PLANET_FROM_SERVER: {
-      return {...state, vistedPlanets: [...state.visitedPlanets, action.planet]}
+      let newState = {...state}
+      //if planet isn't already in visited planets, push it in
+      if (
+        !newState.visitedPlanets.some(planet => planet.id === action.planet.id)
+      ) {
+        newState.visitedPlanets = [...state.visitedPlanets, action.planet]
+      }
+      return newState
     }
     case ALL_PLANET_HAVE_BEEN_VISITED: {
       return {...state, allPlanetsHaveBeenVisited: true}

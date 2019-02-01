@@ -19,10 +19,11 @@ import {
   tauCetiE,
   tauCetiF
 } from './planets'
-import {getAllPlanets} from '../store'
+import {getAllPlanets, getSinglePlanet} from '../store'
 import {stars, starCubeH, starCubeW} from './Stars'
 
 import SinglePlanet from './SinglePlanet'
+import MissionControl from './MissionControl'
 const OrbitControls = require('../../OrbitControls')(THREE)
 
 // === !!! IMPORTANT !!! ===
@@ -38,7 +39,11 @@ class Space extends React.Component {
 
     this.state = {
       planetClicked: false,
-      planetId: 0
+      planetId: 0,
+      planet: {},
+      planetHoverName: '???',
+      cursorValue: 'auto',
+      singlePlanetDisplayValue: 'none'
     }
 
     this.start = this.start.bind(this)
@@ -85,7 +90,7 @@ class Space extends React.Component {
 
     // === event listeners ===
     document.addEventListener('mousemove', this.onMouseMove, false)
-    document.addEventListener('mousedown', this.onDocumentMouseDown, false)
+    // document.addEventListener('mousedown', this.onDocumentMouseDown, false)
     window.addEventListener('resize', this.onWindowResize, false)
 
     // === renderer  settings ===
@@ -106,6 +111,7 @@ class Space extends React.Component {
 
   componentWillUnmount() {
     this.stop()
+    // i'm getting a weird error: "Can't perform a React state update on an unmounted component." and i think it has to do with the below
     this.mount.removeChild(this.renderer.domElement)
   }
 
@@ -119,29 +125,15 @@ class Space extends React.Component {
     this.mouse.x = event.clientX / window.innerWidth * 2 - 1
     this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
 
-    this.raycaster.setFromCamera(this.mouse, this.camera)
-
-    // intersects is an array of all 3D objects intersecting with mouse's raycaster
-    var intersects = this.raycaster.intersectObjects(this.planetGroup.children)
+    // calculate objects intersecting the picking ray
+    let intersects = this.raycaster.intersectObjects(this.planetGroup.children)
 
     if (intersects.length > 0) {
-      const planetName = intersects[0].object.name
-
-      const {allPlanets} = this.props
-
-      let currentPlanet
-      let currentPlanetId
-
-      // console.log(allPlanets.some(planet => planet.name === planetName))
-      if (allPlanets.some(planet => planet.name === planetName)) {
-        currentPlanet = allPlanets.filter(planet => planet.name === planetName)
-        currentPlanetId = currentPlanet[0].id
-      }
-
-      this.setState({
-        planetClicked: true,
-        planetId: currentPlanetId
-      })
+      //cursor turns into pointer if hovering over planet
+      this.setState({cursorValue: 'pointer'})
+    } else {
+      //cursor turns back to normal if NOT hovering over planet
+      this.setState({cursorValue: 'auto'})
     }
   }
 
@@ -305,14 +297,20 @@ class Space extends React.Component {
       const {allPlanets} = this.props
      
       if (allPlanets.some(planet => planet.name === planetName)) {
-        console.log(
-          allPlanets.filter(planet => planet.name === planetName)
-        )
+        const planet = allPlanets.find(planet => planet.name === planetName)
+        console.log('planet id', planet.id)
+        this.props.loadSinglePlanet(planet.id)
+        this.setState({
+          planet,
+          singlePlanetDisplayValue: 'block'
+         })
       }
-      console.log(
-        'ur hovering over',
-        intersects[0].object.geometry.parameters.radius
-      )
+      this.setState({planetHoverName: planetName})
+      // console.log('ur hovering over', planetName)
+    } else {
+      this.setState({
+        singlePlanetDisplayValue: 'none'
+      })
     }
 
     // render scene
@@ -320,17 +318,25 @@ class Space extends React.Component {
   }
 
   render() {
-    const {planetClicked, planetId} = this.state
+    const {planetClicked, planetId, cursorValue, singlePlanetDisplayValue} = this.state
 
-    if (planetClicked) {
-      return <SinglePlanet planetId={planetId} />
-    }
+
     return (
       <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
         <Link to="/home">
           <h1 id="titleLink">BEAM UP</h1>
         </Link>
+        <MissionControl
+          planetName={this.state.planetHoverName}
+          visitedPlanets={this.props.visitedPlanets.length}
+          allPlanets={this.props.allPlanets.length}
+        />
+        <SinglePlanet
+          planet={this.state.planet}
+          style={{display: singlePlanetDisplayValue}}
+        />
         <div
+          style={{cursor: cursorValue}}
           ref={mount => {
             this.mount = mount
           }}
@@ -341,11 +347,13 @@ class Space extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  allPlanets: state.planet.allPlanets
+  allPlanets: state.planet.allPlanets,
+  visitedPlanets: state.planet.visitedPlanets
 })
 
 const mapDispatchToProps = dispatch => ({
-  loadAllPlanets: () => dispatch(getAllPlanets())
+  loadAllPlanets: () => dispatch(getAllPlanets()),
+  loadSinglePlanet: (planetId) => dispatch(getSinglePlanet(planetId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Space)
