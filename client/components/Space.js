@@ -305,7 +305,10 @@ class Space extends React.Component {
         <Link to="/home">
           <h1 id="titleLink">BEAM UP</h1>
         </Link>
-        <MissionControl />
+        <MissionControl
+          visitedPlanets={this.props.visitedPlanets.length}
+          allPlanets={this.props.allPlanets.length}
+        />
         <div
           style={{cursor: cursorValue}}
           ref={mount => {
@@ -318,7 +321,8 @@ class Space extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  allPlanets: state.planet.allPlanets
+  allPlanets: state.planet.allPlanets,
+  visitedPlanets: state.planet.visitedPlanets
 })
 
 const mapDispatchToProps = dispatch => ({
