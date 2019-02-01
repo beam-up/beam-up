@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {Animated} from 'react-animated-css'
 import * as THREE from '../../three'
+import TWEEN from '@tweenjs/tween.js'
 import {
   starBackground,
   earth,
@@ -20,7 +21,6 @@ import {
 } from './planets'
 import {getAllPlanets} from '../store'
 import {stars, starCubeH, starCubeW} from './Stars'
-import TWEEN from '@tweenjs/tween.js'
 
 import SinglePlanet from './SinglePlanet'
 const OrbitControls = require('../../OrbitControls')(THREE)
@@ -38,7 +38,7 @@ class Space extends React.Component {
 
     this.state = {
       planetClicked: false,
-      planetId: 0
+      planetId: 0,
     }
 
     this.start = this.start.bind(this)
@@ -62,12 +62,22 @@ class Space extends React.Component {
 
     // === threeJS requirements ===
     const scene = new THREE.Scene()
-    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100000)
+    const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 100000)
     const renderer = new THREE.WebGLRenderer({antialias: true})
 
     this.scene = scene
     this.camera = camera
     this.renderer = renderer
+
+    // === camera settings ===
+    // console.log(this.camera.getWorldDirection())
+    // if (this.state.tweenCount > 0) {
+    //   console.log('we out here', this.target)
+    //   camera.lookAt(this.target)
+    // } else if (this.state.tweenCount === 0) {
+    //   camera.position.z = 50
+    //   camera.lookAt({x: 40, y: 50, z: 0})
+    // }
 
     // === orbit controls allows user to navigate 3D space with mouse ===
     const controls = new OrbitControls(camera, renderer.domElement)
@@ -88,14 +98,7 @@ class Space extends React.Component {
     document.addEventListener('mousemove', this.onMouseMove, false)
     document.addEventListener('mousedown', this.onDocumentMouseDown, false)
     window.addEventListener('resize', this.onWindowResize, false)
-
-    // === camera settings ===
-    // if (this.setFirst) {
-    //   camera.position.z = 10
-    //   this.setFirst = false;
-    // }
-    //camera.position.z = 10
-
+    
     // === renderer  settings ===
     // renderer displays your beautifully crafted scenes using WebGL
     renderer.setSize(width, height)
@@ -291,22 +294,34 @@ class Space extends React.Component {
       window.target = viewTarget
       window.camera = this.camera
 
-      viewTarget.z = viewTarget.z - 10
+      if (intersects[0].object.geometry.parameters.radius > 3) {
+        viewTarget.z = viewTarget.z - 20
+      } else {
+        viewTarget.z = viewTarget.z - 5
+      }
 
       console.log("camera", this.camera)
       //where we're going from
       const position = this.camera.position
-      // console.log('from', position)
-      const tween = new TWEEN.Tween(position).to(viewTarget, 1000)
+      const tween = new TWEEN.Tween(position).to(viewTarget, 2000)
 
+      //while tween is happening,
+      //we want to make sure it only looks at the target
+      //and we make sure that you can't stop the tween in the middle of it
       tween.onUpdate(() => {
         this.camera.lookAt(target)
-        this.controls.update()
+        this.controls.enabled = false;
       })
+      //when tween is complete,
+      //we set the in progress checker to false
+      //we look at the target
+      //and we let the user move around again
       tween.onComplete(() => {
         // this.camera.target.position.copy(target)
         this.tweenInProgress = false
         this.camera.lookAt(target);
+        // this.camera.updateProjectionMatrix();
+        this.controls.enabled = true;
       })
 
       if(!this.tweenInProgress) {
@@ -319,9 +334,9 @@ class Space extends React.Component {
       const {allPlanets} = this.props
       // console.log(allPlanets.some(planet => planet.name === planetName))
       if (allPlanets.some(planet => planet.name === planetName)) {
-        console.log(allPlanets.filter(planet => planet.name === planetName))
+        console.log('hello',allPlanets.filter(planet => planet.name === planetName))
       }
-      console.log('ur hovering over', planetName)
+      console.log('ur hovering over', intersects[0].object.geometry.parameters.radius)
     }
 
     // render scene
