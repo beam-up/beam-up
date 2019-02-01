@@ -36,7 +36,8 @@ class Space extends React.Component {
 
     this.state = {
       planetClicked: false,
-      planetId: 0
+      planetId: 0,
+      cursorValue: 'auto'
     }
 
     this.start = this.start.bind(this)
@@ -115,6 +116,17 @@ class Space extends React.Component {
     this.camera.position.x += (mouseX - this.camera.position.x) * 0.01
     this.camera.position.y += (mouseY - this.camera.position.y) * 0.01
     this.camera.lookAt(this.scene.position)
+
+    // calculate objects intersecting the picking ray
+    let intersects = this.raycaster.intersectObjects(this.planetGroup.children)
+
+    if (intersects.length > 0) {
+      //cursor turns into pointer if hovering over planet
+      this.setState({cursorValue: 'pointer'})
+    } else {
+      //cursor turns back to normal if NOT hovering over planet
+      this.setState({cursorValue: 'auto'})
+    }
   }
 
   onDocumentMouseDown() {
@@ -281,7 +293,7 @@ class Space extends React.Component {
   }
 
   render() {
-    const {planetClicked, planetId} = this.state
+    const {planetClicked, planetId, cursorValue} = this.state
 
     if (planetClicked) {
       return <SinglePlanet planetId={planetId} />
@@ -292,6 +304,7 @@ class Space extends React.Component {
           <h1 id="titleLink">BEAM UP</h1>
         </Link>
         <div
+          style={{cursor: cursorValue}}
           ref={mount => {
             this.mount = mount
           }}

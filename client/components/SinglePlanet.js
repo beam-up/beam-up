@@ -50,8 +50,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  getSinglePlanet: planetId => getSinglePlanet(planetId),
-  areAllPlanetsVisited: () => areAllPlanetsVisited()
+  getSinglePlanet: planetId => dispatch(getSinglePlanet(planetId)),
+  areAllPlanetsVisited: () => dispatch(areAllPlanetsVisited())
 })
 
 const connectedSinglePlanet = connect(mapStateToProps, mapDispatchToProps)(
