@@ -20,6 +20,7 @@ import {
 } from './planets'
 import {getAllPlanets} from '../store'
 import {stars, starCubeH, starCubeW} from './Stars'
+import SinglePlanet from './SinglePlanet'
 const OrbitControls = require('../../OrbitControls')(THREE)
 
 // === !!! IMPORTANT !!! ===
@@ -32,6 +33,11 @@ const OrbitControls = require('../../OrbitControls')(THREE)
 class Space extends React.Component {
   constructor(props) {
     super(props)
+
+    this.state = {
+      planetClicked: false,
+      planetId: 0
+    }
 
     this.start = this.start.bind(this)
     this.stop = this.stop.bind(this)
@@ -118,9 +124,28 @@ class Space extends React.Component {
 
     this.raycaster.setFromCamera(this.mouse, this.camera)
 
+    // intersects is an array of all 3D objects intersecting with mouse's raycaster
     var intersects = this.raycaster.intersectObjects(this.planetGroup.children)
+
     if (intersects.length > 0) {
-      window.open('/planet')
+      const planetName = intersects[0].object.name
+
+      const {allPlanets} = this.props
+
+      let currentPlanet
+      let currentPlanetId
+
+      // console.log(allPlanets.some(planet => planet.name === planetName))
+      if (allPlanets.some(planet => planet.name === planetName)) {
+        currentPlanet = allPlanets.filter(planet => planet.name === planetName)
+        currentPlanetId = currentPlanet[0].id
+      }
+
+      this.setState({
+        planetClicked: true,
+        planetId: currentPlanetId
+      })
+      // window.open(`/planets/${currentPlanetId}`, '_self')
     }
   }
 
@@ -178,7 +203,6 @@ class Space extends React.Component {
     this.tauCetiE = tauCetiE
     this.tauCetiH = tauCetiH
     this.tauCetiF = tauCetiF
-
 
     this.starCubeH = starCubeH
     this.starCubeW = starCubeW
@@ -245,7 +269,7 @@ class Space extends React.Component {
     if (intersects.length > 0) {
       const planetName = intersects[0].object.name
       const {allPlanets} = this.props
-      console.log(allPlanets.some(planet => planet.name === planetName))
+      // console.log(allPlanets.some(planet => planet.name === planetName))
       if (allPlanets.some(planet => planet.name === planetName)) {
         console.log(allPlanets.filter(planet => planet.name === planetName))
       }
@@ -257,6 +281,11 @@ class Space extends React.Component {
   }
 
   render() {
+    const {planetClicked, planetId} = this.state
+
+    if (planetClicked) {
+      return <SinglePlanet planetId={planetId} />
+    }
     return (
       <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
         <Link to="/home">
