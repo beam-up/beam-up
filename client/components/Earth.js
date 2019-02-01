@@ -7,7 +7,7 @@ import {Animated} from 'react-animated-css'
 const Earth = () => {
   return (
     <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
-      <div className="earthContainer">
+      <div id="earthContainer">
         <h1>wow, what a lovely planet we have...</h1>
         <p>
           • Earth exists in the “Goldilocks zone” – an area which is neither too

@@ -21,6 +21,7 @@ import {
 import {getAllPlanets} from '../store'
 import {stars, starCubeH, starCubeW} from './Stars'
 import SinglePlanet from './SinglePlanet'
+import MissionControl from './MissionControl'
 const OrbitControls = require('../../OrbitControls')(THREE)
 
 // === !!! IMPORTANT !!! ===
@@ -304,6 +305,7 @@ class Space extends React.Component {
         <Link to="/home">
           <h1 id="titleLink">BEAM UP</h1>
         </Link>
+        <MissionControl />
         <div
           style={{cursor: cursorValue}}
           ref={mount => {

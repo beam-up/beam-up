@@ -10,5 +10,6 @@
 export {default as Space} from './Space'
 export {default as SinglePlanet} from './SinglePlanet'
 export {default as Home} from './Home'
+export {default as MissionControl} from './MissionControl'
 export {default as ReturnHome} from './ReturnHome'
 export {default as WishForm} from './WishForm'
