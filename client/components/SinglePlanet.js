@@ -1,6 +1,6 @@
 import React from 'react'
 import {getSinglePlanet, areAllPlanetsVisited} from '../store'
-import {withRouter} from 'react-router-dom'
+import {Link, withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
 
 //should come from redux store... selectedPlanet
@@ -17,41 +17,53 @@ import {connect} from 'react-redux'
 // }
 
 class SinglePlanet extends React.Component {
-  componentDidMount() {
+  async componentDidMount() {
+    const planetId = this.props.planetId
+    // doing this to try to change the url bar
+    // this.props.match.params.planetId = Number(planetId)
+    // this.props.history.push(`/planets/${Number(planetId)}`)
     // const planetId = Number(this.props.match.params.planetId)
-    this.props.getSinglePlanet(this.props.planetId)
+    await this.props.getSinglePlanet(Number(planetId))
   }
 
   render() {
     const {planetId} = this.props
     console.log('got em', planetId)
-    console.log(this.props.state)
-    // const planet = this.props.visitedPlanets.pop()
+    // const
+    console.log('=====PROPS!!!!!=====', this.props)
+    const planet = this.props.visitedPlanets[
+      this.props.visitedPlanets.length - 1
+    ]
+    console.log('THIS IS THE PLANET ========', planet)
     // console.log(this.props.state)
 
     return (
-      <div>
+      <div id="singlePlanet">
         <h1>hi</h1>
         {/* <h1>{planet.name}</h1>
+        <h2>Habitability: {planet.habitability}</h2>
         <p>{planet.description}</p>
         <p>Type: {planet.type}</p>
         <p>Mass: {planet.mass}</p>
         <p>Orbital Radius: {planet.orbitalPeriod}</p>
         <p>Orbital Period: {planet.orbitalPeriod}</p>
         <p>Year Discovered: {planet.discoveryYear}</p> */}
+        <Link to="/planets">
+          <button type="button">RETURN TO SPACE</button>
+        </Link>
       </div>
     )
   }
 }
 
 const mapStateToProps = state => ({
-  state: state
+  visitedPlanets: state.planet.visitedPlanets
   // allPlanets: state.planet.allPlanets
 })
 
 const mapDispatchToProps = dispatch => ({
-  getSinglePlanet: planetId => getSinglePlanet(planetId),
-  areAllPlanetsVisited: () => areAllPlanetsVisited()
+  getSinglePlanet: planetId => dispatch(getSinglePlanet(planetId)),
+  areAllPlanetsVisited: () => dispatch(areAllPlanetsVisited())
 })
 
 const connectedSinglePlanet = connect(mapStateToProps, mapDispatchToProps)(

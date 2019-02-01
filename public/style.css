@@ -54,7 +54,9 @@ h1 {
 }
 
 p {
-  font-family: 'Geneva', 'Source Sans Pro', 'Arial', sans-serif;
+  font-family: 'Source Sans Pro', 'Arial', sans-serif;
+  letter-spacing: 0.1rem;
+  font-size: 1.1rem;
   /* font-family: 'Major Mono Display', 'Geneva', 'Arial', sans-serif; */
 }
 
@@ -73,11 +75,22 @@ button {
   border-radius: 5px;
   color: white;
   font-family: 'Raleway', 'Helvetica', 'Arial', sans-serif;
-  /* font-size: 1rem; */
+  font-size: 0.9rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.2rem;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
+  background: #4776e6; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #8e54e9,
+    #4776e6
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #8e54e9,
+    #4776e6
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 button:hover {
@@ -89,7 +102,7 @@ button:hover {
   background: none;
   padding: 1rem 0 0 1rem;
   position: absolute;
-  font-size: 1rem;
+  font-size: 1.2rem;
 }
 
 /* ========================================= */
@@ -172,4 +185,20 @@ button:hover {
     #8e54e9,
     #4776e6
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+/* ========================================= */
+/* ============ MISSION CONTROL ============ */
+/* ========================================= */
+
+#missionControl {
+  color: white;
+  background: none;
+  padding: 3rem 0 0 1rem;
+  position: absolute;
+}
+#missionControl p {
+  line-height: 1.4rem;
+  font-family: 'Major Mono Display', 'Arial', sans-serif;
+  font-size: 0.9rem;
 }

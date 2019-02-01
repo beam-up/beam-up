@@ -15,9 +15,8 @@ class Routes extends Component {
     return (
       <Switch>
         <Route path="/home" component={Home} />
-        <Route path="/space" component={Space} />
-        {/* eventually, singlePlanet route should be /planet/:id to get planet by id. this is just a placeholder. */}
         <Route path="/planets/:id" component={SinglePlanet} />
+        <Route exact path="/planets" component={Space} />
         <Route path="/returnhome" component={ReturnHome} />
         <Route path="/wish" component={WishForm} />
         <Route path="/" component={Home} />
