@@ -48,7 +48,6 @@ class Space extends React.Component {
     this.createUniverse = this.createUniverse.bind(this)
     this.onMouseMove = this.onMouseMove.bind(this)
     this.onDocumentMouseDown = this.onDocumentMouseDown.bind(this)
-    this.setFirst = true
     this.tweenInProgress = false
     this.controls = false
   }
@@ -68,16 +67,6 @@ class Space extends React.Component {
     this.scene = scene
     this.camera = camera
     this.renderer = renderer
-
-    // === camera settings ===
-    // console.log(this.camera.getWorldDirection())
-    // if (this.state.tweenCount > 0) {
-    //   console.log('we out here', this.target)
-    //   camera.lookAt(this.target)
-    // } else if (this.state.tweenCount === 0) {
-    //   camera.position.z = 50
-    //   camera.lookAt({x: 40, y: 50, z: 0})
-    // }
 
     // === orbit controls allows user to navigate 3D space with mouse ===
     const controls = new OrbitControls(camera, renderer.domElement)
@@ -123,14 +112,6 @@ class Space extends React.Component {
   onMouseMove() {
     this.mouse.x = event.clientX / window.innerWidth * 2 - 1
     this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
-    /*
-    let mouseX = event.clientX - window.innerWidth / 2
-    let mouseY = event.clientY - window.innerHeight / 2
-    */
-    // this.camera.position.x += (mouseX - this.camera.position.x) * 0.01
-    // this.camera.position.y += (mouseY - this.camera.position.y) * 0.01
-    // this.camera.lookAt(this.scene.position)
-    // console.log(this.scene.position)
   }
 
   onDocumentMouseDown() {
@@ -161,7 +142,6 @@ class Space extends React.Component {
         planetClicked: true,
         planetId: currentPlanetId
       })
-      // window.open(`/planets/${currentPlanetId}`, '_self')
     }
   }
 
@@ -300,27 +280,18 @@ class Space extends React.Component {
         viewTarget.z = viewTarget.z - 5
       }
 
-      console.log('camera', this.camera)
-      //where we're going from
       const position = this.camera.position
       const tween = new TWEEN.Tween(position).to(viewTarget, 2000)
 
-      //while tween is happening,
-      //we want to make sure it only looks at the target
-      //and we make sure that you can't stop the tween in the middle of it
       tween.onUpdate(() => {
         this.camera.lookAt(target)
         this.controls.enabled = false
       })
-      //when tween is complete,
-      //we set the in progress checker to false
-      //we look at the target
-      //and we let the user move around again
+ 
       tween.onComplete(() => {
-        // this.camera.target.position.copy(target)
         this.tweenInProgress = false
         this.camera.lookAt(target)
-        // this.camera.updateProjectionMatrix();
+        this.controls.target = target
         this.controls.enabled = true
       })
 
@@ -332,10 +303,9 @@ class Space extends React.Component {
       // <-- to here
       const planetName = intersects[0].object.name
       const {allPlanets} = this.props
-      // console.log(allPlanets.some(planet => planet.name === planetName))
+     
       if (allPlanets.some(planet => planet.name === planetName)) {
         console.log(
-          'hello',
           allPlanets.filter(planet => planet.name === planetName)
         )
       }
