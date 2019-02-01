@@ -38,7 +38,7 @@ class Space extends React.Component {
 
     this.state = {
       planetClicked: false,
-      planetId: 0,
+      planetId: 0
     }
 
     this.start = this.start.bind(this)
@@ -98,7 +98,7 @@ class Space extends React.Component {
     document.addEventListener('mousemove', this.onMouseMove, false)
     document.addEventListener('mousedown', this.onDocumentMouseDown, false)
     window.addEventListener('resize', this.onWindowResize, false)
-    
+
     // === renderer  settings ===
     // renderer displays your beautifully crafted scenes using WebGL
     renderer.setSize(width, height)
@@ -300,7 +300,7 @@ class Space extends React.Component {
         viewTarget.z = viewTarget.z - 5
       }
 
-      console.log("camera", this.camera)
+      console.log('camera', this.camera)
       //where we're going from
       const position = this.camera.position
       const tween = new TWEEN.Tween(position).to(viewTarget, 2000)
@@ -310,7 +310,7 @@ class Space extends React.Component {
       //and we make sure that you can't stop the tween in the middle of it
       tween.onUpdate(() => {
         this.camera.lookAt(target)
-        this.controls.enabled = false;
+        this.controls.enabled = false
       })
       //when tween is complete,
       //we set the in progress checker to false
@@ -319,13 +319,13 @@ class Space extends React.Component {
       tween.onComplete(() => {
         // this.camera.target.position.copy(target)
         this.tweenInProgress = false
-        this.camera.lookAt(target);
+        this.camera.lookAt(target)
         // this.camera.updateProjectionMatrix();
-        this.controls.enabled = true;
+        this.controls.enabled = true
       })
 
-      if(!this.tweenInProgress) {
-        this.camera.lookAt(target);
+      if (!this.tweenInProgress) {
+        this.camera.lookAt(target)
         tween.start()
         this.tweenInProgress = true
       }
@@ -334,9 +334,15 @@ class Space extends React.Component {
       const {allPlanets} = this.props
       // console.log(allPlanets.some(planet => planet.name === planetName))
       if (allPlanets.some(planet => planet.name === planetName)) {
-        console.log('hello',allPlanets.filter(planet => planet.name === planetName))
+        console.log(
+          'hello',
+          allPlanets.filter(planet => planet.name === planetName)
+        )
       }
-      console.log('ur hovering over', intersects[0].object.geometry.parameters.radius)
+      console.log(
+        'ur hovering over',
+        intersects[0].object.geometry.parameters.radius
+      )
     }
 
     // render scene
