@@ -37,6 +37,7 @@
   "author": "Fullstack Academy of Code",
   "license": "MIT",
   "dependencies": {
+    "@tweenjs/tween.js": "^17.3.0",
     "axios": "^0.15.3",
     "compression": "^1.7.3",
     "connect-session-sequelize": "^4.1.0",
@@ -61,7 +62,9 @@
     "sequelize": "^4.38.0",
     "socket.io": "^2.1.1",
     "three": "^0.100.0",
-    "three-orbit-controls": "^82.1.0"
+    "three-orbit-controls": "^82.1.0",
+    "tween": "^0.9.0",
+    "tweenjs": "^1.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.55",

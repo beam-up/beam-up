@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {Animated} from 'react-animated-css'
 import * as THREE from '../../three'
+import TWEEN from '@tweenjs/tween.js'
 import {
   starBackground,
   earth,
@@ -20,6 +21,7 @@ import {
 } from './planets'
 import {getAllPlanets, getSinglePlanet} from '../store'
 import {stars, starCubeH, starCubeW} from './Stars'
+
 import SinglePlanet from './SinglePlanet'
 import MissionControl from './MissionControl'
 const OrbitControls = require('../../OrbitControls')(THREE)
@@ -50,6 +52,9 @@ class Space extends React.Component {
     this.onWindowResize = this.onWindowResize.bind(this)
     this.createUniverse = this.createUniverse.bind(this)
     this.onMouseMove = this.onMouseMove.bind(this)
+    this.onDocumentMouseDown = this.onDocumentMouseDown.bind(this)
+    this.tweenInProgress = false
+    this.controls = false
   }
 
   componentDidMount() {
@@ -61,7 +66,7 @@ class Space extends React.Component {
 
     // === threeJS requirements ===
     const scene = new THREE.Scene()
-    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100000)
+    const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 100000)
     const renderer = new THREE.WebGLRenderer({antialias: true})
 
     this.scene = scene
@@ -71,7 +76,8 @@ class Space extends React.Component {
     // === orbit controls allows user to navigate 3D space with mouse ===
     const controls = new OrbitControls(camera, renderer.domElement)
     controls.maxDistance = 100
-    controls.minDistance = 2
+    controls.minDistance = 10
+    this.controls = controls
 
     // === raycaster ===
     // raycasting is used for mouse picking (working out what objects in the 3d space the mouse is over)
@@ -86,9 +92,6 @@ class Space extends React.Component {
     document.addEventListener('mousemove', this.onMouseMove, false)
     // document.addEventListener('mousedown', this.onDocumentMouseDown, false)
     window.addEventListener('resize', this.onWindowResize, false)
-
-    // === camera settings ===
-    camera.position.z = 10
 
     // === renderer  settings ===
     // renderer displays your beautifully crafted scenes using WebGL
@@ -115,11 +118,12 @@ class Space extends React.Component {
   onMouseMove() {
     this.mouse.x = event.clientX / window.innerWidth * 2 - 1
     this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
-    let mouseX = event.clientX - window.innerWidth / 2
-    let mouseY = event.clientY - window.innerHeight / 2
-    this.camera.position.x += (mouseX - this.camera.position.x) * 0.01
-    this.camera.position.y += (mouseY - this.camera.position.y) * 0.01
-    this.camera.lookAt(this.scene.position)
+  }
+
+  onDocumentMouseDown() {
+    event.preventDefault()
+    this.mouse.x = event.clientX / window.innerWidth * 2 - 1
+    this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
 
     // calculate objects intersecting the picking ray
     let intersects = this.raycaster.intersectObjects(this.planetGroup.children)
@@ -237,23 +241,61 @@ class Space extends React.Component {
       star.position.x = starCubeW * Math.cos(timer + i)
       star.position.z = starCubeH * Math.sin(timer + i * 1.1)
     }
-
     this.renderScene()
     this.frameId = window.requestAnimationFrame(this.animate)
+    TWEEN.update()
   }
 
   renderScene() {
     // === ray caster !!! ===
     // update the picking ray with the camera and mouse position
     this.raycaster.setFromCamera(this.mouse, this.camera)
-
     // calculate objects intersecting the picking ray
     let intersects = this.raycaster.intersectObjects(this.planetGroup.children)
 
+    window.count = 0
     if (intersects.length > 0) {
+      if (window.count < 10) {
+        console.log('ur hovering over', intersects[0].object.name)
+        window.count++
+      }
+      // Where we want to go
+      const target = intersects[0].object.position
+      window.THREE = THREE
+      let viewTarget = target.clone()
+      window.target = viewTarget
+      window.camera = this.camera
+
+      if (intersects[0].object.geometry.parameters.radius > 3) {
+        viewTarget.z = viewTarget.z - 20
+      } else {
+        viewTarget.z = viewTarget.z - 5
+      }
+
+      const position = this.camera.position
+      const tween = new TWEEN.Tween(position).to(viewTarget, 2000)
+
+      tween.onUpdate(() => {
+        this.camera.lookAt(target)
+        this.controls.enabled = false
+      })
+
+      tween.onComplete(() => {
+        this.tweenInProgress = false
+        this.camera.lookAt(target)
+        this.controls.target = target
+        this.controls.enabled = true
+      })
+
+      if (!this.tweenInProgress) {
+        this.camera.lookAt(target)
+        tween.start()
+        this.tweenInProgress = true
+      }
+      // <-- to here
       const planetName = intersects[0].object.name
       const {allPlanets} = this.props
-      // console.log(allPlanets.some(planet => planet.name === planetName))
+
       if (allPlanets.some(planet => planet.name === planetName)) {
         const planet = allPlanets.find(planet => planet.name === planetName)
         console.log('planet id', planet.id)
@@ -261,7 +303,7 @@ class Space extends React.Component {
         this.setState({
           planet,
           singlePlanetDisplayValue: 'block'
-         })
+        })
       }
       this.setState({planetHoverName: planetName})
       // console.log('ur hovering over', planetName)
@@ -276,8 +318,12 @@ class Space extends React.Component {
   }
 
   render() {
-    const {planetClicked, planetId, cursorValue, singlePlanetDisplayValue} = this.state
-
+    const {
+      planetClicked,
+      planetId,
+      cursorValue,
+      singlePlanetDisplayValue
+    } = this.state
 
     return (
       <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
@@ -311,7 +357,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   loadAllPlanets: () => dispatch(getAllPlanets()),
-  loadSinglePlanet: (planetId) => dispatch(getSinglePlanet(planetId))
+  loadSinglePlanet: planetId => dispatch(getSinglePlanet(planetId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Space)
