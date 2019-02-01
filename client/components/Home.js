@@ -24,7 +24,7 @@ const Home = () => {
       </Animated>
 
       <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
-        <Link to="/space">
+        <Link to="/planets">
           <button type="button">START EXPLORING</button>
         </Link>
       </Animated>

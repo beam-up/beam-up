@@ -17,35 +17,40 @@ import {connect} from 'react-redux'
 // }
 
 class SinglePlanet extends React.Component {
-  componentDidMount() {
+  async componentDidMount() {
     // const planetId = Number(this.props.match.params.planetId)
-    this.props.getSinglePlanet(this.props.planetId)
+    await this.props.getSinglePlanet(this.props.planetId)
   }
 
   render() {
     const {planetId} = this.props
     console.log('got em', planetId)
-    console.log(this.props.state)
-    // const planet = this.props.visitedPlanets.pop()
+    // const
+    console.log('=====PROPS!!!!!=====', this.props)
+    const planet = this.props.visitedPlanets[
+      this.props.visitedPlanets.length - 1
+    ]
+    console.log('THIS IS THE PLANET ========', planet)
     // console.log(this.props.state)
 
     return (
       <div>
         <h1>hi</h1>
-        {/* <h1>{planet.name}</h1>
+        <h1>{planet.name}</h1>
+        <h2>Habitability: {planet.habitability}</h2>
         <p>{planet.description}</p>
         <p>Type: {planet.type}</p>
         <p>Mass: {planet.mass}</p>
         <p>Orbital Radius: {planet.orbitalPeriod}</p>
         <p>Orbital Period: {planet.orbitalPeriod}</p>
-        <p>Year Discovered: {planet.discoveryYear}</p> */}
+        <p>Year Discovered: {planet.discoveryYear}</p>
       </div>
     )
   }
 }
 
 const mapStateToProps = state => ({
-  state: state
+  visitedPlanets: state.planet.visitedPlanets
   // allPlanets: state.planet.allPlanets
 })
 
