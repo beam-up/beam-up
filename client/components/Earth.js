@@ -4,9 +4,6 @@ import {Animated} from 'react-animated-css'
 import * as THREE from '../../three'
 import {starBackground} from './planets'
 
-// ending screen with earth in it
-// needs 3js
-
 class Earth extends React.Component {
   constructor(props) {
     super(props)
@@ -14,6 +11,7 @@ class Earth extends React.Component {
     this.start = this.start.bind(this)
     this.stop = this.stop.bind(this)
     this.animate = this.animate.bind(this)
+    this.onWindowResize = this.onWindowResize.bind(this)
   }
 
   componentDidMount() {
@@ -23,7 +21,7 @@ class Earth extends React.Component {
     const scene = new THREE.Scene()
 
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100000)
-    camera.position.z = 10
+    camera.position.z = 5
 
     const renderer = new THREE.WebGLRenderer({antialias: true})
     renderer.setSize(width, height)
@@ -33,25 +31,30 @@ class Earth extends React.Component {
     this.camera = camera
     this.renderer = renderer
 
-    // === 2. lighting ===
-    scene.add(new THREE.AmbientLight(0x333333))
-    const light = new THREE.DirectionalLight(0xffffff, 1)
-    light.position.set(5, 3, 5)
-    scene.add(light)
+    // === 2. light ===
+    // const light = new THREE.PointLight(0xffffff, 1, 100)
+    // light.position.set(5, 3, 5)
+    // scene.add(light)
 
     // === 3. creating the mesh(es) Earth mesh ===
     const geometry = new THREE.SphereGeometry(1, 100, 90)
-    const texture = new THREE.TextureLoader().load(
-      './images/nasaBlueMarble.jpg'
-    )
-    const material = new THREE.MeshPhongMaterial({map: texture})
+    const texture = new THREE.TextureLoader().load('/images/earthClouds.jpg')
+    // const material = new THREE.MeshPhongMaterial({map: texture}) // if using light
+    const material = new THREE.MeshBasicMaterial({map: texture})
     const earth = new THREE.Mesh(geometry, material)
+
+    // === background mesh ===
+    // const backgroundGeometry = new THREE.SphereGeometry(400, 64, 64)
+    // const backgroundMaterial = new THREE.MeshBasicMaterial()
+    // backgroundMaterial.map = new THREE.TextureLoader().load(
+    //   '/images/blackStarfield.png'
+    // )
+    // backgroundMaterial.side = THREE.BackSide
+    // const background = new THREE.Mesh(backgroundGeometry, backgroundMaterial)
 
     this.earth = earth
     this.starBackground = starBackground
     scene.add(earth, starBackground)
-
-    // === background mesh ===
 
     // === 4. append scene to DOM ===
     this.mount.appendChild(this.renderer.domElement)
@@ -64,6 +67,12 @@ class Earth extends React.Component {
   componentWillUnmount() {
     this.stop()
     this.mount.removeChild(this.renderer.domElement)
+  }
+
+  onWindowResize() {
+    this.camera.aspect = window.innerWidth / window.innerHeight
+    this.camera.updateProjectionMatrix()
+    this.renderer.setSize(window.innerWidth, window.innerHeight)
   }
 
   start() {
