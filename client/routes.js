@@ -26,7 +26,7 @@ class Routes extends Component {
         <Route exact path="/planets" component={Space} />
         <Route path="/returnhome" component={ReturnHome} />
         <Route path="/wish" component={WishForm} />
-        {/* <Route path="/earth" component={Earth} /> */}
+        <Route path="/earth" component={Earth} />
         <Route path="/" component={Home} />
       </Switch>
     )
