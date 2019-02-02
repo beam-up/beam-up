@@ -21,6 +21,7 @@ import {
 } from './planets'
 import {getAllPlanets, getSinglePlanet} from '../store'
 import {stars, starCubeH, starCubeW} from './Stars'
+import {diamonds} from './Diamonds'
 
 import SinglePlanet from './SinglePlanet'
 import MissionControl from './MissionControl'
@@ -31,7 +32,7 @@ const OrbitControls = require('../../OrbitControls')(THREE)
 // - add everything to the scene
 // - bind objects imported from /planets
 // - sets positions of planets
-// You can literally CMD+F the above 3 comments to jump directly to where you need to do these.
+// You can literally CMD+F the word "IMPORTANT" to jump directly to where you need to do these.
 
 class Space extends React.Component {
   constructor(props) {
@@ -175,6 +176,11 @@ class Space extends React.Component {
       this.scene.add(stars[i])
     }
 
+    // add wish diamonds to scene
+    for (let i = 0; i < diamonds.length; i++) {
+      this.scene.add(diamonds[i])
+    }
+
     // === !!! IMPORTANT !!! ===
     // === bind objects imported from /planets ===
     this.starBackground = starBackground
@@ -186,12 +192,13 @@ class Space extends React.Component {
     this.yzCetiC = yzCetiC
     this.yzCetiD = yzCetiD
     this.kapteynC = kapteynC
-    this.stars = stars
     this.tauCetiG = tauCetiG
     this.tauCetiE = tauCetiE
     this.tauCetiH = tauCetiH
     this.tauCetiF = tauCetiF
 
+    this.stars = stars
+    this.diamonds = diamonds
     this.starCubeH = starCubeH
     this.starCubeW = starCubeW
   }
@@ -241,6 +248,18 @@ class Space extends React.Component {
       star.position.x = starCubeW * Math.cos(timer + i)
       star.position.z = starCubeH * Math.sin(timer + i * 1.1)
     }
+
+    // === set random movement of diamonds ===
+    for (let i = 0; i < this.diamonds.length; i++) {
+      const diamond = diamonds[i]
+      diamond.position.x = (starCubeW - 100) * Math.cos(timer + i)
+      diamond.position.z = (starCubeH - 100) * Math.sin(timer + i * 1.1)
+      // set rotation of diamonds
+      diamond.rotation.y += (Math.random() / 50)
+      diamond.rotation.x -= (Math.random() / 50)
+      diamond.rotation.z -= (Math.random() / 50)
+    }
+
     this.renderScene()
     this.frameId = window.requestAnimationFrame(this.animate)
     TWEEN.update()
