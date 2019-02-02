@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 import {Animated} from 'react-animated-css'
 import * as THREE from '../../three'
 import {starBackground} from './planets'
+const OrbitControls = require('../../OrbitControls')(THREE)
 
 class Earth extends React.Component {
   constructor(props) {
@@ -27,13 +28,19 @@ class Earth extends React.Component {
     renderer.setSize(width, height)
     renderer.setClearColor('#000000')
 
+    // === orbit controls ===
+    const controls = new OrbitControls(camera, renderer.domElement)
+    controls.maxDistance = 100
+    controls.minDistance = 4
+    this.controls = controls
+
     this.scene = scene
     this.camera = camera
     this.renderer = renderer
 
     // === 2. light ===
     // const light = new THREE.PointLight(0xffffff, 1, 100)
-    // light.position.set(5, 3, 5)
+    // light.position.set(5, 3, 5) // try (1, 1, 1)
     // scene.add(light)
 
     // === 3. creating the mesh(es) Earth mesh ===
@@ -91,6 +98,7 @@ class Earth extends React.Component {
     // this.earth.rotation.y += 0.001
     // this.earth.rotation.x = Date.now() * 0.0000002
     this.earth.rotation.y = Date.now() * 0.0001
+    this.controls.update()
     this.renderScene()
     this.frameId = window.requestAnimationFrame(this.animate)
   }
