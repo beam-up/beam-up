@@ -44,7 +44,8 @@ export default class Diamond extends Component {
 
     const diamond = new THREE.Mesh(geom, material)
 
-    camera.position.z = 4
+    camera.position.y = -2
+    camera.position.z = 8
     scene.add(diamond)
     // renderer.setClearColor('#000000')
     renderer.setSize(width, height)
@@ -81,6 +82,7 @@ export default class Diamond extends Component {
 
   animate() {
     // this.diamond.rotation.x += 0.01
+    // this.diamond.position.set(0, 20, 0)
     this.diamond.rotation.y -= 0.01
 
     this.renderScene()
@@ -93,13 +95,14 @@ export default class Diamond extends Component {
 
   render() {
     return (
-      <div>
+      <div id="wishSubmitted">
         <div
-          style={{width: '400px', height: '400px'}}
+          style={{width: '100vw', height: '100vh'}}
           ref={mount => {
             this.mount = mount
           }}
         />
+        <p id="wishSubmittedMessage"> u submitted. nice </p>
       </div>
     )
   }
