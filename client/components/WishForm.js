@@ -38,9 +38,7 @@ class WishForm extends Component {
 
   render() {
     return this.state.submitted ? (
-      <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
-        <div id="wishSubmitted"> u submitted. nice </div>
-      </Animated>
+      <WishSubmitted />
     ) : (
       <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
         <div id="wishForm">

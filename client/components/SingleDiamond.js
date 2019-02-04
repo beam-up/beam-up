@@ -4,7 +4,7 @@ import * as THREE from '../../three'
 
 import {starBackground} from './planets'
 
-export default class Diamond extends Component {
+export default class WishSubmitted extends Component {
   constructor(props) {
     super(props)
 
@@ -100,15 +100,17 @@ export default class Diamond extends Component {
 
   render() {
     return (
-      <div id="wishSubmitted">
-        <div
-          style={{width: '100vw', height: '100vh'}}
-          ref={mount => {
-            this.mount = mount
-          }}
-        />
-        <p id="wishSubmittedMessage"> u submitted. nice </p>
-      </div>
+      <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
+        <div id="wishSubmitted">
+          <div
+            style={{width: '100vw', height: '100vh'}}
+            ref={mount => {
+              this.mount = mount
+            }}
+          />
+          <p id="wishSubmittedMessage"> u submitted. nice </p>
+        </div>
+      </Animated>
     )
   }
 }
