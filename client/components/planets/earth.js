@@ -6,6 +6,6 @@ planetTexture.wrapS = planetTexture.wrapT = THREE.MirroredRepeatWrapping
 planetTexture.repeat.set(2, 2)
 const material = new THREE.MeshBasicMaterial({map: planetTexture})
 const earth = new THREE.Mesh(geometry, material)
-earth.name = 'earth'
+earth.name = '???'
 
 export default earth

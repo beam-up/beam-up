@@ -4,6 +4,9 @@ import {Link} from 'react-router-dom'
 import {Animated} from 'react-animated-css'
 import * as THREE from '../../three'
 import TWEEN from '@tweenjs/tween.js'
+const OrbitControls = require('../../OrbitControls')(THREE)
+
+// === 3D MODELS ===
 import {
   starBackground,
   earth,
@@ -19,18 +22,23 @@ import {
   tauCetiE,
   tauCetiF
 } from './planets'
-import {getAllPlanets} from '../store'
 import {stars, starCubeH, starCubeW} from './Stars'
+import {diamonds} from './Diamonds'
 
+// === REDUX STORE ===
+import {getAllPlanets, getSinglePlanet, getWishes} from '../store'
+
+// === REACT COMPONENTS ===
 import SinglePlanet from './SinglePlanet'
-const OrbitControls = require('../../OrbitControls')(THREE)
+import MissionControl from './MissionControl'
+import WishData from './WishData'
 
 // === !!! IMPORTANT !!! ===
 // EVERY TIME YOU ADD A PLANET / ANYTHING TO THIS FILE, DON'T FORGET:
 // - add everything to the scene
 // - bind objects imported from /planets
 // - sets positions of planets
-// You can literally CMD+F the above 3 comments to jump directly to where you need to do these.
+// You can literally CMD+F the word "IMPORTANT" to jump directly to where you need to do these.
 
 class Space extends React.Component {
   constructor(props) {
@@ -38,31 +46,39 @@ class Space extends React.Component {
 
     this.state = {
       planetClicked: false,
-      planetId: 0
+      planetId: 0,
+      planet: {},
+      wish: {},
+      planetHoverName: '???',
+      cursorValue: 'auto',
+      singlePlanetDisplayValue: 'none'
     }
 
     this.start = this.start.bind(this)
     this.stop = this.stop.bind(this)
     this.animate = this.animate.bind(this)
+    this.getRandomWish = this.getRandomWish.bind(this)
     this.onWindowResize = this.onWindowResize.bind(this)
     this.createUniverse = this.createUniverse.bind(this)
     this.onMouseMove = this.onMouseMove.bind(this)
     this.onDocumentMouseDown = this.onDocumentMouseDown.bind(this)
-    this.setFirst = true
     this.tweenInProgress = false
     this.controls = false
+    this.throttle = this.throttle.bind(this)
   }
 
   componentDidMount() {
-    // === making AJAX call fetching all planet data ===
+    // === making AJAX call fetching all planet + wish data ===
     this.props.loadAllPlanets()
+    this.props.getWishes()
+
     // === window width & height  ===
     const width = window.innerWidth
     const height = window.innerHeight
 
     // === threeJS requirements ===
     const scene = new THREE.Scene()
-    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100000)
+    const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 100000)
     const renderer = new THREE.WebGLRenderer({antialias: true})
 
     this.scene = scene
@@ -86,15 +102,8 @@ class Space extends React.Component {
 
     // === event listeners ===
     document.addEventListener('mousemove', this.onMouseMove, false)
-    document.addEventListener('mousedown', this.onDocumentMouseDown, false)
+    // document.addEventListener('mousedown', this.onDocumentMouseDown, false)
     window.addEventListener('resize', this.onWindowResize, false)
-
-    // === camera settings ===
-    // if (this.setFirst) {
-    //   camera.position.z = 10
-    //   this.setFirst = false;
-    // }
-    //camera.position.z = 10
 
     // === renderer  settings ===
     // renderer displays your beautifully crafted scenes using WebGL
@@ -114,52 +123,36 @@ class Space extends React.Component {
 
   componentWillUnmount() {
     this.stop()
+    // i'm getting a weird error: "Can't perform a React state update on an unmounted component." and i think it has to do with the below
     this.mount.removeChild(this.renderer.domElement)
   }
 
   onMouseMove() {
     this.mouse.x = event.clientX / window.innerWidth * 2 - 1
     this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
-    /*
-    let mouseX = event.clientX - window.innerWidth / 2
-    let mouseY = event.clientY - window.innerHeight / 2
-    */
-    // this.camera.position.x += (mouseX - this.camera.position.x) * 0.01
-    // this.camera.position.y += (mouseY - this.camera.position.y) * 0.01
-    // this.camera.lookAt(this.scene.position)
-    // console.log(this.scene.position)
+
+    // calculate planets AND wish diamonds intersecting the picking ray
+    let planets = this.raycaster.intersectObjects(this.planetGroup.children)
+    let wishes = this.raycaster.intersectObjects(this.wishGroup.children)
+    let intersect = planets.concat(wishes)
+
+    if (intersect.length > 0) {
+      //cursor turns into pointer if hovering over planet/wish
+      this.setState({cursorValue: 'pointer'})
+      //if hovering over a wish
+      if (intersect[0].object.name === 'wishDiamond') {
+        this.setState({wish: this.getRandomWish(this.props.wishes)})
+      }
+    } else {
+      //cursor turns back to normal if NOT hovering over planet/wish
+      this.setState({cursorValue: 'auto'})
+    }
   }
 
   onDocumentMouseDown() {
     event.preventDefault()
     this.mouse.x = event.clientX / window.innerWidth * 2 - 1
     this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
-
-    this.raycaster.setFromCamera(this.mouse, this.camera)
-
-    // intersects is an array of all 3D objects intersecting with mouse's raycaster
-    var intersects = this.raycaster.intersectObjects(this.planetGroup.children)
-
-    if (intersects.length > 0) {
-      const planetName = intersects[0].object.name
-
-      const {allPlanets} = this.props
-
-      let currentPlanet
-      let currentPlanetId
-
-      // console.log(allPlanets.some(planet => planet.name === planetName))
-      if (allPlanets.some(planet => planet.name === planetName)) {
-        currentPlanet = allPlanets.filter(planet => planet.name === planetName)
-        currentPlanetId = currentPlanet[0].id
-      }
-
-      this.setState({
-        planetClicked: true,
-        planetId: currentPlanetId
-      })
-      // window.open(`/planets/${currentPlanetId}`, '_self')
-    }
   }
 
   // === resizes scene if browser window size changes ===
@@ -167,6 +160,38 @@ class Space extends React.Component {
     this.camera.aspect = window.innerWidth / window.innerHeight
     this.camera.updateProjectionMatrix()
     this.renderer.setSize(window.innerWidth, window.innerHeight)
+  }
+
+  // need throttle function to limit rate of calculations - esp for getRandomWish
+  throttle(callback, wait, immediate = false) {
+    let timeout = null
+    let initialCall = true
+
+    return function() {
+      const callNow = immediate && initialCall
+      const next = () => {
+        callback.apply(this, arguments)
+        timeout = null
+      }
+
+      if (callNow) {
+        initialCall = false
+        next()
+      }
+
+      if (!timeout) {
+        timeout = setTimeout(next, wait)
+      }
+    }
+  }
+
+  // attempted throttle :(
+  // getRandomWish = this.throttle(wishes => {
+  //   return wishes[Math.floor(Math.random() * wishes.length)]
+  // }, 1000)
+
+  getRandomWish(wishes) {
+    return wishes[Math.floor(Math.random() * wishes.length)]
   }
 
   createUniverse() {
@@ -200,6 +225,16 @@ class Space extends React.Component {
       this.scene.add(stars[i])
     }
 
+    const wishGroup = new THREE.Group()
+    // add wish diamonds to scene
+    for (let i = 0; i < diamonds.length; i++) {
+      wishGroup.add(diamonds[i])
+      // console.log(diamonds[i])
+      // this.scene.add(diamonds[i])
+    }
+    this.scene.add(wishGroup)
+    this.wishGroup = wishGroup
+
     // === !!! IMPORTANT !!! ===
     // === bind objects imported from /planets ===
     this.starBackground = starBackground
@@ -211,12 +246,13 @@ class Space extends React.Component {
     this.yzCetiC = yzCetiC
     this.yzCetiD = yzCetiD
     this.kapteynC = kapteynC
-    this.stars = stars
     this.tauCetiG = tauCetiG
     this.tauCetiE = tauCetiE
     this.tauCetiH = tauCetiH
     this.tauCetiF = tauCetiF
 
+    this.stars = stars
+    this.diamonds = diamonds
     this.starCubeH = starCubeH
     this.starCubeW = starCubeW
   }
@@ -266,6 +302,18 @@ class Space extends React.Component {
       star.position.x = starCubeW * Math.cos(timer + i)
       star.position.z = starCubeH * Math.sin(timer + i * 1.1)
     }
+
+    // === set random movement of diamonds ===
+    for (let i = 0; i < this.diamonds.length; i++) {
+      const diamond = diamonds[i]
+      diamond.position.x = (starCubeW - 100) * Math.cos(timer + i)
+      diamond.position.z = (starCubeH - 100) * Math.sin(timer + i * 1.1)
+      // set rotation of diamonds
+      diamond.rotation.y += Math.random() / 50
+      diamond.rotation.x -= Math.random() / 50
+      diamond.rotation.z -= Math.random() / 50
+    }
+
     this.renderScene()
     this.frameId = window.requestAnimationFrame(this.animate)
     TWEEN.update()
@@ -281,7 +329,7 @@ class Space extends React.Component {
     window.count = 0
     if (intersects.length > 0) {
       if (window.count < 10) {
-        console.log('ur hovering over', intersects[0].object.name)
+        // console.log('ur hovering over', intersects[0].object.name)
         window.count++
       }
       // Where we want to go
@@ -291,22 +339,25 @@ class Space extends React.Component {
       window.target = viewTarget
       window.camera = this.camera
 
-      viewTarget.z = viewTarget.z - 10
+      if (intersects[0].object.geometry.parameters.radius > 3) {
+        viewTarget.z = viewTarget.z - 20
+      } else {
+        viewTarget.z = viewTarget.z - 5
+      }
 
-      console.log('camera', this.camera)
-      //where we're going from
       const position = this.camera.position
-      // console.log('from', position)
-      const tween = new TWEEN.Tween(position).to(viewTarget, 1000)
+      const tween = new TWEEN.Tween(position).to(viewTarget, 2000)
 
       tween.onUpdate(() => {
         this.camera.lookAt(target)
-        this.controls.update()
+        this.controls.enabled = false
       })
+
       tween.onComplete(() => {
-        // this.camera.target.position.copy(target)
         this.tweenInProgress = false
         this.camera.lookAt(target)
+        this.controls.target = target
+        this.controls.enabled = true
       })
 
       if (!this.tweenInProgress) {
@@ -314,14 +365,26 @@ class Space extends React.Component {
         tween.start()
         this.tweenInProgress = true
       }
+      // <-- to here
 
       const planetName = intersects[0].object.name
       const {allPlanets} = this.props
-      // console.log(allPlanets.some(planet => planet.name === planetName))
+
       if (allPlanets.some(planet => planet.name === planetName)) {
-        console.log(allPlanets.filter(planet => planet.name === planetName))
+        const planet = allPlanets.find(planet => planet.name === planetName)
+        // console.log('planet id', planet.id)
+        this.props.loadSinglePlanet(planet.id)
+        this.setState({
+          planet,
+          singlePlanetDisplayValue: 'block'
+        })
       }
-      console.log('ur hovering over', planetName)
+      this.setState({planetHoverName: planetName})
+      // console.log('ur hovering over', planetName)
+    } else {
+      this.setState({
+        singlePlanetDisplayValue: 'none'
+      })
     }
 
     // render scene
@@ -329,17 +392,32 @@ class Space extends React.Component {
   }
 
   render() {
-    const {planetClicked, planetId} = this.state
+    const {
+      planetClicked,
+      planetId,
+      cursorValue,
+      singlePlanetDisplayValue
+    } = this.state
 
-    if (planetClicked) {
-      return <SinglePlanet planetId={planetId} />
-    }
     return (
       <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
         <Link to="/home">
           <h1 id="titleLink">BEAM UP</h1>
         </Link>
+        <MissionControl
+          planetName={this.state.planetHoverName}
+          visitedPlanets={this.props.visitedPlanets.length}
+          allPlanets={this.props.allPlanets.length}
+        />
+        <WishData wish={this.state.wish} />
+        <SinglePlanet
+          planet={this.state.planet}
+          // attempt at conditional rendering based on cursor value
+          // {display: cursorValue === 'pointer' ? 'block' : 'none'}
+          style={{display: singlePlanetDisplayValue}}
+        />
         <div
+          style={{cursor: cursorValue}}
           ref={mount => {
             this.mount = mount
           }}
@@ -350,11 +428,15 @@ class Space extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  allPlanets: state.planet.allPlanets
+  allPlanets: state.planet.allPlanets,
+  visitedPlanets: state.planet.visitedPlanets,
+  wishes: state.wish
 })
 
 const mapDispatchToProps = dispatch => ({
-  loadAllPlanets: () => dispatch(getAllPlanets())
+  loadAllPlanets: () => dispatch(getAllPlanets()),
+  loadSinglePlanet: planetId => dispatch(getSinglePlanet(planetId)),
+  getWishes: () => dispatch(getWishes())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Space)
