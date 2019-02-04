@@ -22,7 +22,12 @@ import {
   tauCetiE,
   tauCetiF
 } from './planets'
-import {getAllPlanets, getSinglePlanet, areAllPlanetsVisited, getWishes} from '../store'
+import {
+  getAllPlanets,
+  getSinglePlanet,
+  // areAllPlanetsVisited,
+  getWishes
+} from '../store'
 import {stars, starCubeH, starCubeW} from './Stars'
 import {diamonds} from './Diamonds'
 // === REACT COMPONENTS ===
@@ -150,7 +155,7 @@ class Space extends React.Component {
 
     // === WISHES!!! ===
     let wishes = this.raycaster.intersectObjects(this.wishGroup.children)
-    if(wishes.length > 0) {
+    if (wishes.length > 0) {
       this.setState({
         wish: this.getRandomWish(this.props.wishes),
         wishDisplayValue: true
@@ -158,9 +163,9 @@ class Space extends React.Component {
     } else {
       this.setState({
         wishDisplayValue: false
-      })}
+      })
+    }
 
-      
     // === PLANETS!!! ===
     let planets = this.raycaster.intersectObjects(this.planetGroup.children)
     if (planets.length > 0) {
@@ -169,18 +174,19 @@ class Space extends React.Component {
       const planetName = planets[0].object.name
       const {allPlanets} = this.props
       if (allPlanets.some(planet => planet.name === planetName)) {
-        const planet = allPlanets.find(currentPlanet => currentPlanet.name === planetName)
+        // this.props.checkIfDone()
+        const planet = allPlanets.find(
+          currentPlanet => currentPlanet.name === planetName
+        )
         this.props.loadSinglePlanet(planet.id)
-        this.props.checkIfDone()
         this.setState({
           planet
-         })
+        })
       }
     } else {
       //cursor turns back to normal if NOT hovering over planet/wish
       this.setState({singlePlanetDisplayValue: false})
     }
-
   }
 
   // === resizes scene if browser window size changes ===
@@ -190,8 +196,7 @@ class Space extends React.Component {
     this.renderer.setSize(window.innerWidth, window.innerHeight)
   }
 
-
-  once (fn) {
+  once(fn) {
     let returnValue
     let canRun = true
     return (...args) => {
@@ -203,12 +208,9 @@ class Space extends React.Component {
     }
   }
 
-
-
   getRandomWish(wishes) {
     return wishes[Math.floor(Math.random() * wishes.length)]
   }
-
 
   createUniverse() {
     const planetGroup = new THREE.Object3D()
@@ -341,7 +343,6 @@ class Space extends React.Component {
     let intersects = this.raycaster.intersectObjects(this.planetGroup.children)
 
     if (intersects.length > 0) {
-
       const target = intersects[0].object.position
       window.THREE = THREE
       let viewTarget = target.clone()
@@ -380,16 +381,15 @@ class Space extends React.Component {
         }
       }
 
-
       const planetName = intersects[0].object.name
       // const {allPlanets} = this.props
       // if (allPlanets.some(planet => planet.name === planetName)) {
-        // const planet = allPlanets.find(planet => planet.name === planetName)
-        // this.props.loadSinglePlanet(planet.id)
-        // this.props.checkIfDone()
-        // this.setState({
-        //   planet
-        //  })
+      // const planet = allPlanets.find(planet => planet.name === planetName)
+      // this.props.loadSinglePlanet(planet.id)
+      // this.props.checkIfDone()
+      // this.setState({
+      //   planet
+      //  })
       // }
       this.setState({planetHoverName: planetName})
     }
@@ -405,27 +405,22 @@ class Space extends React.Component {
         <Link to="/home">
           <h1 id="titleLink">BEAM UP</h1>
         </Link>
-        {
-          allPlanetsHaveBeenVisited &&
-        <Link to="/earth">
-          <div style={{textAlign: 'right'}}>
-            <h4>back to earth</h4>
-          </div>
-        </Link>
-        }
+        {allPlanetsHaveBeenVisited && (
+          <Link to="/earth">
+            <div style={{textAlign: 'right'}}>
+              <h4> id="earthLink">back to earth</h4>
+            </div>
+          </Link>
+        )}
         <MissionControl
           planetName={this.state.planetHoverName}
           visitedPlanets={this.props.visitedPlanets.length}
           allPlanets={this.props.allPlanets.length}
         />
-        {wishDisplayValue &&
-          <WishData wish={this.state.wish} />
-        }
-        {singlePlanetDisplayValue &&
-          <SinglePlanet
-            planet={this.state.planet}
-          />
-        }
+        {wishDisplayValue && <WishData wish={this.state.wish} />}
+        {singlePlanetDisplayValue && (
+          <SinglePlanet planet={this.state.planet} />
+        )}
         <div
           style={{cursor: cursorValue}}
           ref={mount => {
@@ -446,8 +441,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   loadAllPlanets: () => dispatch(getAllPlanets()),
-  loadSinglePlanet: (planetId) => dispatch(getSinglePlanet(planetId)),
-  checkIfDone: () => dispatch(areAllPlanetsVisited()),
+  loadSinglePlanet: planetId => dispatch(getSinglePlanet(planetId)),
+  // checkIfDone: () => dispatch(areAllPlanetsVisited()),
   getWishes: () => dispatch(getWishes())
 })
 
