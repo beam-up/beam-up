@@ -133,15 +133,12 @@ class Space extends React.Component {
     if (planets.length > 0) {
       //cursor turns into pointer if hovering over planet
       this.setState({
-        cursorValue: 'pointer',
-        singlePlanetDisplayValue: true
+        cursorValue: 'pointer'
       })
     } else {
       //cursor turns back to normal if NOT hovering over planet
       this.setState({
-        cursorValue: 'auto',
-        singlePlanetDisplayValue: false,
-
+        cursorValue: 'auto'
       })
     }
   }
@@ -151,6 +148,7 @@ class Space extends React.Component {
     this.mouse.x = event.clientX / window.innerWidth * 2 - 1
     this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
 
+    // === WISHES!!! ===
     let wishes = this.raycaster.intersectObjects(this.wishGroup.children)
     if(wishes.length > 0) {
       this.setState({
@@ -161,15 +159,28 @@ class Space extends React.Component {
       this.setState({
         wishDisplayValue: false
       })}
-    let planets = this.raycaster.intersectObjects(this.planetGroup.children)
 
+      
+    // === PLANETS!!! ===
+    let planets = this.raycaster.intersectObjects(this.planetGroup.children)
     if (planets.length > 0) {
       //cursor turns into pointer if hovering over planet/wish
-      this.setState({cursorValue: 'pointer', clicked: true})
+      this.setState({clicked: true, singlePlanetDisplayValue: true})
+      const planetName = planets[0].object.name
+      const {allPlanets} = this.props
+      if (allPlanets.some(planet => planet.name === planetName)) {
+        const planet = allPlanets.find(currentPlanet => currentPlanet.name === planetName)
+        this.props.loadSinglePlanet(planet.id)
+        this.props.checkIfDone()
+        this.setState({
+          planet
+         })
+      }
     } else {
       //cursor turns back to normal if NOT hovering over planet/wish
-      this.setState({cursorValue: 'auto'})
+      this.setState({singlePlanetDisplayValue: false})
     }
+
   }
 
   // === resizes scene if browser window size changes ===
@@ -329,11 +340,7 @@ class Space extends React.Component {
     // calculate objects intersecting the picking ray
     let intersects = this.raycaster.intersectObjects(this.planetGroup.children)
 
-    window.count = 0
     if (intersects.length > 0) {
-      if (window.count < 10) {
-        window.count++
-      }
 
       const target = intersects[0].object.position
       window.THREE = THREE
@@ -350,19 +357,21 @@ class Space extends React.Component {
       const position = this.camera.position
       const tween = new TWEEN.Tween(position).to(viewTarget, 2000)
 
+      // during tween
       tween.onUpdate(() => {
+        this.setState({singlePlanetDisplayValue: false})
         this.camera.lookAt(target)
       })
 
       tween.onComplete(() => {
         this.tweenInProgress = false
         this.camera.lookAt(target)
-        this.setState({clicked: false})
+        this.setState({clicked: false, singlePlanetDisplayValue: true})
         this.controls.target = target
         tween.stop()
       })
 
-
+      // starts tween
       if (!this.tweenInProgress) {
         if (this.state.clicked === true) {
           this.camera.lookAt(target)
@@ -370,18 +379,18 @@ class Space extends React.Component {
           this.tweenInProgress = true
         }
       }
-      // <-- to here
+
 
       const planetName = intersects[0].object.name
-      const {allPlanets} = this.props
-      if (allPlanets.some(planet => planet.name === planetName)) {
-        const planet = allPlanets.find(planet => planet.name === planetName)
-        this.props.loadSinglePlanet(planet.id)
-        this.props.checkIfDone()
-        this.setState({
-          planet
-         })
-      }
+      // const {allPlanets} = this.props
+      // if (allPlanets.some(planet => planet.name === planetName)) {
+        // const planet = allPlanets.find(planet => planet.name === planetName)
+        // this.props.loadSinglePlanet(planet.id)
+        // this.props.checkIfDone()
+        // this.setState({
+        //   planet
+        //  })
+      // }
       this.setState({planetHoverName: planetName})
     }
     // render scene
