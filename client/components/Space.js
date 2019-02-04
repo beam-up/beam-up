@@ -25,7 +25,6 @@ import {
 import {
   getAllPlanets,
   getSinglePlanet,
-  // areAllPlanetsVisited,
   getWishes
 } from '../store'
 import {stars, starCubeH, starCubeW} from './Stars'
@@ -34,6 +33,7 @@ import {diamonds} from './Diamonds'
 import SinglePlanet from './SinglePlanet'
 import MissionControl from './MissionControl'
 import WishData from './WishData'
+import EndOfExploration from './EndOfExploration'
 
 // === !!! IMPORTANT !!! ===
 // EVERY TIME YOU ADD A PLANET / ANYTHING TO THIS FILE, DON'T FORGET:
@@ -382,15 +382,6 @@ class Space extends React.Component {
       }
 
       const planetName = intersects[0].object.name
-      // const {allPlanets} = this.props
-      // if (allPlanets.some(planet => planet.name === planetName)) {
-      // const planet = allPlanets.find(planet => planet.name === planetName)
-      // this.props.loadSinglePlanet(planet.id)
-      // this.props.checkIfDone()
-      // this.setState({
-      //   planet
-      //  })
-      // }
       this.setState({planetHoverName: planetName})
     }
     // render scene
@@ -406,11 +397,12 @@ class Space extends React.Component {
           <h1 id="titleLink">BEAM UP</h1>
         </Link>
         {allPlanetsHaveBeenVisited && (
-          <Link to="/earth">
-            <div style={{textAlign: 'right'}}>
-              <h4> id="earthLink">back to earth</h4>
-            </div>
-          </Link>
+          // <Link to="/earth">
+          //   <div style={{textAlign: 'right'}}>
+          //     <h4> id="earthLink">back to earth</h4>
+          //   </div>
+          // </Link>
+          <EndOfExploration/>
         )}
         <MissionControl
           planetName={this.state.planetHoverName}
@@ -442,7 +434,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   loadAllPlanets: () => dispatch(getAllPlanets()),
   loadSinglePlanet: planetId => dispatch(getSinglePlanet(planetId)),
-  // checkIfDone: () => dispatch(areAllPlanetsVisited()),
   getWishes: () => dispatch(getWishes())
 })
 
