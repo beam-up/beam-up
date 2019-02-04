@@ -7,6 +7,7 @@ import {
   SinglePlanet,
   ReturnHome,
   WishForm,
+  Earth,
   SingleDiamond
 } from './components'
 import {me} from './store'
@@ -26,6 +27,7 @@ class Routes extends Component {
         <Route exact path="/planets" component={Space} />
         <Route path="/returnhome" component={ReturnHome} />
         <Route path="/wish" component={WishForm} />
+        <Route path="/earth" component={Earth} />
         <Route path="/diamond" component={SingleDiamond} />
         <Route path="/" component={Home} />
       </Switch>
