@@ -2,6 +2,8 @@ import React, {Component} from 'react'
 
 import * as THREE from '../../three'
 
+import {starBackground} from './planets'
+
 export default class Diamond extends Component {
   constructor(props) {
     super(props)
@@ -54,12 +56,15 @@ export default class Diamond extends Component {
     light.position.set(10, 0, 10)
     scene.add(light)
 
+    scene.add(starBackground)
+
     this.scene = scene
     this.camera = camera
     this.renderer = renderer
     this.material = material
     this.diamond = diamond
     this.light = light
+    this.starBackground = starBackground
 
     this.mount.appendChild(this.renderer.domElement)
     this.start()
