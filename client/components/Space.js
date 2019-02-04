@@ -62,6 +62,7 @@ class Space extends React.Component {
     this.tweenInProgress = false
     this.controls = false
     this.once = this.once.bind(this)
+    this.addGlow = this.addGlow.bind(this)
   }
 
   componentDidMount() {
@@ -203,12 +204,22 @@ class Space extends React.Component {
     }
   }
 
-
+  addGlow (planet) {
+    const glowMaterial = new THREE.MeshBasicMaterial({
+      color: '#ffffff', 
+      opacity: 0.5, 
+      transparent: true
+    })
+    const radius = planet.geometry.parameters.radius
+    const glow = new THREE.Mesh( new THREE.SphereGeometry(radius, 100, 90), glowMaterial )
+    glow.position.set(planet.position.x, planet.position.y, planet.position.z)
+    glow.scale.multiplyScalar(1.15)
+    this.scene.add(glow)
+  }
 
   getRandomWish(wishes) {
     return wishes[Math.floor(Math.random() * wishes.length)]
   }
-
 
   createUniverse() {
     const planetGroup = new THREE.Object3D()
@@ -342,6 +353,7 @@ class Space extends React.Component {
 
     if (intersects.length > 0) {
 
+      const planet = intersects[0].object
       const target = intersects[0].object.position
       window.THREE = THREE
       let viewTarget = target.clone()
@@ -349,9 +361,9 @@ class Space extends React.Component {
       window.camera = this.camera
 
       if (intersects[0].object.geometry.parameters.radius > 3) {
-        viewTarget.z = viewTarget.z - 20
+        viewTarget.z = viewTarget.z - 22
       } else {
-        viewTarget.z = viewTarget.z - 5
+        viewTarget.z = viewTarget.z - 7
       }
 
       const position = this.camera.position
@@ -369,6 +381,8 @@ class Space extends React.Component {
         this.setState({clicked: false, singlePlanetDisplayValue: true})
         this.controls.target = target
         tween.stop()
+        console.log('here is the planet data we can work with', planet.geometry)
+        this.addGlow(planet)
       })
 
       // starts tween
