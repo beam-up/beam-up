@@ -163,9 +163,6 @@ class Space extends React.Component {
     if (intersect.length > 0) {
       //cursor turns into pointer if hovering over planet/wish
       this.setState({cursorValue: 'pointer', clicked: true})
-      // this.setState({ clicked: true })
-      console.log('planet clicked')
-      //if hovering over a wish
     } else {
       //cursor turns back to normal if NOT hovering over planet/wish
       this.setState({cursorValue: 'auto'})
@@ -342,14 +339,13 @@ class Space extends React.Component {
     this.raycaster.setFromCamera(this.mouse, this.camera)
     // calculate objects intersecting the picking ray
     let intersects = this.raycaster.intersectObjects(this.planetGroup.children)
-    // console.log('intersects:', intersects)
+
     window.count = 0
     if (intersects.length > 0) {
       if (window.count < 10) {
-        // console.log('ur hovering over', intersects[0].object.name)
         window.count++
       }
-      // Where we want to go
+      
       const target = intersects[0].object.position
       window.THREE = THREE
       let viewTarget = target.clone()
@@ -367,19 +363,14 @@ class Space extends React.Component {
 
       tween.onUpdate(() => {
         this.camera.lookAt(target)
-        this.controls.enabled = false
-        
       })
 
       tween.onComplete(() => {
         this.tweenInProgress = false
         this.camera.lookAt(target)
         this.setState({clicked: false})
-        this.controls.enabled = true
         this.controls.target = target
         tween.stop()
-        console.log('tween has stopped!')
-        console.log('this state clicked', this.state.clicked)
       })
 
       
@@ -388,9 +379,7 @@ class Space extends React.Component {
           this.camera.lookAt(target)
           tween.start()
           this.tweenInProgress = true
-          console.log('Tween is starting!')
         }
-        
       }
       // <-- to here
 
@@ -399,7 +388,6 @@ class Space extends React.Component {
 
       if (allPlanets.some(planet => planet.name === planetName)) {
         const planet = allPlanets.find(planet => planet.name === planetName)
-        // console.log('planet id', planet.id)
         this.props.loadSinglePlanet(planet.id)
         this.setState({
           planet,
@@ -407,7 +395,6 @@ class Space extends React.Component {
         })
       }
       this.setState({planetHoverName: planetName})
-      // console.log('ur hovering over', planetName)
     } else {
       this.setState({
         singlePlanetDisplayValue: 'none'
