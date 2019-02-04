@@ -45,21 +45,22 @@ const material = new THREE.MeshBasicMaterial()
 // })
 material.map = new THREE.TextureLoader().load('/images/Piggy-Pink.jpg')
 
-// === creates 60 floating diamonds ===
-for (let i = 0; i < 60; i++) {
+// === creates 30 floating diamonds ===
+for (let i = 0; i < 30; i++) {
   const mesh = new THREE.Mesh(geom, material)
   mesh.position.x = Math.random() * (starCubeW - 1) + 1
   mesh.position.z = Math.random() * (starCubeD - 1) - 1
-  // if first half of stars, populate them in top half of sphere
-  if (i < 30) {
+  // if first half of diamonds, populate them in top half of sphere
+  if (i < 15) {
     mesh.position.y = Math.random() * (starCubeH - 1) + 1
-    // if second half of stars, populate them in bottom half of sphere
+    // if second half of diamonds, populate them in bottom half of sphere
   } else {
     mesh.position.y = Math.random() * (starCubeNegH - 1) + 1
   }
   //set size of diamonds
   mesh.scale.x = mesh.scale.y = mesh.scale.z = 4
+  mesh.name = 'wishDiamond'
   diamonds.push(mesh)
 }
 
-export {diamonds, starCubeH, starCubeW}
+export {diamonds}
