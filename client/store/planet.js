@@ -15,8 +15,7 @@ const CLEAR_STATE = 'CLEAR_STATE'
 const planetState = {
   allPlanets: [],
   visitedPlanets: [],
-  allPlanetsHaveBeenVisited: true
-  // WARNING: remember to change back to false later!!!!
+  allPlanetsHaveBeenVisited: false
 }
 
 /**
