@@ -47,7 +47,8 @@ class Space extends React.Component {
       planetHoverName: '???',
       cursorValue: 'auto',
       singlePlanetDisplayValue: false,
-      wishDisplayValue: false
+      wishDisplayValue: false,
+      clicked: false
     }
 
     this.start = this.start.bind(this)
@@ -159,7 +160,15 @@ class Space extends React.Component {
     } else {
       this.setState({
         wishDisplayValue: false
-      })
+      })}
+    let planets = this.raycaster.intersectObjects(this.planetGroup.children)
+
+    if (planets.length > 0) {
+      //cursor turns into pointer if hovering over planet/wish
+      this.setState({cursorValue: 'pointer', clicked: true})
+    } else {
+      //cursor turns back to normal if NOT hovering over planet/wish
+      this.setState({cursorValue: 'auto'})
     }
   }
 
@@ -323,10 +332,9 @@ class Space extends React.Component {
     window.count = 0
     if (intersects.length > 0) {
       if (window.count < 10) {
-        // console.log('ur hovering over', intersects[0].object.name)
         window.count++
       }
-      // Where we want to go
+
       const target = intersects[0].object.position
       window.THREE = THREE
       let viewTarget = target.clone()
@@ -344,20 +352,23 @@ class Space extends React.Component {
 
       tween.onUpdate(() => {
         this.camera.lookAt(target)
-        this.controls.enabled = false
       })
 
       tween.onComplete(() => {
         this.tweenInProgress = false
         this.camera.lookAt(target)
+        this.setState({clicked: false})
         this.controls.target = target
-        this.controls.enabled = true
+        tween.stop()
       })
 
+
       if (!this.tweenInProgress) {
-        this.camera.lookAt(target)
-        tween.start()
-        this.tweenInProgress = true
+        if (this.state.clicked === true) {
+          this.camera.lookAt(target)
+          tween.start()
+          this.tweenInProgress = true
+        }
       }
       // <-- to here
 
