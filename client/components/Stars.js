@@ -4,14 +4,19 @@ import * as THREE from '../../three'
 let starCubeW = 400
 let starCubeH = 400
 let starCubeD = 400
-let starCubeNegH= -400
+let starCubeNegH = -400
 let stars = []
 
 //create geometry for stars
-const geom = new THREE.IcosahedronGeometry(.5)
+const geom = new THREE.IcosahedronGeometry(0.5)
 // wrap each star in pastel dream pic for texture
 const material = new THREE.MeshBasicMaterial()
 material.map = new THREE.TextureLoader().load('/images/star.png')
+
+// const material = new THREE.MeshPhongMaterial({
+//   color: 0xffe5f5,
+//   shading: THREE.FlatShading
+// })
 
 // === creates 2000 floating stars ===
 for (let i = 0; i < 2000; i++) {
@@ -25,7 +30,7 @@ for (let i = 0; i < 2000; i++) {
   } else {
     mesh.position.y = Math.random() * (starCubeNegH - 1) + 1
   }
-  stars.push( mesh );
+  stars.push(mesh)
 }
 
 export {stars, starCubeH, starCubeW}

@@ -4,6 +4,9 @@ import {Link} from 'react-router-dom'
 import {Animated} from 'react-animated-css'
 import * as THREE from '../../three'
 import TWEEN from '@tweenjs/tween.js'
+const OrbitControls = require('../../OrbitControls')(THREE)
+
+// === 3D MODELS ===
 import {
   starBackground,
   earth,
@@ -19,19 +22,20 @@ import {
   tauCetiE,
   tauCetiF
 } from './planets'
-import {getAllPlanets, getSinglePlanet, areAllPlanetsVisited} from '../store'
+import {getAllPlanets, getSinglePlanet, areAllPlanetsVisited, getWishes} from '../store'
 import {stars, starCubeH, starCubeW} from './Stars'
-
+import {diamonds} from './Diamonds'
+// === REACT COMPONENTS ===
 import SinglePlanet from './SinglePlanet'
 import MissionControl from './MissionControl'
-const OrbitControls = require('../../OrbitControls')(THREE)
+import WishData from './WishData'
 
 // === !!! IMPORTANT !!! ===
 // EVERY TIME YOU ADD A PLANET / ANYTHING TO THIS FILE, DON'T FORGET:
 // - add everything to the scene
 // - bind objects imported from /planets
 // - sets positions of planets
-// You can literally CMD+F the above 3 comments to jump directly to where you need to do these.
+// You can literally CMD+F the word "IMPORTANT" to jump directly to where you need to do these.
 
 class Space extends React.Component {
   constructor(props) {
@@ -39,6 +43,7 @@ class Space extends React.Component {
 
     this.state = {
       planet: {},
+      wish: {},
       planetHoverName: '???',
       cursorValue: 'auto',
       singlePlanetDisplayValue: false
@@ -47,17 +52,21 @@ class Space extends React.Component {
     this.start = this.start.bind(this)
     this.stop = this.stop.bind(this)
     this.animate = this.animate.bind(this)
+    this.getRandomWish = this.getRandomWish.bind(this)
     this.onWindowResize = this.onWindowResize.bind(this)
     this.createUniverse = this.createUniverse.bind(this)
     this.onMouseMove = this.onMouseMove.bind(this)
     this.onDocumentMouseDown = this.onDocumentMouseDown.bind(this)
     this.tweenInProgress = false
     this.controls = false
+    this.throttle = this.throttle.bind(this)
   }
 
   componentDidMount() {
-    // === making AJAX call fetching all planet data ===
+    // === making AJAX call fetching all planet + wish data ===
     this.props.loadAllPlanets()
+    this.props.getWishes()
+
     // === window width & height  ===
     const width = window.innerWidth
     const height = window.innerHeight
@@ -116,12 +125,11 @@ class Space extends React.Component {
   onMouseMove() {
     this.mouse.x = event.clientX / window.innerWidth * 2 - 1
     this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
-  }
 
-  onDocumentMouseDown() {
-    event.preventDefault()
-    this.mouse.x = event.clientX / window.innerWidth * 2 - 1
-    this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
+    // calculate planets AND wish diamonds intersecting the picking ray
+    let planets = this.raycaster.intersectObjects(this.planetGroup.children)
+    let wishes = this.raycaster.intersectObjects(this.wishGroup.children)
+    let intersect = planets.concat(wishes)
 
     // calculate objects intersecting the picking ray
     let intersects = this.raycaster.intersectObjects(this.planetGroup.children)
@@ -132,6 +140,9 @@ class Space extends React.Component {
         cursorValue: 'pointer',
         singlePlanetDisplayValue: true
       })
+      if (intersect[0].object.name === 'wishDiamond') {
+        this.setState({wish: this.getRandomWish(this.props.wishes)})
+      }
     } else {
       //cursor turns back to normal if NOT hovering over planet
       this.setState({
@@ -141,11 +152,49 @@ class Space extends React.Component {
     }
   }
 
+  onDocumentMouseDown() {
+    event.preventDefault()
+    this.mouse.x = event.clientX / window.innerWidth * 2 - 1
+    this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
+  }
+
   // === resizes scene if browser window size changes ===
   onWindowResize() {
     this.camera.aspect = window.innerWidth / window.innerHeight
     this.camera.updateProjectionMatrix()
     this.renderer.setSize(window.innerWidth, window.innerHeight)
+  }
+
+  // need throttle function to limit rate of calculations - esp for getRandomWish
+  throttle(callback, wait, immediate = false) {
+    let timeout = null
+    let initialCall = true
+
+    return function() {
+      const callNow = immediate && initialCall
+      const next = () => {
+        callback.apply(this, arguments)
+        timeout = null
+      }
+
+      if (callNow) {
+        initialCall = false
+        next()
+      }
+
+      if (!timeout) {
+        timeout = setTimeout(next, wait)
+      }
+    }
+  }
+
+  // attempted throttle :(
+  // getRandomWish = this.throttle(wishes => {
+  //   return wishes[Math.floor(Math.random() * wishes.length)]
+  // }, 1000)
+
+  getRandomWish(wishes) {
+    return wishes[Math.floor(Math.random() * wishes.length)]
   }
 
   createUniverse() {
@@ -179,6 +228,16 @@ class Space extends React.Component {
       this.scene.add(stars[i])
     }
 
+    const wishGroup = new THREE.Group()
+    // add wish diamonds to scene
+    for (let i = 0; i < diamonds.length; i++) {
+      wishGroup.add(diamonds[i])
+      // console.log(diamonds[i])
+      // this.scene.add(diamonds[i])
+    }
+    this.scene.add(wishGroup)
+    this.wishGroup = wishGroup
+
     // === !!! IMPORTANT !!! ===
     // === bind objects imported from /planets ===
     this.starBackground = starBackground
@@ -190,12 +249,13 @@ class Space extends React.Component {
     this.yzCetiC = yzCetiC
     this.yzCetiD = yzCetiD
     this.kapteynC = kapteynC
-    this.stars = stars
     this.tauCetiG = tauCetiG
     this.tauCetiE = tauCetiE
     this.tauCetiH = tauCetiH
     this.tauCetiF = tauCetiF
 
+    this.stars = stars
+    this.diamonds = diamonds
     this.starCubeH = starCubeH
     this.starCubeW = starCubeW
   }
@@ -245,6 +305,18 @@ class Space extends React.Component {
       star.position.x = starCubeW * Math.cos(timer + i)
       star.position.z = starCubeH * Math.sin(timer + i * 1.1)
     }
+
+    // === set random movement of diamonds ===
+    for (let i = 0; i < this.diamonds.length; i++) {
+      const diamond = diamonds[i]
+      diamond.position.x = (starCubeW - 100) * Math.cos(timer + i)
+      diamond.position.z = (starCubeH - 100) * Math.sin(timer + i * 1.1)
+      // set rotation of diamonds
+      diamond.rotation.y += Math.random() / 50
+      diamond.rotation.x -= Math.random() / 50
+      diamond.rotation.z -= Math.random() / 50
+    }
+
     this.renderScene()
     this.frameId = window.requestAnimationFrame(this.animate)
     TWEEN.update()
@@ -260,7 +332,7 @@ class Space extends React.Component {
     window.count = 0
     if (intersects.length > 0) {
       if (window.count < 10) {
-        console.log('ur hovering over', intersects[0].object.name)
+        // console.log('ur hovering over', intersects[0].object.name)
         window.count++
       }
       // Where we want to go
@@ -297,6 +369,7 @@ class Space extends React.Component {
         this.tweenInProgress = true
       }
       // <-- to here
+
       const planetName = intersects[0].object.name
       const {allPlanets} = this.props
       if (allPlanets.some(planet => planet.name === planetName)) {
@@ -334,10 +407,10 @@ class Space extends React.Component {
           visitedPlanets={this.props.visitedPlanets.length}
           allPlanets={this.props.allPlanets.length}
         />
+        <WishData wish={this.state.wish} />
         {singlePlanetDisplayValue &&
           <SinglePlanet
             planet={this.state.planet}
-            style={{display: singlePlanetDisplayValue}}
           />
         }
         <div
@@ -354,13 +427,15 @@ class Space extends React.Component {
 const mapStateToProps = state => ({
   allPlanets: state.planet.allPlanets,
   visitedPlanets: state.planet.visitedPlanets,
-  allPlanetsHaveBeenVisited: state.planet.allPlanetsHaveBeenVisited
+  allPlanetsHaveBeenVisited: state.planet.allPlanetsHaveBeenVisited,
+  wishes: state.wish
 })
 
 const mapDispatchToProps = dispatch => ({
   loadAllPlanets: () => dispatch(getAllPlanets()),
   loadSinglePlanet: (planetId) => dispatch(getSinglePlanet(planetId)),
-  checkIfDone: () => dispatch(areAllPlanetsVisited())
+  checkIfDone: () => dispatch(areAllPlanetsVisited()),
+  getWishes: () => dispatch(getWishes())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Space)

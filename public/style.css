@@ -210,6 +210,11 @@ button:hover {
   font-family: 'Major Mono Display', 'Arial', sans-serif;
   font-size: 0.9rem;
 }
+
+/* ========================================= */
+/* ============= SINGLE PLANET ============= */
+/* ========================================= */
+
 #singlePlanet {
   position: absolute;
   bottom: 0;
@@ -217,4 +222,60 @@ button:hover {
   right: 0;
   background-color: rgba(0, 0, 0, 0.25);
   font-size: 0.9rem;
+}
+
+/* #singlePlanet p {
+  font-family: 'Major Mono Display', 'Arial', sans-serif;
+} */
+
+/* ========================================= */
+/* ================= WISH ================== */
+/* ========================================= */
+
+#wish {
+  color: white;
+  background: none;
+  top: 1rem;
+  right: 1rem;
+  /* padding: 3rem 0 0 1rem; */
+  position: absolute;
+}
+#wish p {
+  line-height: 1.4rem;
+  font-family: 'Major Mono Display', 'Arial', sans-serif;
+  font-size: 0.9rem;
+}
+
+/* ========================================= */
+/* ============ WISH SUBMITTED ============= */
+/* ========================================= */
+
+#wishSubmitted {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#wishSubmittedMessage {
+  position: absolute;
+  bottom: 100;
+  text-align: center;
+}
+
+#wishSubmitted button {
+  position: absolute;
+  background: #4776e6; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #8e54e9,
+    #4776e6
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #8e54e9,
+    #4776e6
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
