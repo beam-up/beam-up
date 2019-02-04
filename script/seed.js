@@ -23,7 +23,8 @@ const planetData = [
     name: 'Epsilon Eridani b',
     description:
       'is a gas giant exoplanet that orbits an unknown-type star approximately 10 light-years away. Its mass is 1.55 Jupiters, it takes 6.9 years to complete one orbit of its star, and is 3.39 AU from its star. Its discovery was announced in 2000.',
-    habitability: '',
+    habitability:
+      'Its orbit is outside of the estimated habitable zone of Epsilon Eridani.',
     mass: '1.55 Jupiters',
     planetRadius: 'Unknown',
     orbitalRadius: '3.39 AU',
@@ -35,7 +36,8 @@ const planetData = [
     name: 'Ross 128 b',
     description:
       'is a confirmed Earth-sized exoplanet, likely rocky, orbiting within the inner habitable zone of the red dwarf Ross 128, at a distance of about 11 light-years from Earth. It is the nearest exoplanet around a quiet red dwarf, and is considered one of the best candidates for habitability. The planet is only 35% more massive than Earth, receives only 38% more sunlight, and is expected to be a temperature suitable for liquid water to exist on the surface, if it has an atmosphere. Its mass is at least 1.4 Earths, it takes 9.9 days to complete one orbit of its star, and is 0.0496 AU from its star. Its discovery was announced in 2017.',
-    habitability: '',
+    habitability:
+      "It resides at the inner edge of the habitable zone of Ross 128 b. Though less common and less powerful, its host star Ross 128, as many other red dwarfs, are prone to releasing potentially deadly flares. Also, it's not yet to determine that if Ross 128 b has an atmosphere to protect itself from the radiation.",
     mass: 'at least 1.4 Earths',
     planetRadius: 'Unknown',
     orbitalRadius: '0.0496 AU',

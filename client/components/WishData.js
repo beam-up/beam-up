@@ -3,9 +3,15 @@ import React, {Component} from 'react'
 const WishData = props => {
   const {wish} = props
 
-  // console.log('WISH', wish)
+  const isNotEmpty = (obj) => {
+    for (let key in obj) {
+      if(obj.hasOwnProperty(key))
+        return true
+    }
+    return false
+  }
 
-  return wish ? (
+  return isNotEmpty(wish) ? (
     <div id="wish">
       <p>
         "{wish.message}" -{wish.name}

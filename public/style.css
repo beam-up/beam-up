@@ -105,6 +105,14 @@ button:hover {
   font-size: 1.2rem;
 }
 
+#earthLink {
+  color: white;
+  background: none;
+  padding: 1rem 0 0 1rem;
+  position: absolute;
+  font-size: 1.2rem;
+}
+
 /* ========================================= */
 /* =============== HOME PAGE =============== */
 /* ========================================= */
@@ -229,7 +237,6 @@ button:hover {
   background: none;
   top: 1rem;
   right: 1rem;
-  /* padding: 3rem 0 0 1rem; */
   position: absolute;
 }
 #wish p {

@@ -14,5 +14,4 @@ export {default as ReturnHome} from './ReturnHome'
 export {default as WishForm} from './WishForm'
 export {default as Earth} from './Earth'
 export {default as WishData} from './WishData'
-
 export {default as SingleDiamond} from './SingleDiamond'
