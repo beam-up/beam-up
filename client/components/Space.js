@@ -64,7 +64,7 @@ class Space extends React.Component {
     this.onDocumentMouseDown = this.onDocumentMouseDown.bind(this)
     this.tweenInProgress = false
     this.controls = false
-    // this.throttle = this.throttle.bind(this)
+    this.throttle = this.throttle.bind(this)
   }
 
   componentDidMount() {
@@ -141,15 +141,12 @@ class Space extends React.Component {
       this.setState({cursorValue: 'pointer'})
       //if hovering over a wish
       if (intersect[0].object.name === 'wishDiamond') {
-        // console.log('ur hovering over a wish')
         this.setState({wish: this.getRandomWish(this.props.wishes)})
-        console.log('wish on state', this.state.wish)
       }
     } else {
       //cursor turns back to normal if NOT hovering over planet/wish
       this.setState({cursorValue: 'auto'})
     }
-
   }
 
   onDocumentMouseDown() {
@@ -164,6 +161,34 @@ class Space extends React.Component {
     this.camera.updateProjectionMatrix()
     this.renderer.setSize(window.innerWidth, window.innerHeight)
   }
+
+  // need throttle function to limit rate of calculations - esp for getRandomWish
+  throttle(callback, wait, immediate = false) {
+    let timeout = null
+    let initialCall = true
+
+    return function() {
+      const callNow = immediate && initialCall
+      const next = () => {
+        callback.apply(this, arguments)
+        timeout = null
+      }
+
+      if (callNow) {
+        initialCall = false
+        next()
+      }
+
+      if (!timeout) {
+        timeout = setTimeout(next, wait)
+      }
+    }
+  }
+
+  // attempted throttle :(
+  // getRandomWish = this.throttle(wishes => {
+  //   return wishes[Math.floor(Math.random() * wishes.length)]
+  // }, 1000)
 
   getRandomWish(wishes) {
     return wishes[Math.floor(Math.random() * wishes.length)]
@@ -246,7 +271,6 @@ class Space extends React.Component {
   stop() {
     cancelAnimationFrame(this.frameId)
   }
-
 
   animate() {
     // === !!! IMPORTANT !!! ===
