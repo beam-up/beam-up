@@ -18,7 +18,7 @@ import {
   tauCetiE,
   tauCetiF
 } from './planets'
-import {getAllPlanets, getSinglePlanet} from '../store'
+import {getAllPlanets, getSinglePlanet, areAllPlanetsVisited} from '../store'
 import {stars, starCubeH, starCubeW} from './Stars'
 import SinglePlanet from './SinglePlanet'
 import MissionControl from './MissionControl'
@@ -36,12 +36,10 @@ class Space extends React.Component {
     super(props)
 
     this.state = {
-      planetClicked: false,
-      planetId: 0,
       planet: {},
       planetHoverName: '???',
       cursorValue: 'auto',
-      singlePlanetDisplayValue: 'none'
+      singlePlanetDisplayValue: false
     }
 
     this.start = this.start.bind(this)
@@ -126,10 +124,16 @@ class Space extends React.Component {
 
     if (intersects.length > 0) {
       //cursor turns into pointer if hovering over planet
-      this.setState({cursorValue: 'pointer'})
+      this.setState({
+        cursorValue: 'pointer',
+        singlePlanetDisplayValue: true
+      })
     } else {
       //cursor turns back to normal if NOT hovering over planet
-      this.setState({cursorValue: 'auto'})
+      this.setState({
+        cursorValue: 'auto',
+        singlePlanetDisplayValue: false
+      })
     }
   }
 
@@ -253,46 +257,47 @@ class Space extends React.Component {
     if (intersects.length > 0) {
       const planetName = intersects[0].object.name
       const {allPlanets} = this.props
-      // console.log(allPlanets.some(planet => planet.name === planetName))
       if (allPlanets.some(planet => planet.name === planetName)) {
         const planet = allPlanets.find(planet => planet.name === planetName)
-        console.log('planet id', planet.id)
         this.props.loadSinglePlanet(planet.id)
+        this.props.checkIfDone()
         this.setState({
-          planet,
-          singlePlanetDisplayValue: 'block'
+          planet
          })
       }
       this.setState({planetHoverName: planetName})
-      // console.log('ur hovering over', planetName)
-    } else {
-      this.setState({
-        singlePlanetDisplayValue: 'none'
-      })
     }
-
     // render scene
     this.renderer.render(this.scene, this.camera)
   }
 
   render() {
-    const {planetClicked, planetId, cursorValue, singlePlanetDisplayValue} = this.state
-
-
+    const {cursorValue, singlePlanetDisplayValue} = this.state
+    const {allPlanetsHaveBeenVisited} = this.props
     return (
       <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
         <Link to="/home">
           <h1 id="titleLink">BEAM UP</h1>
         </Link>
+        {
+          allPlanetsHaveBeenVisited &&
+        <Link to="/earth">
+          <div style={{textAlign: 'right'}}>
+            <h4> id="earthLink">back to earth</h4>
+          </div>
+        </Link>
+        }
         <MissionControl
           planetName={this.state.planetHoverName}
           visitedPlanets={this.props.visitedPlanets.length}
           allPlanets={this.props.allPlanets.length}
         />
-        <SinglePlanet
-          planet={this.state.planet}
-          style={{display: singlePlanetDisplayValue}}
-        />
+        {singlePlanetDisplayValue &&
+          <SinglePlanet
+            planet={this.state.planet}
+            style={{display: singlePlanetDisplayValue}}
+          />
+        }
         <div
           style={{cursor: cursorValue}}
           ref={mount => {
@@ -306,12 +311,14 @@ class Space extends React.Component {
 
 const mapStateToProps = state => ({
   allPlanets: state.planet.allPlanets,
-  visitedPlanets: state.planet.visitedPlanets
+  visitedPlanets: state.planet.visitedPlanets,
+  allPlanetsHaveBeenVisited: state.planet.allPlanetsHaveBeenVisited
 })
 
 const mapDispatchToProps = dispatch => ({
   loadAllPlanets: () => dispatch(getAllPlanets()),
-  loadSinglePlanet: (planetId) => dispatch(getSinglePlanet(planetId))
+  loadSinglePlanet: (planetId) => dispatch(getSinglePlanet(planetId)),
+  checkIfDone: () => dispatch(areAllPlanetsVisited())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Space)

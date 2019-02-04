@@ -14,7 +14,7 @@ const ALL_PLANET_HAVE_BEEN_VISITED = 'ALL_PLANET_HAVE_BEEN_VISITED'
 const planetState = {
   allPlanets: [],
   visitedPlanets: [],
-  allSeen: false
+  allPlanetsHaveBeenVisited: false
 }
 
 /**
