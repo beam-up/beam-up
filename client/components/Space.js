@@ -46,7 +46,8 @@ class Space extends React.Component {
       wish: {},
       planetHoverName: '???',
       cursorValue: 'auto',
-      singlePlanetDisplayValue: false
+      singlePlanetDisplayValue: false,
+      wishDisplayValue: false
     }
 
     this.start = this.start.bind(this)
@@ -56,10 +57,10 @@ class Space extends React.Component {
     this.onWindowResize = this.onWindowResize.bind(this)
     this.createUniverse = this.createUniverse.bind(this)
     this.onMouseMove = this.onMouseMove.bind(this)
-    this.onDocumentMouseDown = this.onDocumentMouseDown.bind(this)
+    this.onMouseDown = this.onMouseDown.bind(this)
     this.tweenInProgress = false
     this.controls = false
-    this.throttle = this.throttle.bind(this)
+    this.once = this.once.bind(this)
   }
 
   componentDidMount() {
@@ -97,7 +98,7 @@ class Space extends React.Component {
 
     // === event listeners ===
     document.addEventListener('mousemove', this.onMouseMove, false)
-    // document.addEventListener('mousedown', this.onDocumentMouseDown, false)
+    document.addEventListener('mousedown', this.onMouseDown, false)
     window.addEventListener('resize', this.onWindowResize, false)
 
     // === renderer  settings ===
@@ -128,34 +129,47 @@ class Space extends React.Component {
 
     // calculate planets AND wish diamonds intersecting the picking ray
     let planets = this.raycaster.intersectObjects(this.planetGroup.children)
-    let wishes = this.raycaster.intersectObjects(this.wishGroup.children)
-    let intersect = planets.concat(wishes)
+    // let wishes = this.raycaster.intersectObjects(this.wishGroup.children)
+    // let intersect = planets.concat(wishes)
 
-    // calculate objects intersecting the picking ray
-    let intersects = this.raycaster.intersectObjects(this.planetGroup.children)
-
-    if (intersects.length > 0) {
+    if (planets.length > 0) {
       //cursor turns into pointer if hovering over planet
       this.setState({
         cursorValue: 'pointer',
         singlePlanetDisplayValue: true
       })
-      if (intersect[0].object.name === 'wishDiamond') {
-        this.setState({wish: this.getRandomWish(this.props.wishes)})
-      }
+      // if (intersect[0].object.name === 'wishDiamond') {
+      //   this.setState({
+      //     wish: this.once(getRandomWish)(this.props.wishes),
+      //     wishDisplayValue: true
+      //   })
+      // }
     } else {
       //cursor turns back to normal if NOT hovering over planet
       this.setState({
         cursorValue: 'auto',
-        singlePlanetDisplayValue: false
+        singlePlanetDisplayValue: false,
+        // wishDisplayValue: false
       })
     }
   }
 
-  onDocumentMouseDown() {
+  onMouseDown() {
     event.preventDefault()
     this.mouse.x = event.clientX / window.innerWidth * 2 - 1
     this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
+
+    let wishes = this.raycaster.intersectObjects(this.wishGroup.children)
+    if(wishes.length > 0) {
+      this.setState({
+        wish: this.getRandomWish(this.props.wishes),
+        wishDisplayValue: true
+      })
+    } else {
+      this.setState({
+        wishDisplayValue: false
+      })
+    }
   }
 
   // === resizes scene if browser window size changes ===
@@ -165,37 +179,25 @@ class Space extends React.Component {
     this.renderer.setSize(window.innerWidth, window.innerHeight)
   }
 
-  // need throttle function to limit rate of calculations - esp for getRandomWish
-  throttle(callback, wait, immediate = false) {
-    let timeout = null
-    let initialCall = true
 
-    return function() {
-      const callNow = immediate && initialCall
-      const next = () => {
-        callback.apply(this, arguments)
-        timeout = null
+  once (fn) {
+    let returnValue
+    let canRun = true
+    return (...args) => {
+      if (canRun) {
+        returnValue = fn(...args)
+        canRun = false
       }
-
-      if (callNow) {
-        initialCall = false
-        next()
-      }
-
-      if (!timeout) {
-        timeout = setTimeout(next, wait)
-      }
+      return returnValue
     }
   }
 
-  // attempted throttle :(
-  // getRandomWish = this.throttle(wishes => {
-  //   return wishes[Math.floor(Math.random() * wishes.length)]
-  // }, 1000)
+
 
   getRandomWish(wishes) {
     return wishes[Math.floor(Math.random() * wishes.length)]
   }
+
 
   createUniverse() {
     const planetGroup = new THREE.Object3D()
@@ -387,7 +389,7 @@ class Space extends React.Component {
   }
 
   render() {
-    const {cursorValue, singlePlanetDisplayValue} = this.state
+    const {cursorValue, singlePlanetDisplayValue, wishDisplayValue} = this.state
     const {allPlanetsHaveBeenVisited} = this.props
     return (
       <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
@@ -407,7 +409,9 @@ class Space extends React.Component {
           visitedPlanets={this.props.visitedPlanets.length}
           allPlanets={this.props.allPlanets.length}
         />
-        <WishData wish={this.state.wish} />
+        {wishDisplayValue &&
+          <WishData wish={this.state.wish} />
+        }
         {singlePlanetDisplayValue &&
           <SinglePlanet
             planet={this.state.planet}
