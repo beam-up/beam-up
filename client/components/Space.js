@@ -51,7 +51,8 @@ class Space extends React.Component {
       wish: {},
       planetHoverName: '???',
       cursorValue: 'auto',
-      singlePlanetDisplayValue: 'none'
+      singlePlanetDisplayValue: 'none',
+      clicked: false
     }
 
     this.start = this.start.bind(this)
@@ -102,7 +103,7 @@ class Space extends React.Component {
 
     // === event listeners ===
     document.addEventListener('mousemove', this.onMouseMove, false)
-    // document.addEventListener('mousedown', this.onDocumentMouseDown, false)
+    document.addEventListener('mousedown', this.onDocumentMouseDown, false)
     window.addEventListener('resize', this.onWindowResize, false)
 
     // === renderer  settings ===
@@ -149,10 +150,26 @@ class Space extends React.Component {
     }
   }
 
-  onDocumentMouseDown() {
+  onDocumentMouseDown(event) {
     event.preventDefault()
     this.mouse.x = event.clientX / window.innerWidth * 2 - 1
     this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
+
+    let planets = this.raycaster.intersectObjects(this.planetGroup.children)
+    let intersect = planets
+    // let wishes = this.raycaster.intersectObjects(this.wishGroup.children)
+    // let intersect = planets.concat(wishes)
+
+    if (intersect.length > 0) {
+      //cursor turns into pointer if hovering over planet/wish
+      this.setState({cursorValue: 'pointer', clicked: true})
+      // this.setState({ clicked: true })
+      console.log('planet clicked')
+      //if hovering over a wish
+    } else {
+      //cursor turns back to normal if NOT hovering over planet/wish
+      this.setState({cursorValue: 'auto'})
+    }
   }
 
   // === resizes scene if browser window size changes ===
@@ -325,7 +342,7 @@ class Space extends React.Component {
     this.raycaster.setFromCamera(this.mouse, this.camera)
     // calculate objects intersecting the picking ray
     let intersects = this.raycaster.intersectObjects(this.planetGroup.children)
-
+    // console.log('intersects:', intersects)
     window.count = 0
     if (intersects.length > 0) {
       if (window.count < 10) {
@@ -351,19 +368,29 @@ class Space extends React.Component {
       tween.onUpdate(() => {
         this.camera.lookAt(target)
         this.controls.enabled = false
+        
       })
 
       tween.onComplete(() => {
         this.tweenInProgress = false
         this.camera.lookAt(target)
-        this.controls.target = target
+        this.setState({clicked: false})
         this.controls.enabled = true
+        this.controls.target = target
+        tween.stop()
+        console.log('tween has stopped!')
+        console.log('this state clicked', this.state.clicked)
       })
 
+      
       if (!this.tweenInProgress) {
-        this.camera.lookAt(target)
-        tween.start()
-        this.tweenInProgress = true
+        if (this.state.clicked === true) {
+          this.camera.lookAt(target)
+          tween.start()
+          this.tweenInProgress = true
+          console.log('Tween is starting!')
+        }
+        
       }
       // <-- to here
 
