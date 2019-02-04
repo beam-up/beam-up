@@ -409,7 +409,7 @@ class Space extends React.Component {
           allPlanetsHaveBeenVisited &&
         <Link to="/earth">
           <div style={{textAlign: 'right'}}>
-            <h4> id="earthLink">back to earth</h4>
+            <h4>back to earth</h4>
           </div>
         </Link>
         }
