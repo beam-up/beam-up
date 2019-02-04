@@ -7,7 +7,7 @@ import axios from 'axios'
 const GOT_PLANETS_FROM_SERVER = 'GOT_PLANETS_FROM_SERVER'
 const GOT_SINGLE_PLANET_FROM_SERVER = 'GOT_SINGLE_PLANET_FROM_SERVER'
 const ALL_PLANET_HAVE_BEEN_VISITED = 'ALL_PLANET_HAVE_BEEN_VISITED'
-
+const CLEAR_STATE = 'CLEAR_STATE'
 /**
  * INITIAL STATE
  */
@@ -32,6 +32,10 @@ const gotSinglePlanetFromServer = planet => ({
 
 const allPlanetsHaveBeenVisited = () => ({
   type: ALL_PLANET_HAVE_BEEN_VISITED
+})
+
+const clearState = () => ({
+  type: CLEAR_STATE
 })
 
 /**
@@ -76,6 +80,13 @@ export default function planetReducer(state = planetState, action) {
     }
     case ALL_PLANET_HAVE_BEEN_VISITED: {
       return {...state, allPlanetsHaveBeenVisited: true}
+    }
+    case CLEAR_STATE: {
+      return {
+        allPlanets: [],
+        visitedPlanets: [],
+        allPlanetsHaveBeenVisited: false
+      }
     }
     default:
       return state

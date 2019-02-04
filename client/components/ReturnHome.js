@@ -1,6 +1,8 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import {Animated} from 'react-animated-css'
+import {connect} from 'react-redux'
+import {clearState} from '../store'
 
 const ReturnHome = () => {
   return (
@@ -18,4 +20,8 @@ const ReturnHome = () => {
   )
 }
 
-export default ReturnHome
+const mapDispatchToProps = dispatch => ({
+    clearState: () => dispatch(clearState())
+})
+
+export default connect(null, mapDispatchToProps)(ReturnHome)
