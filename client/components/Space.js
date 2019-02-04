@@ -105,7 +105,6 @@ class Space extends React.Component {
     // renderer displays your beautifully crafted scenes using WebGL
     renderer.setSize(width, height)
     renderer.setClearColor('#000000')
-    // renderer.domElement.addEventListener('click', raycast, false)
 
     // === adds background & planets to the scene ===
     this.createUniverse()
@@ -129,8 +128,6 @@ class Space extends React.Component {
 
     // calculate planets AND wish diamonds intersecting the picking ray
     let planets = this.raycaster.intersectObjects(this.planetGroup.children)
-    // let wishes = this.raycaster.intersectObjects(this.wishGroup.children)
-    // let intersect = planets.concat(wishes)
 
     if (planets.length > 0) {
       //cursor turns into pointer if hovering over planet
@@ -138,18 +135,12 @@ class Space extends React.Component {
         cursorValue: 'pointer',
         singlePlanetDisplayValue: true
       })
-      // if (intersect[0].object.name === 'wishDiamond') {
-      //   this.setState({
-      //     wish: this.once(getRandomWish)(this.props.wishes),
-      //     wishDisplayValue: true
-      //   })
-      // }
     } else {
       //cursor turns back to normal if NOT hovering over planet
       this.setState({
         cursorValue: 'auto',
         singlePlanetDisplayValue: false,
-        // wishDisplayValue: false
+
       })
     }
   }
@@ -234,8 +225,6 @@ class Space extends React.Component {
     // add wish diamonds to scene
     for (let i = 0; i < diamonds.length; i++) {
       wishGroup.add(diamonds[i])
-      // console.log(diamonds[i])
-      // this.scene.add(diamonds[i])
     }
     this.scene.add(wishGroup)
     this.wishGroup = wishGroup
