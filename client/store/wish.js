@@ -45,10 +45,10 @@ export const getWishes = () => async dispatch => {
 export default function wishReducer(state = wishState, action) {
   switch (action.type) {
     case GOT_NEW_WISH: {
-      return [action.newWish]
+      return [...state, action.newWish]
     }
     case GOT_WISHES_FROM_SERVER: {
-      return [action.wishes]
+      return action.wishes // this is an array
     }
     default:
       return state
