@@ -22,7 +22,6 @@ import {
   tauCetiE,
   tauCetiF
 } from './planets'
-import {getAllPlanets} from '../store'
 import {stars, starCubeH, starCubeW} from './Stars'
 import {diamonds} from './Diamonds'
 
@@ -31,7 +30,6 @@ import {getAllPlanets, getSinglePlanet, getWishes} from '../store'
 
 // === REACT COMPONENTS ===
 import SinglePlanet from './SinglePlanet'
-const OrbitControls = require('../../OrbitControls')(THREE)
 import MissionControl from './MissionControl'
 import WishData from './WishData'
 
@@ -64,7 +62,6 @@ class Space extends React.Component {
     this.createUniverse = this.createUniverse.bind(this)
     this.onMouseMove = this.onMouseMove.bind(this)
     this.onDocumentMouseDown = this.onDocumentMouseDown.bind(this)
-    this.setFirst = true
     this.tweenInProgress = false
     this.controls = false
     this.throttle = this.throttle.bind(this)
@@ -81,7 +78,7 @@ class Space extends React.Component {
 
     // === threeJS requirements ===
     const scene = new THREE.Scene()
-    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100000)
+    const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 100000)
     const renderer = new THREE.WebGLRenderer({antialias: true})
 
     this.scene = scene
@@ -105,15 +102,8 @@ class Space extends React.Component {
 
     // === event listeners ===
     document.addEventListener('mousemove', this.onMouseMove, false)
-    document.addEventListener('mousedown', this.onDocumentMouseDown, false)
+    // document.addEventListener('mousedown', this.onDocumentMouseDown, false)
     window.addEventListener('resize', this.onWindowResize, false)
-
-    // === camera settings ===
-    // if (this.setFirst) {
-    //   camera.position.z = 10
-    //   this.setFirst = false;
-    // }
-    //camera.position.z = 10
 
     // === renderer  settings ===
     // renderer displays your beautifully crafted scenes using WebGL
@@ -133,6 +123,7 @@ class Space extends React.Component {
 
   componentWillUnmount() {
     this.stop()
+    // i'm getting a weird error: "Can't perform a React state update on an unmounted component." and i think it has to do with the below
     this.mount.removeChild(this.renderer.domElement)
   }
 
@@ -348,22 +339,25 @@ class Space extends React.Component {
       window.target = viewTarget
       window.camera = this.camera
 
-      viewTarget.z = viewTarget.z - 10
+      if (intersects[0].object.geometry.parameters.radius > 3) {
+        viewTarget.z = viewTarget.z - 20
+      } else {
+        viewTarget.z = viewTarget.z - 5
+      }
 
-      console.log('camera', this.camera)
-      //where we're going from
       const position = this.camera.position
-      // console.log('from', position)
-      const tween = new TWEEN.Tween(position).to(viewTarget, 1000)
+      const tween = new TWEEN.Tween(position).to(viewTarget, 2000)
 
       tween.onUpdate(() => {
         this.camera.lookAt(target)
-        this.controls.update()
+        this.controls.enabled = false
       })
+
       tween.onComplete(() => {
-        // this.camera.target.position.copy(target)
         this.tweenInProgress = false
         this.camera.lookAt(target)
+        this.controls.target = target
+        this.controls.enabled = true
       })
 
       if (!this.tweenInProgress) {
@@ -371,10 +365,11 @@ class Space extends React.Component {
         tween.start()
         this.tweenInProgress = true
       }
+      // <-- to here
 
       const planetName = intersects[0].object.name
       const {allPlanets} = this.props
-      // console.log(allPlanets.some(planet => planet.name === planetName))
+
       if (allPlanets.some(planet => planet.name === planetName)) {
         const planet = allPlanets.find(planet => planet.name === planetName)
         // console.log('planet id', planet.id)
@@ -384,7 +379,12 @@ class Space extends React.Component {
           singlePlanetDisplayValue: 'block'
         })
       }
-      console.log('ur hovering over', planetName)
+      this.setState({planetHoverName: planetName})
+      // console.log('ur hovering over', planetName)
+    } else {
+      this.setState({
+        singlePlanetDisplayValue: 'none'
+      })
     }
 
     // render scene
@@ -392,11 +392,13 @@ class Space extends React.Component {
   }
 
   render() {
-    const {planetClicked, planetId} = this.state
+    const {
+      planetClicked,
+      planetId,
+      cursorValue,
+      singlePlanetDisplayValue
+    } = this.state
 
-    if (planetClicked) {
-      return <SinglePlanet planetId={planetId} />
-    }
     return (
       <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
         <Link to="/home">
@@ -415,6 +417,7 @@ class Space extends React.Component {
           style={{display: singlePlanetDisplayValue}}
         />
         <div
+          style={{cursor: cursorValue}}
           ref={mount => {
             this.mount = mount
           }}
