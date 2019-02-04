@@ -1,7 +1,14 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
-import {Home, Space, SinglePlanet, ReturnHome, WishForm} from './components'
+import {
+  Home,
+  Space,
+  SinglePlanet,
+  ReturnHome,
+  WishForm,
+  SingleDiamond
+} from './components'
 import {me} from './store'
 
 class Routes extends Component {
@@ -19,6 +26,7 @@ class Routes extends Component {
         <Route exact path="/planets" component={Space} />
         <Route path="/returnhome" component={ReturnHome} />
         <Route path="/wish" component={WishForm} />
+        <Route path="/diamond" component={SingleDiamond} />
         <Route path="/" component={Home} />
       </Switch>
     )

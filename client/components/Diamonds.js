@@ -28,21 +28,7 @@ const ptMatrix = new THREE.Matrix4().makeTranslation(
 )
 geom.merge(ptGeometry, ptMatrix)
 
-// wrap each star in pastel dream pic for texture
 const material = new THREE.MeshBasicMaterial()
-// material.map = new THREE.TextureLoader().load('/images/star.png')
-
-// const material = new THREE.MeshPhongMaterial({
-//   color: '#ffe5f5',
-//   flatShading: THREE.FlatShading
-// })
-
-// const material = new THREE.MeshBasicMaterial({
-//   color: '#ff7fb6',
-//   transparent: true,
-//   opacity: 0.95,
-//   flatShading: THREE.FlatShading
-// })
 material.map = new THREE.TextureLoader().load('/images/Piggy-Pink.jpg')
 
 // === creates 30 floating diamonds ===
