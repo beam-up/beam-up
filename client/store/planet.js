@@ -59,13 +59,6 @@ export const getSinglePlanet = planetId => async (dispatch, getState) => {
   }
 }
 
-// export const areAllPlanetsVisited = () => (dispatch, getState) => {
-//   const {visitedPlanets, allPlanets} = getState().planet
-//   if (visitedPlanets.length === allPlanets.length) {
-//     dispatch(allPlanetsHaveBeenVisited())
-//   }
-// }
-
 /**
  * REDUCER
  */
