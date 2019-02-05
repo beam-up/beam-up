@@ -17,7 +17,7 @@ const planetState = {
   allPlanets: [],
   visitedPlanets: [],
   allPlanetsHaveBeenVisited: false,
-  showLinkingComponent: false
+  linkingStatus: false
 }
 
 /**
@@ -37,13 +37,17 @@ const allPlanetsHaveBeenVisited = () => ({
   type: ALL_PLANET_HAVE_BEEN_VISITED
 })
 
-const showLinkingComponent = () => ({
+export const showLinkingComponent = () => ({
   type: SHOW_LINKING_COMPONENT
 })
 
 export const clearState = () => ({
   type: CLEAR_STATE
 })
+
+// export const toggleLinking = () => dispatch => {
+//   dispatch(showLinkingComponent())
+// }
 
 /**
  * THUNK CREATORS
@@ -63,10 +67,6 @@ export const getSinglePlanet = planetId => async (dispatch, getState) => {
   if (visitedPlanets.length === allPlanets.length) {
     dispatch(allPlanetsHaveBeenVisited())
   }
-}
-
-export const toggleLinking = () => dispatch => {
-  dispatch(showLinkingComponent())
 }
 
 // export const areAllPlanetsVisited = () => (dispatch, getState) => {
@@ -98,17 +98,18 @@ export default function planetReducer(state = planetState, action) {
     case ALL_PLANET_HAVE_BEEN_VISITED: {
       return {...state, allPlanetsHaveBeenVisited: true}
     }
+    case SHOW_LINKING_COMPONENT: {
+      return {...state, linkingStatus: true}
+    }
     case CLEAR_STATE: {
       return {
         allPlanets: [],
         visitedPlanets: [],
         allPlanetsHaveBeenVisited: false,
-        showLinkingComponent: false
+        linkingStatus: false
       }
     }
-    case SHOW_LINKING_COMPONENT: {
-      return {...state, showLinkingComponent: true}
-    }
+
     default:
       return state
   }
