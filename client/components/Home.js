@@ -31,7 +31,7 @@ const Home = () => {
         </Animated>
 
         <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
-          <div className="homeText" style={{'text-transform': 'lowercase'}}>
+          <div className="homeText" style={{textTransform: 'lowercase'}}>
             <p>An ethereal 3D journey beyond our solar system.</p>
             <br />
             <p>

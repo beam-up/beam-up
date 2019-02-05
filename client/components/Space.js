@@ -22,11 +22,7 @@ import {
   tauCetiE,
   tauCetiF
 } from './planets'
-import {
-  getAllPlanets,
-  getSinglePlanet,
-  getWishes
-} from '../store'
+import {getAllPlanets, getSinglePlanet, getWishes} from '../store'
 import {stars, starCubeH, starCubeW} from './Stars'
 import {diamonds} from './Diamonds'
 // === REACT COMPONENTS ===
@@ -172,7 +168,11 @@ class Space extends React.Component {
     let planets = this.raycaster.intersectObjects(this.planetGroup.children)
     if (planets.length > 0 && planets[0].object.name !== '???') {
       //cursor turns into pointer if hovering over planet/wish
-      this.setState({clicked: true, singlePlanetDisplayValue: true, sphereData: planets[0].object})
+      this.setState({
+        clicked: true,
+        singlePlanetDisplayValue: true,
+        sphereData: planets[0].object
+      })
       const planetName = planets[0].object.name
       const {allPlanets} = this.props
       var currPlanet = allPlanets.find(
@@ -421,9 +421,7 @@ class Space extends React.Component {
         <Link to="/home">
           <h1 id="titleLink">BEAM UP</h1>
         </Link>
-        {allPlanetsHaveBeenVisited && (
-          <EndOfExploration/>
-        )}
+        {allPlanetsHaveBeenVisited && <EndOfExploration />}
         <MissionControl
           planetName={this.state.planetHoverName}
           visitedPlanets={this.props.visitedPlanets.length}
@@ -431,7 +429,10 @@ class Space extends React.Component {
         />
         {wishDisplayValue && <WishData wish={this.state.wish} />}
         {singlePlanetDisplayValue && (
-          <SinglePlanet planet={this.state.planet} />
+          <SinglePlanet
+            planet={this.state.planet}
+
+          />
         )}
         <div
           style={{cursor: cursorValue}}
