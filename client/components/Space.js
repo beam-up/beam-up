@@ -172,7 +172,6 @@ class Space extends React.Component {
     let planets = this.raycaster.intersectObjects(this.planetGroup.children)
     
     if (planets.length > 0) {
-      //cursor turns into pointer if hovering over planet/wish
       this.setState({clicked: true, singlePlanetDisplayValue: true, sphereData: planets[0].object})
       const planetName = planets[0].object.name
       const {allPlanets} = this.props
