@@ -8,6 +8,7 @@ const GOT_PLANETS_FROM_SERVER = 'GOT_PLANETS_FROM_SERVER'
 const GOT_SINGLE_PLANET_FROM_SERVER = 'GOT_SINGLE_PLANET_FROM_SERVER'
 const ALL_PLANET_HAVE_BEEN_VISITED = 'ALL_PLANET_HAVE_BEEN_VISITED'
 const CLEAR_STATE = 'CLEAR_STATE'
+const PLANET_SELECTED = 'PLANET_SELECTED'
 
 /**
  * INITIAL STATE
@@ -15,7 +16,8 @@ const CLEAR_STATE = 'CLEAR_STATE'
 const planetState = {
   allPlanets: [],
   visitedPlanets: [],
-  allPlanetsHaveBeenVisited: false
+  allPlanetsHaveBeenVisited: false,
+  planetSelected: false
 }
 
 /**
@@ -33,6 +35,10 @@ const gotSinglePlanetFromServer = planet => ({
 
 const allPlanetsHaveBeenVisited = () => ({
   type: ALL_PLANET_HAVE_BEEN_VISITED
+})
+
+const planetSelected = () => ({
+  type: PLANET_SELECTED
 })
 
 export const clearState = () => ({
@@ -57,6 +63,10 @@ export const getSinglePlanet = planetId => async (dispatch, getState) => {
   if (visitedPlanets.length === allPlanets.length) {
     dispatch(allPlanetsHaveBeenVisited())
   }
+}
+
+export const planetSelectedThunk = dispatch => {
+  dispatch(planetSelected())
 }
 
 // export const areAllPlanetsVisited = () => (dispatch, getState) => {
@@ -94,6 +104,9 @@ export default function planetReducer(state = planetState, action) {
         visitedPlanets: [],
         allPlanetsHaveBeenVisited: false
       }
+    }
+    case PLANET_SELECTED: {
+      return {...state, planetSelected: true}
     }
     default:
       return state

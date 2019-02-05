@@ -26,7 +26,8 @@ import {
   getAllPlanets,
   getSinglePlanet,
   // areAllPlanetsVisited,
-  getWishes
+  getWishes,
+  planetSelectedThunk
 } from '../store'
 import {stars, starCubeH, starCubeW} from './Stars'
 import {diamonds} from './Diamonds'
@@ -51,7 +52,7 @@ class Space extends React.Component {
       wish: {},
       planetHoverName: '???',
       cursorValue: 'auto',
-      singlePlanetDisplayValue: false,
+      // singlePlanetDisplayValue: false,
       wishDisplayValue: false,
       clicked: false
     }
@@ -171,7 +172,10 @@ class Space extends React.Component {
     let planets = this.raycaster.intersectObjects(this.planetGroup.children)
     if (planets.length > 0) {
       //cursor turns into pointer if hovering over planet/wish
-      this.setState({clicked: true, singlePlanetDisplayValue: true})
+      this.setState({
+        clicked: true
+        // singlePlanetDisplayValue: true
+      })
       const planetName = planets[0].object.name
       const {allPlanets} = this.props
       if (allPlanets.some(planet => planet.name === planetName)) {
@@ -186,7 +190,8 @@ class Space extends React.Component {
       }
     } else {
       //cursor turns back to normal if NOT hovering over planet/wish
-      this.setState({singlePlanetDisplayValue: false})
+      // this.setState({singlePlanetDisplayValue: false})
+      this.togglePlanetSelected()
     }
   }
 
@@ -209,14 +214,17 @@ class Space extends React.Component {
     }
   }
 
-  addGlow (planet) {
+  addGlow(planet) {
     const glowMaterial = new THREE.MeshBasicMaterial({
-      color: '#ffffff', 
-      opacity: 0.5, 
+      color: '#ffffff',
+      opacity: 0.5,
       transparent: true
     })
     const radius = planet.geometry.parameters.radius
-    const glow = new THREE.Mesh( new THREE.SphereGeometry(radius, 100, 90), glowMaterial )
+    const glow = new THREE.Mesh(
+      new THREE.SphereGeometry(radius, 100, 90),
+      glowMaterial
+    )
     glow.position.set(planet.position.x, planet.position.y, planet.position.z)
     glow.scale.multiplyScalar(1.15)
     this.scene.add(glow)
@@ -357,7 +365,6 @@ class Space extends React.Component {
     let intersects = this.raycaster.intersectObjects(this.planetGroup.children)
 
     if (intersects.length > 0) {
-
       const planet = intersects[0].object
       const target = intersects[0].object.position
       window.THREE = THREE
@@ -376,17 +383,20 @@ class Space extends React.Component {
 
       // during tween
       tween.onUpdate(() => {
-        this.setState({singlePlanetDisplayValue: false})
+        //this.setState({singlePlanetDisplayValue: false})
         this.camera.lookAt(target)
       })
 
       tween.onComplete(() => {
         this.tweenInProgress = false
         this.camera.lookAt(target)
-        this.setState({clicked: false, singlePlanetDisplayValue: true})
+        this.setState({
+          clicked: false
+          //singlePlanetDisplayValue: true
+        })
+        this.togglePlanetSelected()
         this.controls.target = target
         tween.stop()
-        console.log('here is the planet data we can work with', planet.geometry)
         this.addGlow(planet)
       })
 
@@ -400,15 +410,6 @@ class Space extends React.Component {
       }
 
       const planetName = intersects[0].object.name
-      // const {allPlanets} = this.props
-      // if (allPlanets.some(planet => planet.name === planetName)) {
-      // const planet = allPlanets.find(planet => planet.name === planetName)
-      // this.props.loadSinglePlanet(planet.id)
-      // this.props.checkIfDone()
-      // this.setState({
-      //   planet
-      //  })
-      // }
       this.setState({planetHoverName: planetName})
     }
     // render scene
@@ -416,8 +417,8 @@ class Space extends React.Component {
   }
 
   render() {
-    const {cursorValue, singlePlanetDisplayValue, wishDisplayValue} = this.state
-    const {allPlanetsHaveBeenVisited} = this.props
+    const {cursorValue, wishDisplayValue} = this.state
+    const {allPlanetsHaveBeenVisited, planetSelected} = this.props
     return (
       <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
         <Link to="/home">
@@ -436,9 +437,7 @@ class Space extends React.Component {
           allPlanets={this.props.allPlanets.length}
         />
         {wishDisplayValue && <WishData wish={this.state.wish} />}
-        {singlePlanetDisplayValue && (
-          <SinglePlanet planet={this.state.planet} />
-        )}
+        {planetSelected && <SinglePlanet planet={this.state.planet} />}
         <div
           style={{cursor: cursorValue}}
           ref={mount => {
@@ -454,14 +453,16 @@ const mapStateToProps = state => ({
   allPlanets: state.planet.allPlanets,
   visitedPlanets: state.planet.visitedPlanets,
   allPlanetsHaveBeenVisited: state.planet.allPlanetsHaveBeenVisited,
-  wishes: state.wish
+  wishes: state.wish,
+  planetSelected: state.planet.planetSelected
 })
 
 const mapDispatchToProps = dispatch => ({
   loadAllPlanets: () => dispatch(getAllPlanets()),
   loadSinglePlanet: planetId => dispatch(getSinglePlanet(planetId)),
   // checkIfDone: () => dispatch(areAllPlanetsVisited()),
-  getWishes: () => dispatch(getWishes())
+  getWishes: () => dispatch(getWishes()),
+  togglePlanetSelected: () => dispatch(planetSelectedThunk())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Space)
