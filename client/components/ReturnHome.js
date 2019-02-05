@@ -26,26 +26,46 @@ class ReturnHome extends Component {
 
   render() {
     return (
-      <div className="homeContainer">
-        <div id="particles">
-          <Particles width="100vw" height="100vh" params={particleOpt} />
-        </div>
-        <Animated
-          animationIn="slideInUp"
-          animationOut="fadeOut"
-          isVisible={true}
-        >
-          <h1>BEAM UP</h1>
-        </Animated>
+      <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
+        <div className="homeContainer">
+          <div id="particles">
+            <Particles width="100vw" height="100vh" params={particleOpt} />
+          </div>
+          <Animated
+            animationIn="slideInUp"
+            animationOut="fadeOut"
+            isVisible={true}
+          >
+            <h1>BEAM UP</h1>
+          </Animated>
 
-        <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
-          <Link to="/home">
-            <button type="button" onClick={this.handleClick}>
-              RETURN HOME
-            </button>
-          </Link>
-        </Animated>
-      </div>
+          <Animated
+            animationIn="fadeIn"
+            animationOut="fadeOut"
+            isVisible={true}
+          >
+            <div className="homeText">
+              <p>is an immersive, 3d space-traveling experience</p>
+              <p>built by Beiatrix pedrasa, Emily zerbe,</p>
+              <p>Ang li, and Molly carlot-clarke.</p>
+              <br />
+              <p>thank you for visiting our app.</p>
+            </div>
+          </Animated>
+
+          <Animated
+            animationIn="fadeIn"
+            animationOut="fadeOut"
+            isVisible={true}
+          >
+            <Link to="/home">
+              <button type="button" onClick={this.handleClick}>
+                RETURN HOME
+              </button>
+            </Link>
+          </Animated>
+        </div>
+      </Animated>
     )
   }
 }

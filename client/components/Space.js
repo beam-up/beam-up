@@ -53,7 +53,8 @@ class Space extends React.Component {
       cursorValue: 'auto',
       singlePlanetDisplayValue: false,
       wishDisplayValue: false,
-      clicked: false
+      clicked: false,
+      sphereData: {}
     }
 
     this.start = this.start.bind(this)
@@ -149,7 +150,7 @@ class Space extends React.Component {
     }
   }
 
-  onMouseDown() {
+  async onMouseDown() {
     event.preventDefault()
     this.mouse.x = event.clientX / window.innerWidth * 2 - 1
     this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
@@ -171,21 +172,27 @@ class Space extends React.Component {
     let planets = this.raycaster.intersectObjects(this.planetGroup.children)
     if (planets.length > 0 && planets[0].object.name !== '???') {
       //cursor turns into pointer if hovering over planet/wish
-      this.setState({clicked: true, singlePlanetDisplayValue: true})
+      this.setState({clicked: true, singlePlanetDisplayValue: true, sphereData: planets[0].object})
       const planetName = planets[0].object.name
       const {allPlanets} = this.props
+      var currPlanet = allPlanets.find(
+        currentPlanet => currentPlanet.name === planetName
+      )
       if (allPlanets.some(planet => planet.name === planetName)) {
-        const planet = allPlanets.find(
-          currentPlanet => currentPlanet.name === planetName
-        )
-        this.props.loadSinglePlanet(planet.id)
         this.setState({
-          planet
+          planet: currPlanet
         })
       }
     } else {
-      //cursor turns back to normal if NOT hovering over planet/wish
       this.setState({singlePlanetDisplayValue: false})
+      if (
+        !this.props.visitedPlanets.some(
+          planet => planet.name === this.state.planet.name
+        )
+      ) {
+        await this.props.loadSinglePlanet(this.state.planet.id)
+        this.addGlow(this.state.sphereData)
+      }
     }
   }
 
@@ -208,14 +215,17 @@ class Space extends React.Component {
     }
   }
 
-  addGlow (planet) {
+  addGlow(planet) {
     const glowMaterial = new THREE.MeshBasicMaterial({
       color: '#ffffff',
       opacity: 0.5,
       transparent: true
     })
     const radius = planet.geometry.parameters.radius
-    const glow = new THREE.Mesh( new THREE.SphereGeometry(radius, 100, 90), glowMaterial )
+    const glow = new THREE.Mesh(
+      new THREE.SphereGeometry(radius, 100, 90),
+      glowMaterial
+    )
     glow.position.set(planet.position.x, planet.position.y, planet.position.z)
     glow.scale.multiplyScalar(1.15)
     this.scene.add(glow)
@@ -356,8 +366,7 @@ class Space extends React.Component {
     let intersects = this.raycaster.intersectObjects(this.planetGroup.children)
 
     if (intersects.length > 0) {
-
-      const planet = intersects[0].object
+      var planet = intersects[0].object
       const target = intersects[0].object.position
       window.THREE = THREE
       let viewTarget = target.clone()
@@ -385,7 +394,7 @@ class Space extends React.Component {
         this.setState({clicked: false, singlePlanetDisplayValue: true})
         this.controls.target = target
         tween.stop()
-        this.addGlow(planet)
+        // console.log('here is the planet data we can work with', planet.geometry)
       })
 
       // starts tween

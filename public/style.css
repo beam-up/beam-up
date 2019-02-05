@@ -48,9 +48,13 @@ h4 {
 }
 
 h1 {
-  font-size: 3rem;
+  font-size: 3.5rem;
   font-weight: 400;
   letter-spacing: 0.5rem;
+}
+
+h2 {
+  font-size: 2rem;
 }
 
 p {
@@ -113,6 +117,11 @@ button:hover {
   font-size: 1.2rem;
 }
 
+.animated {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+}
+
 /* ========================================= */
 /* =============== HOME PAGE =============== */
 /* ========================================= */
@@ -120,6 +129,10 @@ button:hover {
 .homeContainer {
   height: 100vh;
   width: 100vw;
+  position: absolute;
+  background: url('./images/dark-starfield.png') no-repeat fixed;
+  background-size: cover;
+  z-index: -2;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -160,20 +173,26 @@ button:hover {
   -webkit-transition: text-shadow 0.5s ease;
 }
 
-#homeText {
-  width: 60vw;
+.homeText {
+  width: 50vw;
   display: flex;
   flex-direction: column;
   text-align: center;
   line-height: 1.5;
+  font-size: 0.9rem;
   justify-content: center;
+}
+
+.homeText p {
+  font-family: 'Major Mono Display', 'Arial', sans-serif;
 }
 
 #particles {
   position: absolute;
+  opacity: 0.75;
   width: 100%;
   height: 100%;
-  z-index: -1;
+  z-index: 0;
   display: flex;
 }
 
@@ -187,6 +206,8 @@ button:hover {
   display: flex;
   justify-content: center;
   align-items: center;
+  background: url('./images/starfield.png') no-repeat fixed;
+  background-size: 40% cover;
 }
 
 #wishForm button {
@@ -224,7 +245,6 @@ button:hover {
   z-index: 99;
   bottom: 20%;
 }
-
 
 /* ========================================= */
 /* ============ MISSION CONTROL ============ */
@@ -325,8 +345,11 @@ button:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+  border: none;
+  border-radius: 5px;
   background-color: rgba(0, 0, 0, 0.25);
   flex-direction: column;
+  padding: 2rem;
 }
 
 #eoe-container {
@@ -336,4 +359,36 @@ button:hover {
   align-items: center;
   justify-content: center;
   position: absolute;
+}
+
+#end-of-exp p {
+  text-align: center;
+  text-transform: lowercase;
+  font-family: 'Major Mono Display', 'Geneva', 'Arial', sans-serif;
+  padding: 1rem 0 1rem 0;
+}
+
+/* ========================================= */
+
+#earthContainer {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+}
+
+#earthText {
+  position: absolute;
+  width: 50vw;
+  height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.25);
+  flex-direction: column;
+  padding: 2rem;
 }
