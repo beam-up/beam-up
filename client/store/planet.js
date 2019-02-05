@@ -7,6 +7,7 @@ import axios from 'axios'
 const GOT_PLANETS_FROM_SERVER = 'GOT_PLANETS_FROM_SERVER'
 const GOT_SINGLE_PLANET_FROM_SERVER = 'GOT_SINGLE_PLANET_FROM_SERVER'
 const ALL_PLANET_HAVE_BEEN_VISITED = 'ALL_PLANET_HAVE_BEEN_VISITED'
+const SHOW_LINKING_COMPONENT = 'SHOW_LINKING_COMPONENT'
 const CLEAR_STATE = 'CLEAR_STATE'
 
 /**
@@ -15,7 +16,8 @@ const CLEAR_STATE = 'CLEAR_STATE'
 const planetState = {
   allPlanets: [],
   visitedPlanets: [],
-  allPlanetsHaveBeenVisited: false
+  allPlanetsHaveBeenVisited: false,
+  showLinkingComponent: false
 }
 
 /**
@@ -33,6 +35,10 @@ const gotSinglePlanetFromServer = planet => ({
 
 const allPlanetsHaveBeenVisited = () => ({
   type: ALL_PLANET_HAVE_BEEN_VISITED
+})
+
+const showLinkingComponent = () => ({
+  type: SHOW_LINKING_COMPONENT
 })
 
 export const clearState = () => ({
@@ -57,6 +63,10 @@ export const getSinglePlanet = planetId => async (dispatch, getState) => {
   if (visitedPlanets.length === allPlanets.length) {
     dispatch(allPlanetsHaveBeenVisited())
   }
+}
+
+export const toggleLinking = () => dispatch => {
+  dispatch(showLinkingComponent())
 }
 
 // export const areAllPlanetsVisited = () => (dispatch, getState) => {
@@ -92,8 +102,12 @@ export default function planetReducer(state = planetState, action) {
       return {
         allPlanets: [],
         visitedPlanets: [],
-        allPlanetsHaveBeenVisited: false
+        allPlanetsHaveBeenVisited: false,
+        showLinkingComponent: false
       }
+    }
+    case SHOW_LINKING_COMPONENT: {
+      return {...state, showLinkingComponent: true}
     }
     default:
       return state

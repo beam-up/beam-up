@@ -385,7 +385,6 @@ class Space extends React.Component {
         this.setState({clicked: false, singlePlanetDisplayValue: true})
         this.controls.target = target
         tween.stop()
-        console.log('here is the planet data we can work with', planet.geometry)
         this.addGlow(planet)
       })
 
@@ -407,13 +406,13 @@ class Space extends React.Component {
 
   render() {
     const {cursorValue, singlePlanetDisplayValue, wishDisplayValue} = this.state
-    const {allPlanetsHaveBeenVisited} = this.props
+    const {allPlanetsHaveBeenVisited, showLinking} = this.props
     return (
       <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
         <Link to="/home">
           <h1 id="titleLink">BEAM UP</h1>
         </Link>
-        {allPlanetsHaveBeenVisited && (
+        {showLinking && (
           <EndOfExploration/>
         )}
         <MissionControl
@@ -423,7 +422,7 @@ class Space extends React.Component {
         />
         {wishDisplayValue && <WishData wish={this.state.wish} />}
         {singlePlanetDisplayValue && (
-          <SinglePlanet planet={this.state.planet} />
+          <SinglePlanet planet={this.state.planet} showButton={allPlanetsHaveBeenVisited}/>
         )}
         <div
           style={{cursor: cursorValue}}
@@ -440,6 +439,7 @@ const mapStateToProps = state => ({
   allPlanets: state.planet.allPlanets,
   visitedPlanets: state.planet.visitedPlanets,
   allPlanetsHaveBeenVisited: state.planet.allPlanetsHaveBeenVisited,
+  linkingStatus: state.planet.showLinkingComponent,
   wishes: state.wish
 })
 
