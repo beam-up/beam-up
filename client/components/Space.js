@@ -415,7 +415,7 @@ class Space extends React.Component {
 
   render() {
     const {cursorValue, singlePlanetDisplayValue, wishDisplayValue} = this.state
-    const {allPlanetsHaveBeenVisited, linkingStatus} = this.props
+    const {allPlanetsHaveBeenVisited} = this.props
     return (
       <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
         <Link to="/home">
@@ -431,7 +431,7 @@ class Space extends React.Component {
         {singlePlanetDisplayValue && (
           <SinglePlanet
             planet={this.state.planet}
-            showButton={allPlanetsHaveBeenVisited}
+
           />
         )}
         <div
@@ -449,7 +449,6 @@ const mapStateToProps = state => ({
   allPlanets: state.planet.allPlanets,
   visitedPlanets: state.planet.visitedPlanets,
   allPlanetsHaveBeenVisited: state.planet.allPlanetsHaveBeenVisited,
-  linkingStatus: state.planet.linkingStatus,
   wishes: state.wish
 })
 

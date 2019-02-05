@@ -7,7 +7,6 @@ import axios from 'axios'
 const GOT_PLANETS_FROM_SERVER = 'GOT_PLANETS_FROM_SERVER'
 const GOT_SINGLE_PLANET_FROM_SERVER = 'GOT_SINGLE_PLANET_FROM_SERVER'
 const ALL_PLANET_HAVE_BEEN_VISITED = 'ALL_PLANET_HAVE_BEEN_VISITED'
-const SHOW_LINKING_COMPONENT = 'SHOW_LINKING_COMPONENT'
 const CLEAR_STATE = 'CLEAR_STATE'
 
 /**
@@ -16,8 +15,7 @@ const CLEAR_STATE = 'CLEAR_STATE'
 const planetState = {
   allPlanets: [],
   visitedPlanets: [],
-  allPlanetsHaveBeenVisited: false,
-  linkingStatus: false
+  allPlanetsHaveBeenVisited: false
 }
 
 /**
@@ -37,17 +35,9 @@ const allPlanetsHaveBeenVisited = () => ({
   type: ALL_PLANET_HAVE_BEEN_VISITED
 })
 
-export const showLinkingComponent = () => ({
-  type: SHOW_LINKING_COMPONENT
-})
-
 export const clearState = () => ({
   type: CLEAR_STATE
 })
-
-// export const toggleLinking = () => dispatch => {
-//   dispatch(showLinkingComponent())
-// }
 
 /**
  * THUNK CREATORS
@@ -68,13 +58,6 @@ export const getSinglePlanet = planetId => async (dispatch, getState) => {
     dispatch(allPlanetsHaveBeenVisited())
   }
 }
-
-// export const areAllPlanetsVisited = () => (dispatch, getState) => {
-//   const {visitedPlanets, allPlanets} = getState().planet
-//   if (visitedPlanets.length === allPlanets.length) {
-//     dispatch(allPlanetsHaveBeenVisited())
-//   }
-// }
 
 /**
  * REDUCER
@@ -98,15 +81,11 @@ export default function planetReducer(state = planetState, action) {
     case ALL_PLANET_HAVE_BEEN_VISITED: {
       return {...state, allPlanetsHaveBeenVisited: true}
     }
-    case SHOW_LINKING_COMPONENT: {
-      return {...state, linkingStatus: true}
-    }
     case CLEAR_STATE: {
       return {
         allPlanets: [],
         visitedPlanets: [],
-        allPlanetsHaveBeenVisited: false,
-        linkingStatus: false
+        allPlanetsHaveBeenVisited: false
       }
     }
 
