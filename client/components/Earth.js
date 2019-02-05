@@ -119,7 +119,7 @@ class Earth extends React.Component {
             }}
           />
           <Link to="/wish">
-            <button type="button">LET'S MAKE A WISH</button>
+            <button id='earthButton' type="button">LET'S MAKE A WISH</button>
           </Link>
         </div>
       </Animated>
