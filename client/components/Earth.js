@@ -39,6 +39,10 @@ class Earth extends React.Component {
     this.camera = camera
     this.renderer = renderer
 
+    // === event listener ===
+
+    window.addEventListener('resize', this.onWindowResize, false)
+
     // === 2. light ===
     // const light = new THREE.PointLight(0xffffff, 1, 100)
     // light.position.set(5, 3, 5) // try (1, 1, 1)

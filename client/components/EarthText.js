@@ -28,10 +28,14 @@ export const EarthText = () => {
           constantly risk collisions from asteroids and meteors.
         </p>
         <p>
+          What a lovely planet we have, and it's the only one we've got. Let's
+          take good care of it.
+        </p>
+        <br />
+        <p>
           You are invited to leave your mark on the universe by making a wish,
           as a memento of your travels.
         </p>
-        <h2>...and it's the only one we've got</h2>
         <Link to="/wish">
           <button id="earthButton" type="button">
             LET'S MAKE A WISH
