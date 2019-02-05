@@ -179,20 +179,20 @@ class Space extends React.Component {
         currentPlanet => currentPlanet.name === planetName
       )
       if (allPlanets.some(planet => planet.name === planetName)) {
-        const planet = allPlanets.find(
-          currentPlanet => currentPlanet.name === planetName
-        )
-        this.props.loadSinglePlanet(planet.id)
         this.setState({
           planet: currPlanet
         })
       }
     } else {
       this.setState({singlePlanetDisplayValue: false})
-      if (!this.props.visitedPlanets.some(planet => planet.name === this.state.planet.name)) {
+      if (
+        !this.props.visitedPlanets.some(
+          planet => planet.name === this.state.planet.name
+        )
+      ) {
         await this.props.loadSinglePlanet(this.state.planet.id)
         this.addGlow(this.state.sphereData)
-      } 
+      }
     }
   }
 
@@ -215,14 +215,17 @@ class Space extends React.Component {
     }
   }
 
-  addGlow (planet) {
+  addGlow(planet) {
     const glowMaterial = new THREE.MeshBasicMaterial({
       color: '#ffffff',
       opacity: 0.5,
       transparent: true
     })
     const radius = planet.geometry.parameters.radius
-    const glow = new THREE.Mesh( new THREE.SphereGeometry(radius, 100, 90), glowMaterial )
+    const glow = new THREE.Mesh(
+      new THREE.SphereGeometry(radius, 100, 90),
+      glowMaterial
+    )
     glow.position.set(planet.position.x, planet.position.y, planet.position.z)
     glow.scale.multiplyScalar(1.15)
     this.scene.add(glow)
@@ -363,7 +366,6 @@ class Space extends React.Component {
     let intersects = this.raycaster.intersectObjects(this.planetGroup.children)
 
     if (intersects.length > 0) {
-
       var planet = intersects[0].object
       const target = intersects[0].object.position
       window.THREE = THREE
@@ -393,7 +395,6 @@ class Space extends React.Component {
         this.controls.target = target
         tween.stop()
         // console.log('here is the planet data we can work with', planet.geometry)
-        
       })
 
       // starts tween
