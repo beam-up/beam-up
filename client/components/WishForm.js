@@ -43,8 +43,9 @@ class WishForm extends Component {
       <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
         <div id="wishForm">
           <form onSubmit={this.handleSubmit}>
-            <p>
-              make a wish... for yourself, for your loved ones, for the cosmos
+            <p className="homeText">
+              let's make a wish... for yourself, for your loved ones, for the
+              cosmos
             </p>
             <label htmlFor="your name">your name</label>
             <input

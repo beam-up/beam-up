@@ -202,6 +202,8 @@ button:hover {
   display: flex;
   justify-content: center;
   align-items: center;
+  background: url('./images/starfield.png') no-repeat fixed;
+  background-size: 40% cover;
 }
 
 #wishForm button {

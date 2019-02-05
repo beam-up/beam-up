@@ -92,7 +92,7 @@ export default function planetReducer(state = planetState, action) {
       return {
         allPlanets: [],
         visitedPlanets: [],
-        allPlanetsHaveBeenVisited: false
+        allPlanetsHaveBeenVisited: true
       }
     }
     default:
