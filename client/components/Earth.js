@@ -40,7 +40,6 @@ class Earth extends React.Component {
     this.renderer = renderer
 
     // === event listener ===
-
     window.addEventListener('resize', this.onWindowResize, false)
 
     // === 2. light ===
@@ -118,6 +117,7 @@ class Earth extends React.Component {
       <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
         <div id="earthContainer">
           <EarthText />
+
           <div
             ref={mount => {
               this.mount = mount

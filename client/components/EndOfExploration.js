@@ -10,7 +10,7 @@ export default class EndOfExploration extends Component {
           <h2>MISSION COMPLETE</h2>
           <p>
             You've explored every exoplanet and completed your journey... now
-            it's time to go back to Earth and report your findings.
+            it's time to go back to Earth and confirm your findings.
           </p>
           <Link to="/earth">
             <button type="button">Back To Earth</button>
