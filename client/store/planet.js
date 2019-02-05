@@ -15,7 +15,7 @@ const CLEAR_STATE = 'CLEAR_STATE'
 const planetState = {
   allPlanets: [],
   visitedPlanets: [],
-  allPlanetsHaveBeenVisited: false
+  allPlanetsHaveBeenVisited: true
 }
 
 /**
@@ -92,7 +92,7 @@ export default function planetReducer(state = planetState, action) {
       return {
         allPlanets: [],
         visitedPlanets: [],
-        allPlanetsHaveBeenVisited: true
+        allPlanetsHaveBeenVisited: false
       }
     }
     default:
