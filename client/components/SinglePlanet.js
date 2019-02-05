@@ -8,11 +8,11 @@ const SinglePlanet = props => {
   return planet ? (
     <div id="singlePlanet">
       <h1>{planet.name}</h1>
-      <h2>Habitability: {planet.habitability}</h2>
       <p>{planet.description}</p>
+      <p>Habitability: {planet.habitability}</p>
       <p>Type: {planet.type}</p>
       <p>Mass: {planet.mass}</p>
-      <p>Orbital Radius: {planet.orbitalPeriod}</p>
+      <p>Orbital Radius: {planet.orbitalRadius}</p>
       <p>Orbital Period: {planet.orbitalPeriod}</p>
       <p>Year Discovered: {planet.discoveryYear}</p>
     </div>
