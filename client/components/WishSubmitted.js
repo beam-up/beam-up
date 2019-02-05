@@ -104,17 +104,23 @@ export default class WishSubmitted extends Component {
     return (
       <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
         <div id="wishSubmitted">
+          <h1>thank you</h1>
           <div
             style={{width: '100vw', height: '100vh'}}
             ref={mount => {
               this.mount = mount
             }}
           />
-          <p id="wishSubmittedMessage"> u submitted. nice </p>
+          <p id="wishSubmittedMessage">
+            your wish has been stored. the next time you visit, if you happen to
+            find one of these space diamonds, you just might be able to view
+            your wish. or, discover the voices of other travelers who have
+            shared their sentiments.
+          </p>
 
           <Link to="/returnhome">
             <button id="wishButton" type="submit">
-              CONTINUE
+              onward
             </button>
           </Link>
         </div>

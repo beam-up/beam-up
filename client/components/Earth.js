@@ -1,8 +1,9 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
 import {Animated} from 'react-animated-css'
 import * as THREE from '../../three'
 import {starBackground} from './planets'
+import {EarthText} from './EarthText'
+
 const OrbitControls = require('../../OrbitControls')(THREE)
 
 class Earth extends React.Component {
@@ -37,6 +38,9 @@ class Earth extends React.Component {
     this.scene = scene
     this.camera = camera
     this.renderer = renderer
+
+    // === event listener ===
+    window.addEventListener('resize', this.onWindowResize, false)
 
     // === 2. light ===
     // const light = new THREE.PointLight(0xffffff, 1, 100)
@@ -112,49 +116,17 @@ class Earth extends React.Component {
     return (
       <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
         <div id="earthContainer">
-          <h1>And this is our lovely planet...</h1>
+          <EarthText />
+
           <div
             ref={mount => {
               this.mount = mount
             }}
           />
-          <Link to="/wish">
-            <button id='earthButton' type="button">LET'S MAKE A WISH</button>
-          </Link>
         </div>
       </Animated>
     )
   }
 }
-
-/*
-const Earth = () => {
-  return (
-    <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
-      <div id="earthContainer">
-        <h1>wow, what a lovely planet we have...</h1>
-        <p>
-          • Earth exists in the “Goldilocks zone” – an area which is neither too
-          hot nor too cold for liquid water, an essential for Earth-like life,
-          to be present
-        </p>
-        <p>
-          • Our star (the Sun) is friendly - it doesn’t have strong stellar
-          solar winds, like Proxima Centauri, or a flaring/inconsistent
-          brightness, like YZ Ceti
-        </p>
-        <p>
-          • Earth is not near a debris disk, like Tau Ceti - we don’t constantly
-          risk collisions from asteroids and meteors
-        </p>
-        <h1>...and it's the only one we've got</h1>
-        <Link to="/wish">
-          <button type="button">LET'S MAKE A WISH</button>
-        </Link>
-      </div>
-    </Animated>
-  )
-}
-*/
 
 export default Earth

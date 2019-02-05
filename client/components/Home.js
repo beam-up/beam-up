@@ -16,38 +16,52 @@ const particleOpt = {
 
 const Home = () => {
   return (
-    <div className="homeContainer">
-      <div id="particles">
-        <Particles
-          width='100vw'
-          height='100vh'
-          params={particleOpt}
-        />
-      </div>
-      <Animated animationIn="slideInUp" animationOut="fadeOut" isVisible={true}>
-        <h1>BEAM UP</h1>
-      </Animated>
-
-      <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
-        <div id="homeText">
-          <p>an ethereal 3D journey through space and time</p>
-          <p>
-            travel through the cosmos and discover exoplanets for human
-            habitation
-          </p>
-          <p>use your mouse to orbit around our dreamy universe</p>
-          <br />
-          <p>someone else can totally edit this text if ya like</p>
-          <p>also floating background particles would b rly nice here!!</p>
+    <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
+      <div className="homeContainer">
+        <div id="particles">
+          <Particles width="100vw" height="100vh" params={particleOpt} />
         </div>
-      </Animated>
 
-      <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
-        <Link to="/planets">
-          <button type="button">START EXPLORING</button>
-        </Link>
-      </Animated>
-    </div>
+        <Animated
+          animationIn="slideInUp"
+          animationOut="fadeOut"
+          isVisible={true}
+        >
+          <h1>BEAM UP</h1>
+        </Animated>
+
+        <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
+          <div className="homeText" style={{'text-transform': 'lowercase'}}>
+            <p>An ethereal 3D journey beyond our solar system.</p>
+            <br />
+            <p>
+              Travel through the cosmos and discover exoplanets for human
+              habitation. The catch? There's no other planet out there that
+              compares to the one you got.
+            </p>
+            <br />
+            <p>
+              Zoom to planets beyond our solar system to reveal their data and
+              habitability status (sourced from nasa). Complete your journey to
+              discover how the planet you know and love, Earth, has all you'll
+              ever need – as long as you treat her right.
+            </p>
+            <br />
+            <p>
+              Use your mouse to navigate our dreamy universe. Click on a planet
+              to fly to it, pinch to zoom, and click &amp; drag the sky to
+              change your perspective.
+            </p>
+          </div>
+        </Animated>
+
+        <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
+          <Link to="/planets">
+            <button type="button">START EXPLORING</button>
+          </Link>
+        </Animated>
+      </div>
+    </Animated>
   )
 }
 
