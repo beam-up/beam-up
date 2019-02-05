@@ -48,7 +48,7 @@ h4 {
 }
 
 h1 {
-  font-size: 3rem;
+  font-size: 3.5rem;
   font-weight: 400;
   letter-spacing: 0.5rem;
 }
@@ -113,6 +113,11 @@ button:hover {
   font-size: 1.2rem;
 }
 
+.animated {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+}
+
 /* ========================================= */
 /* =============== HOME PAGE =============== */
 /* ========================================= */
@@ -120,6 +125,10 @@ button:hover {
 .homeContainer {
   height: 100vh;
   width: 100vw;
+  position: absolute;
+  background: url('./images/dark-starfield.png') no-repeat fixed;
+  background-size: cover;
+  z-index: -2;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -160,20 +169,26 @@ button:hover {
   -webkit-transition: text-shadow 0.5s ease;
 }
 
-#homeText {
-  width: 60vw;
+.homeText {
+  width: 50vw;
   display: flex;
   flex-direction: column;
   text-align: center;
   line-height: 1.5;
+  font-size: 0.9rem;
   justify-content: center;
+}
+
+.homeText p {
+  font-family: 'Major Mono Display', 'Arial', sans-serif;
 }
 
 #particles {
   position: absolute;
+  opacity: 0.75;
   width: 100%;
   height: 100%;
-  z-index: -1;
+  z-index: 0;
   display: flex;
 }
 
