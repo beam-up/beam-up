@@ -2,9 +2,9 @@ import * as THREE from '../../../three'
 
 const epsilonRadius = 11.2
 const geometry = new THREE.SphereGeometry(epsilonRadius, 100, 90)
-const planetTexture = new THREE.TextureLoader().load('/images/purple.png')
+const planetTexture = new THREE.TextureLoader().load('/images/blueOrangeSwirl.jpg')
 planetTexture.wrapS = planetTexture.wrapT = THREE.MirroredRepeatWrapping
-planetTexture.repeat.set(2, 2)
+planetTexture.repeat.set(2, 1)
 const material = new THREE.MeshBasicMaterial({map: planetTexture})
 const epsilon = new THREE.Mesh(geometry, material)
 

@@ -315,24 +315,30 @@ class Space extends React.Component {
     // === !!! IMPORTANT !!! ===
     // === sets positions of planets ===
     // default position is (x, y, z) => (0, 0, 0)
-    this.proxima.position.set(-50, 0, -50)
-    this.epsilon.position.set(80, 0, -100)
-    this.ross128.position.set(100, 0, -80)
-    this.yzCetiC.position.set(-125, 0, 25)
-    this.yzCetiB.position.set(-145, 0, 55)
-    this.yzCetiD.position.set(-135, 0, 105)
+    this.proxima.position.set(-50, -10, -50)
+    this.epsilon.position.set(80, 5, -100)
+    this.ross128.position.set(100, 3, -80)
+    this.yzCetiC.position.set(-125, -5, 25)
+    this.yzCetiB.position.set(-145, 7, 55)
+    this.yzCetiD.position.set(-135, -8, 105)
     this.kapteynC.position.set(110, 0, 95)
-    this.tauCetiH.position.set(-100, 0, -105)
-    this.tauCetiG.position.set(-75, 0, -90)
-    this.tauCetiE.position.set(-70, 0, -80)
-    this.tauCetiF.position.set(-90, 0, -130)
+    this.tauCetiH.position.set(-100, 6, -120)
+    this.tauCetiG.position.set(-75, 5, -70)
+    this.tauCetiE.position.set(-70, 11, -100)
+    this.tauCetiF.position.set(-90, 12, -150)
 
     // === sets rotations of planets ===
     this.earth.rotation.y = Date.now() * 0.0001
-    // this.earth.rotation.x = Date.now() * 0.0000002
     this.proxima.rotation.y = Date.now() * 0.0003
-    // this.proxima.rotation.x = Date.now() * 0.00000002
-    this.epsilon.rotation.y = Date.now() * 0.0001
+    this.ross128.rotation.y = Date.now() * 0.0001
+    this.yzCetiC.rotation.y = Date.now() * 0.0001
+    this.yzCetiB.rotation.y = Date.now() * 0.0001
+    this.yzCetiD.rotation.y = Date.now() * 0.0001
+    this.kapteynC.rotation.y = Date.now() * 0.0001
+    this.tauCetiH.rotation.y = Date.now() * 0.0001
+    this.tauCetiG.rotation.y = Date.now() * 0.0001
+    this.tauCetiE.rotation.y = Date.now() * 0.0001
+    this.tauCetiF.rotation.y = Date.now() * 0.0001
 
     // === sets random movement of stars ===
     let timer = 0.00001 * Date.now()
@@ -374,9 +380,9 @@ class Space extends React.Component {
       window.camera = this.camera
 
       if (intersects[0].object.geometry.parameters.radius > 3) {
-        viewTarget.z = viewTarget.z - 22
+        viewTarget.z = viewTarget.z - 20
       } else {
-        viewTarget.z = viewTarget.z - 7
+        viewTarget.z = viewTarget.z - 5
       }
 
       const position = this.camera.position
