@@ -336,7 +336,7 @@ class Space extends React.Component {
     this.proxima.rotation.y = Date.now() * 0.0003
     // this.proxima.rotation.x = Date.now() * 0.00000002
     this.epsilon.rotation.y = Date.now() * 0.0001
-    // this.asteroids.rotation.y = Date.now() * 0.0001
+    this.asteroids.rotation.y = Date.now() * 0.00001
 
     // === sets random movement of stars ===
     let timer = 0.00001 * Date.now()
