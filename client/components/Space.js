@@ -9,6 +9,7 @@ const OrbitControls = require('../../OrbitControls')(THREE)
 // === 3D MODELS ===
 import {
   starBackground,
+  asteroids,
   earth,
   proxima,
   epsilon,
@@ -258,7 +259,7 @@ class Space extends React.Component {
     )
 
     // add background and planets to scene
-    this.scene.add(starBackground, planetGroup)
+    this.scene.add(starBackground, planetGroup, asteroids)
     this.planetGroup = planetGroup
 
     // add stars to scene
@@ -277,6 +278,7 @@ class Space extends React.Component {
     // === !!! IMPORTANT !!! ===
     // === bind objects imported from /planets ===
     this.starBackground = starBackground
+    this.asteroids = asteroids
     this.earth = earth
     this.proxima = proxima
     this.epsilon = epsilon
@@ -326,10 +328,13 @@ class Space extends React.Component {
     this.tauCetiG.position.set(-75, 5, -70)
     this.tauCetiE.position.set(-70, 11, -100)
     this.tauCetiF.position.set(-90, 12, -150)
+    this.asteroids.position.set(-75, 0, -105)
 
     // === sets rotations of planets ===
     this.earth.rotation.y = Date.now() * 0.0001
     this.proxima.rotation.y = Date.now() * 0.0003
+    // this.proxima.rotation.x = Date.now() * 0.00000002
+    this.epsilon.rotation.y = Date.now() * 0.0001
     this.ross128.rotation.y = Date.now() * 0.0001
     this.yzCetiC.rotation.y = Date.now() * 0.0001
     this.yzCetiB.rotation.y = Date.now() * 0.0001
@@ -339,6 +344,7 @@ class Space extends React.Component {
     this.tauCetiG.rotation.y = Date.now() * 0.0001
     this.tauCetiE.rotation.y = Date.now() * 0.0001
     this.tauCetiF.rotation.y = Date.now() * 0.0001
+    this.asteroids.rotation.y = Date.now() * 0.00001
 
     // === sets random movement of stars ===
     let timer = 0.00001 * Date.now()

@@ -1,5 +1,6 @@
 import * as THREE from '../../../three'
 
+const tauCetiEMass = 3.93
 const geometry = new THREE.SphereGeometry(3.93, 100, 90)
 const planetTexture = new THREE.TextureLoader().load('/images/blueMarble.jpg')
 planetTexture.wrapS = planetTexture.wrapT = THREE.MirroredRepeatWrapping
