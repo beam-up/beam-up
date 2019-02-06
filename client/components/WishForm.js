@@ -71,14 +71,15 @@ class WishForm extends Component {
                   name="wish"
                   type="textarea"
                   onChange={this.handleChange}
+                  maxLength='100'
                 />
-              </div>
-            </div>
+              <span id='charLimit'>(100 character limit)</span>
             <br />
-
             <button id="wishButton" type="submit">
               Make your Wish among the Stars
             </button>
+              </div>
+            </div>
           </form>
         </div>
       </Animated>

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {Animated} from 'react-animated-css'
-import {Link} from 'react-router-dom'
+import {WishSubmittedText} from './WishSubmittedText'
 
 import * as THREE from '../../three'
 
@@ -88,8 +88,6 @@ export default class WishSubmitted extends Component {
   }
 
   animate() {
-    // this.diamond.rotation.x += 0.01
-    // this.diamond.position.set(0, 20, 0)
     this.diamond.rotation.y -= 0.01
 
     this.renderScene()
@@ -103,27 +101,13 @@ export default class WishSubmitted extends Component {
   render() {
     return (
       <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
-        <div id="wishSubmitted">
-          <h1>thank you</h1>
           <div
             style={{width: '100vw', height: '100vh'}}
             ref={mount => {
               this.mount = mount
             }}
           />
-          <p id="wishSubmittedMessage">
-            your wish has been stored. the next time you visit, if you happen to
-            find one of these space diamonds, you just might be able to view
-            your wish. or, discover the voices of other travelers who have
-            shared their sentiments.
-          </p>
-
-          <Link to="/returnhome">
-            <button id="wishButton" type="submit">
-              onward
-            </button>
-          </Link>
-        </div>
+          <WishSubmittedText/>
       </Animated>
     )
   }
