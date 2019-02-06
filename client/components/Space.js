@@ -51,7 +51,8 @@ class Space extends React.Component {
       singlePlanetDisplayValue: false,
       wishDisplayValue: false,
       clicked: false,
-      sphereData: {}
+      sphereData: {},
+      planetsGlowing: new Set(),
     }
 
     this.start = this.start.bind(this)
@@ -167,6 +168,16 @@ class Space extends React.Component {
 
     // === PLANETS!!! ===
     let planets = this.raycaster.intersectObjects(this.planetGroup.children)
+    const planetName = planets.length && planets[0].object.name
+    this.props.visitedPlanets.forEach(planet => {
+      if(
+        this.state.planetsGlowing.has(planet.name) ||
+        planet.name === planetName
+      ) return
+      this.addGlow(this.state.sphereData)
+      this.state.planetsGlowing.add(planet.name)
+    })
+
     if (planets.length > 0 && planets[0].object.name !== '???') {
       //cursor turns into pointer if hovering over planet/wish
       this.setState({
@@ -174,26 +185,19 @@ class Space extends React.Component {
         singlePlanetDisplayValue: true,
         sphereData: planets[0].object
       })
-      const planetName = planets[0].object.name
       const {allPlanets} = this.props
-      var currPlanet = allPlanets.find(
+      const currPlanet = allPlanets.find(
         currentPlanet => currentPlanet.name === planetName
       )
       if (allPlanets.some(planet => planet.name === planetName)) {
         this.setState({
           planet: currPlanet
         })
+        // This marks the planet as visited.
+        await this.props.loadSinglePlanet(this.state.planet.id)
       }
     } else {
       this.setState({singlePlanetDisplayValue: false})
-      if (
-        !this.props.visitedPlanets.some(
-          planet => planet.name === this.state.planet.name
-        )
-      ) {
-        await this.props.loadSinglePlanet(this.state.planet.id)
-        this.addGlow(this.state.sphereData)
-      }
     }
   }
 
