@@ -1,22 +1,24 @@
 import React, {Component} from 'react'
+import {Animated} from 'react-animated-css'
 
 const WishData = props => {
   const {wish} = props
 
-  const isNotEmpty = (obj) => {
+  const isNotEmpty = obj => {
     for (let key in obj) {
-      if(obj.hasOwnProperty(key))
-        return true
+      if (obj.hasOwnProperty(key)) return true
     }
     return false
   }
 
   return isNotEmpty(wish) ? (
-    <div id="wish">
-      <p>
-        "{wish.message}" -{wish.name}
-      </p>
-    </div>
+    <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
+      <div id="wish">
+        <p>
+          "{wish.message}" -{wish.name}
+        </p>
+      </div>
+    </Animated>
   ) : null
 }
 
