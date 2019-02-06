@@ -207,6 +207,7 @@ class Space extends React.Component {
           planet: currPlanet
         })
         // This marks the planet as visited.
+        await this.props.loadSinglePlanet(this.state.planet.id)
       }
     } else {
       this.setState({singlePlanetDisplayValue: false})
