@@ -46,12 +46,6 @@ const Home = () => {
               discover how the planet you know and love, Earth, has all you'll
               ever need – as long as you treat her right.
             </p>
-            <br />
-            <p>
-              Use your mouse to navigate our dreamy universe. Click on a planet
-              to fly to it, pinch to zoom, and click &amp; drag the sky to
-              change your perspective.
-            </p>
           </div>
         </Animated>
 
