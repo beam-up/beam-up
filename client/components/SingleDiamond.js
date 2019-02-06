@@ -87,8 +87,9 @@ export default class WishSubmitted extends Component {
 
   animate() {
     // this.diamond.rotation.x += 0.01
-    // this.diamond.position.set(0, 20, 0)
-    this.diamond.rotation.y -= 0.01
+    this.diamond.position.set(0, 5, 0)
+
+    this.diamond.rotation.y -= 1
 
     this.renderScene()
     this.frameId = window.requestAnimationFrame(this.animate)
