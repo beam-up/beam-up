@@ -24,6 +24,9 @@ class Earth extends React.Component {
 
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100000)
     camera.position.z = 5
+    camera.position.y = 1
+
+
 
     const renderer = new THREE.WebGLRenderer({antialias: true})
     renderer.setSize(width, height)
@@ -102,6 +105,7 @@ class Earth extends React.Component {
     // this.earth.rotation.y += 0.001
     // this.earth.rotation.x = Date.now() * 0.0000002
     this.earth.rotation.y = Date.now() * 0.0001
+    this.earth.position.y = .5
     this.controls.update()
     this.renderScene()
     this.frameId = window.requestAnimationFrame(this.animate)
@@ -115,15 +119,12 @@ class Earth extends React.Component {
   render() {
     return (
       <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
-        <div id="earthContainer">
           <EarthText />
-
           <div
             ref={mount => {
               this.mount = mount
             }}
           />
-        </div>
       </Animated>
     )
   }
