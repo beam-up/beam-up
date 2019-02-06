@@ -9,6 +9,7 @@ const OrbitControls = require('../../OrbitControls')(THREE)
 // === 3D MODELS ===
 import {
   starBackground,
+  asteroids,
   earth,
   proxima,
   epsilon,
@@ -22,11 +23,7 @@ import {
   tauCetiE,
   tauCetiF
 } from './planets'
-import {
-  getAllPlanets,
-  getSinglePlanet,
-  getWishes
-} from '../store'
+import {getAllPlanets, getSinglePlanet, getWishes} from '../store'
 import {stars, starCubeH, starCubeW} from './Stars'
 import {diamonds} from './Diamonds'
 // === REACT COMPONENTS ===
@@ -172,7 +169,11 @@ class Space extends React.Component {
     let planets = this.raycaster.intersectObjects(this.planetGroup.children)
     if (planets.length > 0 && planets[0].object.name !== '???') {
       //cursor turns into pointer if hovering over planet/wish
-      this.setState({clicked: true, singlePlanetDisplayValue: true, sphereData: planets[0].object})
+      this.setState({
+        clicked: true,
+        singlePlanetDisplayValue: true,
+        sphereData: planets[0].object
+      })
       const planetName = planets[0].object.name
       const {allPlanets} = this.props
       var currPlanet = allPlanets.find(
@@ -258,7 +259,7 @@ class Space extends React.Component {
     )
 
     // add background and planets to scene
-    this.scene.add(starBackground, planetGroup)
+    this.scene.add(starBackground, planetGroup, asteroids)
     this.planetGroup = planetGroup
 
     // add stars to scene
@@ -277,6 +278,7 @@ class Space extends React.Component {
     // === !!! IMPORTANT !!! ===
     // === bind objects imported from /planets ===
     this.starBackground = starBackground
+    this.asteroids = asteroids
     this.earth = earth
     this.proxima = proxima
     this.epsilon = epsilon
@@ -326,6 +328,7 @@ class Space extends React.Component {
     this.tauCetiG.position.set(-75, 0, -90)
     this.tauCetiE.position.set(-70, 0, -80)
     this.tauCetiF.position.set(-90, 0, -130)
+    this.asteroids.position.set(-75, 0, -105)
 
     // === sets rotations of planets ===
     this.earth.rotation.y = Date.now() * 0.0001
@@ -333,6 +336,7 @@ class Space extends React.Component {
     this.proxima.rotation.y = Date.now() * 0.0003
     // this.proxima.rotation.x = Date.now() * 0.00000002
     this.epsilon.rotation.y = Date.now() * 0.0001
+    // this.asteroids.rotation.y = Date.now() * 0.0001
 
     // === sets random movement of stars ===
     let timer = 0.00001 * Date.now()
@@ -421,9 +425,7 @@ class Space extends React.Component {
         <Link to="/home">
           <h1 id="titleLink">BEAM UP</h1>
         </Link>
-        {allPlanetsHaveBeenVisited && (
-          <EndOfExploration/>
-        )}
+        {allPlanetsHaveBeenVisited && <EndOfExploration />}
         <MissionControl
           planetName={this.state.planetHoverName}
           visitedPlanets={this.props.visitedPlanets.length}

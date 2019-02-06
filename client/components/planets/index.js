@@ -4,6 +4,7 @@
  * having to figure out which file they belong to!
  */
 export {default as starBackground} from './starBackground'
+export {default as asteroids} from './asteroids'
 export {default as earth} from './earth'
 export {default as proxima} from './proxima'
 export {default as epsilon} from './epsilon'
