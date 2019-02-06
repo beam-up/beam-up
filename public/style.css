@@ -204,8 +204,10 @@ button:hover {
   width: 100vw;
   height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: absolute;
   background: url('./images/starfield.png') no-repeat fixed;
   background-size: 40% cover;
 }
@@ -228,6 +230,59 @@ button:hover {
   bottom: 20%;
 }
 
+#wishForm h1 {
+  text-align: center;
+}
+
+#wishForm form {
+  width: 70vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#wishForm p {
+  font-family: 'Major Mono Display', 'Arial', sans-serif;
+  text-align: center;
+  line-height: 1.5;
+  font-size: 0.9rem;
+  justify-content: center;
+  padding: 2rem 0 2rem 0;
+}
+
+.form-group {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+/* LEFT COLUMN OF FORM */
+#wishForm label {
+  font-family: 'Major Mono Display', 'Arial', sans-serif;
+  /* border: 3px solid red; */
+  width: 30%;
+  text-align: center;
+}
+
+/* RIGHT COLUMN OF FORM */
+.form-inputs {
+  width: 70%;
+  /* border: 3px solid blue; */
+}
+
+input,
+textarea {
+  height: 2rem;
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+}
+
+textarea {
+  height: 10rem;
+}
 
 /* ========================================= */
 /* ============ MISSION CONTROL ============ */
@@ -264,7 +319,6 @@ button:hover {
 
 #singlePlanet h1 {
   font-size: 2rem;
-
 }
 
 #singlePlanetContent {
@@ -280,8 +334,6 @@ button:hover {
   width: 60%;
   padding-left: 1rem;
 }
-
-
 
 /* #singlePlanet p {
   font-family: 'Major Mono Display', 'Arial', sans-serif;
@@ -371,8 +423,9 @@ button:hover {
 
 #end-of-exp p {
   text-align: center;
-  text-transform: lowercase;
-  font-family: 'Major Mono Display', 'Geneva', 'Arial', sans-serif;
+}
+
+#eoe-message {
   padding: 1rem 0 1rem 0;
 }
 
@@ -411,4 +464,3 @@ button:hover {
   justify-content: center;
   flex-direction: column;
 }
-

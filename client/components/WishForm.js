@@ -42,29 +42,40 @@ class WishForm extends Component {
     ) : (
       <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
         <div id="wishForm">
+          <h1>send a wish to the stars</h1>
           <form onSubmit={this.handleSubmit}>
-            <h1>send a wish to the stars</h1>
-            <p className="homeText">
+            <p>
               as a memento of your travels, you are invited to end your journey
               by making a wish... for yourself, for your loved ones, or for the
               planet.
             </p>
-            <label htmlFor="your name">your name</label>
-            <input
-              value={this.state.name}
-              name="name"
-              type="text"
-              onChange={this.handleChange}
-            />
+
+            <div className="form-group">
+              <label htmlFor="your name">your name</label>
+              <div className="form-inputs">
+                <input
+                  value={this.state.name}
+                  name="name"
+                  type="text"
+                  onChange={this.handleChange}
+                />
+              </div>
+            </div>
             <br />
-            <label htmlFor="your wish">your wish</label>
-            <textarea
-              value={this.state.wish}
-              name="wish"
-              type="textarea"
-              onChange={this.handleChange}
-            />
+
+            <div className="form-group">
+              <label htmlFor="your wish">your wish</label>
+              <div className="form-inputs">
+                <textarea
+                  value={this.state.wish}
+                  name="wish"
+                  type="textarea"
+                  onChange={this.handleChange}
+                />
+              </div>
+            </div>
             <br />
+
             <button id="wishButton" type="submit">
               Make your Wish among the Stars
             </button>
