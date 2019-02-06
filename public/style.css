@@ -255,6 +255,7 @@ button:hover {
   background: none;
   padding: 3rem 0 0 1rem;
   position: absolute;
+  max-width: 300px;
 }
 #missionControl p {
   line-height: 1.4rem;

@@ -88,6 +88,7 @@ export default function planetReducer(state = planetState, action) {
         allPlanetsHaveBeenVisited: false
       }
     }
+
     default:
       return state
   }

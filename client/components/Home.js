@@ -31,7 +31,7 @@ const Home = () => {
         </Animated>
 
         <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
-          <div className="homeText" style={{'text-transform': 'lowercase'}}>
+          <div className="homeText" style={{textTransform: 'lowercase'}}>
             <p>An ethereal 3D journey beyond our solar system.</p>
             <br />
             <p>
@@ -45,12 +45,6 @@ const Home = () => {
               habitability status (sourced from nasa). Complete your journey to
               discover how the planet you know and love, Earth, has all you'll
               ever need – as long as you treat her right.
-            </p>
-            <br />
-            <p>
-              Use your mouse to navigate our dreamy universe. Click on a planet
-              to fly to it, pinch to zoom, and click &amp; drag the sky to
-              change your perspective.
             </p>
           </div>
         </Animated>
