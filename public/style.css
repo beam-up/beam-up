@@ -228,7 +228,6 @@ button:hover {
   bottom: 20%;
 }
 
-
 /* ========================================= */
 /* ============ MISSION CONTROL ============ */
 /* ========================================= */
@@ -264,7 +263,6 @@ button:hover {
 
 #singlePlanet h1 {
   font-size: 2rem;
-
 }
 
 #singlePlanetContent {
@@ -280,8 +278,6 @@ button:hover {
   width: 60%;
   padding-left: 1rem;
 }
-
-
 
 /* #singlePlanet p {
   font-family: 'Major Mono Display', 'Arial', sans-serif;
@@ -371,8 +367,9 @@ button:hover {
 
 #end-of-exp p {
   text-align: center;
-  text-transform: lowercase;
-  font-family: 'Major Mono Display', 'Geneva', 'Arial', sans-serif;
+}
+
+#eoe-message {
   padding: 1rem 0 1rem 0;
 }
 
@@ -411,4 +408,3 @@ button:hover {
   justify-content: center;
   flex-direction: column;
 }
-
