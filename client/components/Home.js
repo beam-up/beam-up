@@ -37,7 +37,7 @@ const Home = () => {
             <p>
               Travel through the cosmos and discover exoplanets for human
               habitation. The catch? There's no other planet out there that
-              compares to the one you got.
+              compares to the one we have.
             </p>
             <br />
             <p>
