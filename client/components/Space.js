@@ -139,8 +139,10 @@ class Space extends React.Component {
 
     // calculate planets AND wish diamonds intersecting the picking ray
     let planets = this.raycaster.intersectObjects(this.planetGroup.children)
+    let wishes = this.raycaster.intersectObjects(this.wishGroup.children)
+    let intersects = planets.concat(wishes)
 
-    if (planets.length > 0) {
+    if (intersects.length > 0) {
       //cursor turns into pointer if hovering over planet
       this.setState({
         cursorValue: 'pointer'
@@ -180,7 +182,7 @@ class Space extends React.Component {
         planet.name === planetName
       )
         return
-      
+
       this.addGlow(this.state.sphereData)
       this.state.planetsGlowing.add(planet.name)
     })
@@ -201,7 +203,6 @@ class Space extends React.Component {
           planet: currPlanet
         })
         // This marks the planet as visited.
-        
       }
     } else {
       this.setState({singlePlanetDisplayValue: false})
