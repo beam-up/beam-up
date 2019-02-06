@@ -13,6 +13,7 @@ export default class WishSubmitted extends Component {
     this.start = this.start.bind(this)
     this.stop = this.stop.bind(this)
     this.animate = this.animate.bind(this)
+    this.onWindowResize = this.onWindowResize.bind(this)
   }
 
   componentDidMount() {
@@ -60,6 +61,9 @@ export default class WishSubmitted extends Component {
 
     scene.add(starBackground)
 
+    // === event listener ===
+    window.addEventListener('resize', this.onWindowResize, false)
+
     this.scene = scene
     this.camera = camera
     this.renderer = renderer
@@ -87,7 +91,14 @@ export default class WishSubmitted extends Component {
     cancelAnimationFrame(this.frameId)
   }
 
+  onWindowResize() {
+    this.camera.aspect = window.innerWidth / window.innerHeight
+    this.camera.updateProjectionMatrix()
+    this.renderer.setSize(window.innerWidth, window.innerHeight)
+  }
+
   animate() {
+    this.diamond.position.y = 1
     this.diamond.rotation.y -= 0.01
 
     this.renderScene()
@@ -101,13 +112,13 @@ export default class WishSubmitted extends Component {
   render() {
     return (
       <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
-          <div
-            style={{width: '100vw', height: '100vh'}}
-            ref={mount => {
-              this.mount = mount
-            }}
-          />
-          <WishSubmittedText/>
+        <div
+          style={{width: '100vw', height: '100vh'}}
+          ref={mount => {
+            this.mount = mount
+          }}
+        />
+        <WishSubmittedText />
       </Animated>
     )
   }

@@ -212,7 +212,6 @@ button:hover {
   background-size: 40% cover;
 }
 
-
 #wishForm h1 {
   text-align: center;
 }
@@ -369,20 +368,9 @@ textarea {
   padding: 2rem;
 }
 
-/* #earthContainer {
-  width: 100vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 2rem;
-} */
-
 #wishSubmittedText {
   display: flex;
+  width: 70vw;
   font-size: 0.8rem;
   text-align: center;
   padding: 0 2rem 0 2rem;
@@ -391,6 +379,10 @@ textarea {
   flex-direction: column;
 }
 
+#wishSubmittedText p {
+  line-height: 1.5;
+  font-family: 'Major Mono Display', 'Arial', sans-serif;
+}
 
 /* ========================================= */
 /* ============ END OF EXPLORATION ============= */
