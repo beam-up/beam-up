@@ -10,7 +10,7 @@ const OrbitControls = require('../../OrbitControls')(THREE)
 import {
   starBackground,
   asteroids,
-  earth,
+  // earth,
   proxima,
   epsilon,
   ross128,
@@ -92,7 +92,12 @@ class Space extends React.Component {
     controls.maxDistance = 100
     controls.minDistance = 10
     this.controls = controls
+    // this.camera.position.z = 
+    // controls.addEventListener("change", () => renderer.render(scene, camera));
 
+    console.log('camera: ',this.camera)
+    // console.log('camera fov: ', this.camera.fov)
+    console.log('controls target: ', this.controls.target)
     // === raycaster ===
     // raycasting is used for mouse picking (working out what objects in the 3d space the mouse is over)
     const raycaster = new THREE.Raycaster()
@@ -248,7 +253,7 @@ class Space extends React.Component {
 
     // groups planets
     planetGroup.add(
-      earth,
+      // earth,
       proxima,
       epsilon,
       ross128,
@@ -283,7 +288,7 @@ class Space extends React.Component {
     // === bind objects imported from /planets ===
     this.starBackground = starBackground
     this.asteroids = asteroids
-    this.earth = earth
+    // this.earth = earth
     this.proxima = proxima
     this.epsilon = epsilon
     this.ross128 = ross128
@@ -332,12 +337,11 @@ class Space extends React.Component {
     this.tauCetiG.position.set(-75, 5, -70)
     this.tauCetiE.position.set(-70, 11, -100)
     this.tauCetiF.position.set(-90, 12, -150)
-    this.asteroids.position.set(-75, 0, -105)
+    this.asteroids.position.set(-75, 6, -105)
 
     // === sets rotations of planets ===
-    this.earth.rotation.y = Date.now() * 0.0001
+    // this.earth.rotation.y = Date.now() * 0.0001
     this.proxima.rotation.y = Date.now() * 0.0003
-    // this.proxima.rotation.x = Date.now() * 0.00000002
     this.epsilon.rotation.y = Date.now() * 0.0001
     this.ross128.rotation.y = Date.now() * 0.0001
     this.yzCetiC.rotation.y = Date.now() * 0.0001
