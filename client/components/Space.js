@@ -472,7 +472,6 @@ class Space extends React.Component {
 const mapStateToProps = state => ({
   allPlanets: state.planet.allPlanets,
   visitedPlanets: state.planet.visitedPlanets,
-  allPlanetsHaveBeenVisited: state.planet.allPlanetsHaveBeenVisited,
   wishes: state.wish
 })
 
