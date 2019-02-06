@@ -53,6 +53,7 @@ class Space extends React.Component {
       clicked: false,
       sphereData: {},
       planetsGlowing: new Set(),
+      linkingComponentDisplayValue: false
     }
 
     this.start = this.start.bind(this)
@@ -92,7 +93,7 @@ class Space extends React.Component {
     controls.maxDistance = 100
     controls.minDistance = 10
     this.controls = controls
-    // this.camera.position.z = 
+    // this.camera.position.z =
     // controls.addEventListener("change", () => renderer.render(scene, camera));
 
     console.log('camera: ',this.camera)
@@ -181,6 +182,9 @@ class Space extends React.Component {
       ) return
       this.addGlow(this.state.sphereData)
       this.state.planetsGlowing.add(planet.name)
+      if(this.state.planetsGlowing.size === 11) {
+        this.setState({linkingComponentDisplayValue: true})
+      }
     })
 
     if (planets.length > 0 && planets[0].object.name !== '???') {
@@ -434,14 +438,14 @@ class Space extends React.Component {
   }
 
   render() {
-    const {cursorValue, singlePlanetDisplayValue, wishDisplayValue} = this.state
+    const {cursorValue, singlePlanetDisplayValue, wishDisplayValue, linkingComponentDisplayValue} = this.state
     const {allPlanetsHaveBeenVisited} = this.props
     return (
       <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
         <Link to="/home">
           <h1 id="titleLink">BEAM UP</h1>
         </Link>
-        {allPlanetsHaveBeenVisited && <EndOfExploration />}
+        {linkingComponentDisplayValue && <EndOfExploration />}
         <MissionControl
           planetName={this.state.planetHoverName}
           visitedPlanets={this.props.visitedPlanets.length}
