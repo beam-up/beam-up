@@ -153,22 +153,48 @@ const planetData = [
 const wishData = [
   {
     name: 'cool human',
-    imageUrl:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQXHninkXxivcUv7Yj8ZjJswv_w8yRYzKnm-M6twdRVpWzriuG',
     message: 'I wish there will be more trees on earth!'
   },
   {
     name: 'mundane martian',
-    imageUrl:
-      'https://img.purch.com/rc/300x200/aHR0cDovL3d3dy5zcGFjZS5jb20vaW1hZ2VzL2kvMDAwLzAwNy82Nzkvb3JpZ2luYWwvY3VyaW9zaXR5LW1hcnMtcm92ZXIuanBn',
     message: 'I want to drive Curiosity Rover all around my place'
   },
   {
     name: 'space citizen',
-    imageUrl:
-      'https://image.shutterstock.com/image-vector/meeting-handshake-alien-astronaut-spacecosmic-260nw-1172282275.jpg',
     message: 'Pray for space solidarity'
-  }
+  },
+  {
+    name: 'small dog',
+    message: 'I wish to be a big dog!!!'
+  },
+  {
+    name: 'big dog',
+    message: 'I wish to be a small dog'
+  },
+  {
+    name: 'anonymous millenials',
+    message: 'I wish for student loans to be paid off'
+  },
+  {
+    name: 'emily z',
+    message: 'I wish all dogs live forever'
+  },
+  {
+    name: 'a coder',
+    message: 'I wish there will be no bug'
+  },
+  {
+    name: 'ang',
+    message: 'more ice cream'
+  },
+  {
+    name: 'grace hoppers',
+    message: 'we want to land jobs ASAP!!!'
+  },
+  {
+    name: 'beiatrix',
+    message: 'I wish for a sandwich'
+  },
 ]
 
 async function seed() {

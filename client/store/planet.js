@@ -6,7 +6,6 @@ import axios from 'axios'
 
 const GOT_PLANETS_FROM_SERVER = 'GOT_PLANETS_FROM_SERVER'
 const GOT_SINGLE_PLANET_FROM_SERVER = 'GOT_SINGLE_PLANET_FROM_SERVER'
-const ALL_PLANET_HAVE_BEEN_VISITED = 'ALL_PLANET_HAVE_BEEN_VISITED'
 const CLEAR_STATE = 'CLEAR_STATE'
 
 /**
@@ -14,8 +13,7 @@ const CLEAR_STATE = 'CLEAR_STATE'
  */
 const planetState = {
   allPlanets: [],
-  visitedPlanets: [],
-  allPlanetsHaveBeenVisited: false
+  visitedPlanets: []
 }
 
 /**
@@ -29,10 +27,6 @@ const gotPlanetsFromServer = planets => ({
 const gotSinglePlanetFromServer = planet => ({
   type: GOT_SINGLE_PLANET_FROM_SERVER,
   planet
-})
-
-const allPlanetsHaveBeenVisited = () => ({
-  type: ALL_PLANET_HAVE_BEEN_VISITED
 })
 
 export const clearState = () => ({
@@ -51,12 +45,6 @@ export const getAllPlanets = () => async dispatch => {
 export const getSinglePlanet = planetId => async (dispatch, getState) => {
   const {data} = await axios.get(`/api/planets/${planetId}`)
   dispatch(gotSinglePlanetFromServer(data))
-
-  // check if visited planets === all planets length
-  const {visitedPlanets, allPlanets} = getState().planet
-  if (visitedPlanets.length === allPlanets.length) {
-    dispatch(allPlanetsHaveBeenVisited())
-  }
 }
 
 /**
@@ -77,9 +65,6 @@ export default function planetReducer(state = planetState, action) {
       }
 
       return newState
-    }
-    case ALL_PLANET_HAVE_BEEN_VISITED: {
-      return {...state, allPlanetsHaveBeenVisited: true}
     }
     case CLEAR_STATE: {
       return {

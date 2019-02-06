@@ -52,7 +52,8 @@ class Space extends React.Component {
       wishDisplayValue: false,
       clicked: false,
       sphereData: {},
-      planetsGlowing: new Set()
+      planetsGlowing: new Set(),
+      linkingComponentDisplayValue: false
     }
 
     this.start = this.start.bind(this)
@@ -185,6 +186,9 @@ class Space extends React.Component {
 
       this.addGlow(this.state.sphereData)
       this.state.planetsGlowing.add(planet.name)
+      if(this.state.planetsGlowing.size === 11) {
+        this.setState({linkingComponentDisplayValue: true})
+      }
     })
 
     if (planets.length > 0 && planets[0].object.name !== '???') {
@@ -437,14 +441,14 @@ class Space extends React.Component {
   }
 
   render() {
-    const {cursorValue, singlePlanetDisplayValue, wishDisplayValue} = this.state
+    const {cursorValue, singlePlanetDisplayValue, wishDisplayValue, linkingComponentDisplayValue} = this.state
     const {allPlanetsHaveBeenVisited} = this.props
     return (
       <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
         <Link to="/home">
           <h1 id="titleLink">BEAM UP</h1>
         </Link>
-        {allPlanetsHaveBeenVisited && <EndOfExploration />}
+        {linkingComponentDisplayValue && <EndOfExploration />}
         <MissionControl
           planetName={this.state.planetHoverName}
           visitedPlanets={this.props.visitedPlanets.length}
@@ -468,7 +472,6 @@ class Space extends React.Component {
 const mapStateToProps = state => ({
   allPlanets: state.planet.allPlanets,
   visitedPlanets: state.planet.visitedPlanets,
-  allPlanetsHaveBeenVisited: state.planet.allPlanetsHaveBeenVisited,
   wishes: state.wish
 })
 
