@@ -20,7 +20,7 @@ const getRandomArbitrary = (min, max) => {
 }
 
 const asteroidMaterial = new THREE.MeshBasicMaterial()
-asteroidMaterial.map = new THREE.TextureLoader().load('/images/asteroids.jpg')
+asteroidMaterial.map = new THREE.TextureLoader().load('/images/asteroidYellow.jpg')
 
 for (let i = 0; i < 4000; i++) {
   const asteroidSize = getRandomArbitrary(0.001, 0.1),

@@ -96,7 +96,7 @@ class Space extends React.Component {
     // this.camera.position.z =
     // controls.addEventListener("change", () => renderer.render(scene, camera));
 
-    console.log('camera: ',this.camera)
+    console.log('camera: ', this.camera)
     // console.log('camera fov: ', this.camera.fov)
     console.log('controls target: ', this.controls.target)
     // === raycaster ===
@@ -176,10 +176,12 @@ class Space extends React.Component {
     let planets = this.raycaster.intersectObjects(this.planetGroup.children)
     const planetName = planets.length && planets[0].object.name
     this.props.visitedPlanets.forEach(planet => {
-      if(
+      if (
         this.state.planetsGlowing.has(planet.name) ||
         planet.name === planetName
-      ) return
+      )
+        return
+      
       this.addGlow(this.state.sphereData)
       this.state.planetsGlowing.add(planet.name)
       if(this.state.planetsGlowing.size === 11) {
@@ -203,7 +205,7 @@ class Space extends React.Component {
           planet: currPlanet
         })
         // This marks the planet as visited.
-        await this.props.loadSinglePlanet(this.state.planet.id)
+        
       }
     } else {
       this.setState({singlePlanetDisplayValue: false})
@@ -346,7 +348,7 @@ class Space extends React.Component {
     // === sets rotations of planets ===
     // this.earth.rotation.y = Date.now() * 0.0001
     this.proxima.rotation.y = Date.now() * 0.0003
-    this.epsilon.rotation.y = Date.now() * 0.0001
+    this.epsilon.rotation.y = Date.now() * 0.00001
     this.ross128.rotation.y = Date.now() * 0.0001
     this.yzCetiC.rotation.y = Date.now() * 0.0001
     this.yzCetiB.rotation.y = Date.now() * 0.0001
@@ -453,10 +455,7 @@ class Space extends React.Component {
         />
         {wishDisplayValue && <WishData wish={this.state.wish} />}
         {singlePlanetDisplayValue && (
-          <SinglePlanet
-            planet={this.state.planet}
-
-          />
+          <SinglePlanet planet={this.state.planet} />
         )}
         <div
           style={{cursor: cursorValue}}
