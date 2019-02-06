@@ -10,6 +10,9 @@ const getRandomArbitrary = (min, max) => {
   return Math.random() * (max - min) + min
 }
 
+const asteroidMaterial = new THREE.MeshBasicMaterial()
+asteroidMaterial.map = new THREE.TextureLoader().load('/images/asteroids.jpg')
+
 for (let i = 0; i < 3000; i++) {
   const asteroidSize = getRandomArbitrary(0.001, 0.1),
     asteroidShape1 = getRandomArbitrary(2, 5),
@@ -19,8 +22,7 @@ for (let i = 0; i < 3000; i++) {
 
   const asteroid = new THREE.Mesh(
     new THREE.SphereGeometry(asteroidSize, asteroidShape1, asteroidShape2),
-    new THREE.MeshBasicMaterial(),
-    new THREE.TextureLoader().load('/images/purpleDarkMarble.jpg')
+    asteroidMaterial
   )
 
   asteroid.position.y = asteroidPositionY
