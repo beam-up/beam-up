@@ -228,23 +228,6 @@ button:hover {
   bottom: 20%;
 }
 
-#earthButton {
-  background: #4776e6; /* fallback for old browsers */
-  background: -webkit-linear-gradient(
-    to right,
-    #8e54e9,
-    #4776e6
-  ); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(
-    to right,
-    #8e54e9,
-    #4776e6
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  position: absolute;
-  display: block;
-  z-index: 99;
-  bottom: 20%;
-}
 
 /* ========================================= */
 /* ============ MISSION CONTROL ============ */
@@ -274,7 +257,31 @@ button:hover {
   right: 0;
   background-color: rgba(0, 0, 0, 0.25);
   font-size: 0.9rem;
+  padding: 2rem;
+  max-height: 300px;
+  overflow: scroll;
 }
+
+#singlePlanet h1 {
+  font-size: 2rem;
+
+}
+
+#singlePlanetContent {
+  display: flex;
+}
+
+#singlePlanetDescription {
+  width: 40%;
+  padding-right: 1rem;
+}
+
+#singlePlanetData {
+  width: 60%;
+  padding-left: 1rem;
+}
+
+
 
 /* #singlePlanet p {
   font-family: 'Major Mono Display', 'Arial', sans-serif;
@@ -373,23 +380,35 @@ button:hover {
 
 #earthContainer {
   width: 100vw;
-  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   position: absolute;
-}
-
-#earthText {
-  position: absolute;
-  width: 50vw;
-  height: 50vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  border-radius: 5px;
-  background-color: rgba(0, 0, 0, 0.25);
-  flex-direction: column;
+  bottom: 0;
+  left: 0;
+  right: 0;
   padding: 2rem;
 }
+
+/* #singlePlanet {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.25);
+  font-size: 0.9rem;
+  padding: 2rem;
+  max-height: 300px;
+  overflow: scroll;
+} */
+
+#earthText {
+  display: flex;
+  font-size: 0.8rem;
+  text-align: center;
+  padding: 0 2rem 0 2rem;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+

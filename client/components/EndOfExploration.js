@@ -12,6 +12,7 @@ export default class EndOfExploration extends Component {
             You've explored every exoplanet and completed your journey... now
             it's time to go back to Earth and confirm your findings.
           </p>
+          <br />
           <Link to="/earth">
             <button type="button">Back To Earth</button>
           </Link>
